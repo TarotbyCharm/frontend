@@ -7,19 +7,23 @@ const Navbar = () => {
   const [toggle, setToggle] = useState(false);
   return (
     <nav className="w-full flex py-5 justify-between items-center navbar">
-      <img src={fullLogo} alt="logo" className="h-[32px]" />
+      <img src={fullLogo} alt="logo" className="h-[32px] xl:h-[36px]" />
 
       <ul className="list-none sm:flex hidden justify-end items-center flex-1 uppercase">
         {navLinks.map((nav, index) => (
           <li
-            key={nav.id}
+            key={index}
             className={`font-normal cursor-pointer text-[16px] mr-7`}
           >
-            <Link href={`#${nav.id}`}>{nav.title}</Link>
+            {nav.link !== null ? (
+              <Link to={nav.link}>{nav.title}</Link>
+            ) : (
+              <Link href={`#${nav.id}`}>{nav.title}</Link>
+            )}
           </li>
         ))}
         <li>
-          <Link className="border">
+          <Link to="/login" className="auth-border-btn">
             Login
             <img src={star} alt="Star" className="h-4" />
           </Link>
@@ -49,6 +53,12 @@ const Navbar = () => {
                 <Link href={`#${nav.id}`}>{nav.title}</Link>
               </li>
             ))}
+            <li>
+              <Link className="border">
+                Login
+                <img src={star} alt="Star" className="h-4" />
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

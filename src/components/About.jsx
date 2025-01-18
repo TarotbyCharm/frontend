@@ -1,0 +1,37 @@
+import { astroSign, sunBg } from "@/assets";
+import styles from "@/styles";
+
+export default function About() {
+  return (
+    <div className="relative h-screen overflow-hidden">
+      <img
+        src={sunBg}
+        className="absolute -left-[22rem] xl:-left-[26rem] -top-48 h-[37.5rem] xl:h-[45rem]"
+        alt="sun bg"
+      />
+      <div className={`${styles.paddingX} ${styles.flexCenter} h-full`}>
+        <div>
+          <h1 className="text-6xl mb-4">
+            Who We <span className="text-3xl italic">Are</span>
+          </h1>
+          <h1 className="text-6xl mb-10">
+            We <span className="text-4xl italic">Can Use</span> Astrology{" "}
+            <span className="text-4xl italic">To Find Your</span> Future
+          </h1>
+          <p className="text-xl mb-8">
+            We will provide the best free horoscope astrology to you by
+            analysing your birth chart and your astrology sign.
+          </p>
+          <div>
+            <button className="astro-primary-btn">Book Now !</button>
+          </div>
+        </div>
+      </div>
+      <img
+        src={astroSign}
+        className="absolute -right-32 xl:-right-28 bottom-5 h-72 xl:h-[26rem]"
+        alt="astro-sign"
+      />
+    </div>
+  );
+}

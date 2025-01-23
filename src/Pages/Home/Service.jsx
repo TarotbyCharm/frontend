@@ -1,9 +1,9 @@
-import { moon } from "@/assets";
-import Card from "./Card";
+import PackageCard from "@/components/PackageCard";
+
 
 export default function Service() {
   return (
-    <div className="relative h-screen">
+    <div className="relative pt-16 pb-40">
       <div className="container mx-auto">
         <div className="flex items-center justify-between mb-24">
           <h1 className="text-5xl">
@@ -19,10 +19,10 @@ export default function Service() {
             Our <span className="text-4xl italic">Packages</span>
           </h1>
           <div className="grid grid-cols-4 gap-4">
-            <Card />
-            <Card />
-            <Card />
-            <Card />
+            <PackageCard />
+            <PackageCard />
+            <PackageCard />
+            <PackageCard />
           </div>
         </div>
       </div>

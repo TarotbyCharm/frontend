@@ -1,7 +1,8 @@
 import styles from "@/styles";
-import About from "../components/About";
-import Service from "@/components/Service";
-import Zodiac from "@/components/Zodiac";
+import About from "./Home/About";
+import Zodiac from "./Home/Zodiac";
+import Service from "./Home/Service";
+import HomeBlog from "./Home/HomeBlog";
 
 export default function HomeNew() {
   return (
@@ -10,6 +11,7 @@ export default function HomeNew() {
         <About />
         <Service />
         <Zodiac />
+        <HomeBlog />
       </div>
     </div>
   );

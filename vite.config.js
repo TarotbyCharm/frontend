@@ -13,15 +13,5 @@ export default defineConfig({
   server: {
     open: true,
     port: 3000,
-    proxy: {
-      "/api": {
-        target: "https://admin.tarotbycharm.com",
-        changeOrigin: true,
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      },
-    },
   },
 });

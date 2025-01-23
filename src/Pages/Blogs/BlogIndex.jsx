@@ -1,5 +1,7 @@
 import BlogCard from "@/components/BlogCard";
 import BlogHorCard from "@/components/BlogHorCard";
+import FetchError from "@/components/FetchError";
+import PageLoading from "@/components/PageLoading";
 import {
   Select,
   SelectContent,
@@ -7,8 +9,36 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { fetchPosts, incrementPage } from "@/redux/reducers/PostsSlice";
+import { Loader } from "lucide-react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function BlogIndex() {
+  const dispatch = useDispatch();
+  const { posts, status, error, hasMore, loadingMore } = useSelector(
+    (state) => state.posts
+  );
+
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchPosts());
+    }
+  }, [status, dispatch]);
+
+  const handleLoadMore = () => {
+    dispatch(incrementPage());
+    dispatch(fetchPosts());
+  };
+
+  if (status === "loading") {
+    return <PageLoading />;
+  }
+
+  if (status === "failed") {
+    return <FetchError error={error} />;
+  }
+
   return (
     <div>
       <div className="container mx-auto">
@@ -33,28 +63,55 @@ export default function BlogIndex() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="latest">
-                  Sort By <span className="font-bold italic ml-1.5 text-primary-500">Latest</span>
+                  Sort By
+                  <span className="font-bold italic ml-1.5 text-primary-500">
+                    Latest
+                  </span>
                 </SelectItem>
-                <SelectItem value="asc">
-                  Sort By <span className="font-bold italic ml-1.5 text-primary-500">Ascending</span>
+                <SelectItem value="oldest">
+                  Sort By
+                  <span className="font-bold italic ml-1.5 text-primary-500">
+                    Oldest
+                  </span>
                 </SelectItem>
-                <SelectItem value="desc">
-                  Sort By <span className="font-bold italic ml-1.5 text-primary-500">Descending</span>
+                <SelectItem value="alphabet-asc">
+                  Sort By
+                  <span className="font-bold italic ml-1.5 text-primary-500">
+                    A-Z
+                  </span>
+                </SelectItem>
+                <SelectItem value="alphabet-desc">
+                  Sort By
+                  <span className="font-bold italic ml-1.5 text-primary-500">
+                    Z-A
+                  </span>
                 </SelectItem>
               </SelectContent>
             </Select>
 
             <div className="mt-8">
               <div className="grid grid-cols-3 gap-6 xl:gap-8">
-                <BlogCard />
-                <BlogCard />
-                <BlogCard />
+                {posts &&
+                  posts.map((post) => <BlogCard key={post.id} post={post} />)}
               </div>
-              <div className="text-center">
-                <button className="astro-primary-btn mt-10">
-                  See More
-                </button>
-              </div>
+              {hasMore && (
+                <div className="text-center">
+                  <button
+                    className="astro-primary-btn mt-10"
+                    onClick={handleLoadMore}
+                    disabled={loadingMore}
+                  >
+                    {loadingMore ? (
+                      <>
+                        <Loader className="w-5 h-5 animate-spin" />
+                        Loading...
+                      </>
+                    ) : (
+                      <>See More</>
+                    )}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { astroSign, sunBg } from "@/assets";
 import styles from "@/styles";
+import { useSelector } from "react-redux";
 
 export default function About() {
   return (
@@ -11,14 +12,14 @@ export default function About() {
       />
       <div className={`${styles.paddingX} ${styles.flexCenter} h-full`}>
         <div>
-          <h1 className="text-6xl mb-4">
-            Who We <span className="text-3xl italic">Are</span>
+          <h1 className="text-6xl xl:text-7xl mb-6">
+            Who We <span className="text-4xl ml-2 xl:text-5xl italic">Are</span>
           </h1>
-          <h1 className="text-6xl mb-10">
-            We <span className="text-4xl italic">Can Use</span> Astrology{" "}
-            <span className="text-4xl italic">To Find Your</span> Future
+          <h1 className="text-6xl xl:txt-7xl mb-10">
+            We <span className="text-4xl italic">Can Use</span> Astrology
+            <span className="ml-3 text-4xl italic">To Find Your</span> Future
           </h1>
-          <p className="text-xl mb-8">
+          <p className="text-xl xl:text-2xl mb-8">
             We will provide the best free horoscope astrology to you by
             analysing your birth chart and your astrology sign.
           </p>
@@ -29,7 +30,7 @@ export default function About() {
       </div>
       <img
         src={astroSign}
-        className="absolute -right-32 xl:-right-28 bottom-5 h-72 xl:h-[26rem]"
+        className="absolute -right-20 xl:-right-28 bottom-5 h-72 xl:h-[26rem]"
         alt="astro-sign"
       />
     </div>

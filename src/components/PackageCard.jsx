@@ -1,6 +1,6 @@
 import { soulmate } from "@/assets";
 
-export default function Card() {
+export default function PackageCard() {
   return (
     <div className="border px-6 py-8">
       <img src={soulmate} className="h-20 w-auto mx-auto" alt="Soulmate" />

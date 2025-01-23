@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "react-router-dom";
 
 export default function BlogHorCard() {
   return (
@@ -17,7 +17,9 @@ export default function BlogHorCard() {
             </div>
           </div>
           <div className="mt-3">
-            <h1 className="text-3xl font-medium mb-3">What is Astrology?</h1>
+            <h1 className="text-3xl font-medium mb-3">
+              <Link to="/blogs/details">What is Astrology?</Link>
+            </h1>
             <p className="text-gray-400 text-justify">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio
               laboriosam natus odit at, doloremque accusantium voluptatibus a
@@ -31,10 +33,12 @@ export default function BlogHorCard() {
           </div>
         </div>
         <div className="w-2/3">
-          <img
-            src="https://img.freepik.com/free-photo/numerology-collage-concept_23-2150061758.jpg?t=st=1737230077~exp=1737233677~hmac=accc89e5e7f17911d42be59e88f1674c839c03c1450e8b7fafaf0e30ccee24e3&w=1800"
-            alt="poster"
-          />
+          <Link to="/blogs/details">
+            <img
+              src="https://img.freepik.com/free-photo/numerology-collage-concept_23-2150061758.jpg?t=st=1737230077~exp=1737233677~hmac=accc89e5e7f17911d42be59e88f1674c839c03c1450e8b7fafaf0e30ccee24e3&w=1800"
+              alt="poster"
+            />
+          </Link>
         </div>
       </div>
     </div>

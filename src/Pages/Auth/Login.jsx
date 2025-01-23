@@ -14,19 +14,23 @@ import {
 } from "@/components/ui/form";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Eye, EyeOff, Loader } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "@/redux/reducers/UserSlice";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { updateUser } = useAuth();
+  const { status, error } = useSelector((state) => state.user);
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
 
   const schema = yup.object({
-    username: yup.string().required("Username is required."),
+    credentials: yup.string().required("This field is required."),
     password: yup.string().required("Password is required."),
     acceptTerms: yup
       .boolean()
@@ -36,15 +40,27 @@ export default function Login() {
   const form = useForm({
     resolver: yupResolver(schema), // Connect Yup with React Hook Form
     defaultValues: {
-      username: "",
+      credentials: "",
       password: "",
-      acceptTerms: false,
+      acceptTerms: true,
     },
   });
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const onSubmit = (data) => {
-    setLoading(false);
-    console.log(data);
+    dispatch(login(data)).then((result) => {
+      if (result.payload) {
+        updateUser(result.payload.user);
+        form.reset();
+        navigate("/");
+      }
+    });
+  };
+
+  const onError = (errors) => {
+    console.log("errors", errors);
   };
 
   return (
@@ -57,12 +73,12 @@ export default function Login() {
         />
         <img
           src={moon}
-          className="absolute top-28 xl:top-44 left-28 xl:left-36 h-56 xl:h-[20rem] opacity-20"
+          className="absolute top-28 xl:top-44 left-28 xl:left-36 h-56 xl:h-[20rem] opacity-10"
           alt="Moon"
         />
         <img
           src={star}
-          className="absolute right-5 top-56 xl:top-[20rem] h-44 xl:h-60 opacity-20"
+          className="absolute right-5 top-56 xl:top-[20rem] h-44 xl:h-60 opacity-10"
           alt="Star"
         />
         <img
@@ -72,7 +88,7 @@ export default function Login() {
         />
         <img
           src={sun}
-          className="absolute -bottom-[28rem] xl:-bottom-[38rem] -right-[23.5rem] xl:-right-[31rem] h-[54rem] xl:h-auto opacity-20"
+          className="absolute -bottom-[28rem] xl:-bottom-[38rem] -right-[23.5rem] xl:-right-[31rem] h-[54rem] xl:h-auto opacity-10"
           alt="Sun"
         />
       </div>
@@ -86,17 +102,18 @@ export default function Login() {
             </h2>
           </div>
           <div className="px-32">
+            {error && <small className="text-red-500 mb-4">{error}</small>}
             <Form {...form}>
               <form
-                onSubmit={form.handleSubmit(onSubmit)}
+                onSubmit={form.handleSubmit(onSubmit, onError)}
                 className="space-y-6"
               >
                 <FormField
                   control={form.control}
-                  name="username"
+                  name="credentials"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Username</FormLabel>
+                      <FormLabel>Username or Phone or Email</FormLabel>
                       <FormControl>
                         <Input {...field} placeholder="Username" />
                       </FormControl>
@@ -155,7 +172,14 @@ export default function Login() {
                   )}
                 />
                 <Button type="submit" className="italic text-base w-full">
-                  {loading ? "Loading..." : "Log In"}
+                  {status == 'loading' ? (
+                    <>
+                      <Loader className="animate-spin mr-1.5" />
+                      <span>Loading...</span>
+                    </>
+                  ) : (
+                    "Log In"
+                  )}
                 </Button>
                 <div className="flex items-center gap-4">
                   <hr className="w-full border-gray-300" />

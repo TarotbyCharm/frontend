@@ -9,16 +9,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { fetchPosts, incrementPage } from "@/redux/reducers/PostsSlice";
+import {
+  fetchPosts,
+  fetchTodaySpecialPost,
+  incrementPage,
+} from "@/redux/reducers/PostsSlice";
 import { Loader } from "lucide-react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function BlogIndex() {
   const dispatch = useDispatch();
-  const { posts, status, error, hasMore, loadingMore } = useSelector(
-    (state) => state.posts
-  );
+  const {
+    posts,
+    status,
+    error,
+    hasMore,
+    loadingMore,
+    specialPost,
+    specialPostStatus,
+  } = useSelector((state) => state.posts);
 
   useEffect(() => {
     if (status === "idle") {
@@ -26,12 +36,18 @@ export default function BlogIndex() {
     }
   }, [status, dispatch]);
 
+  useEffect(() => {
+    if (specialPostStatus == "idle") {
+      dispatch(fetchTodaySpecialPost());
+    }
+  }, [specialPostStatus, dispatch]);
+
   const handleLoadMore = () => {
     dispatch(incrementPage());
     dispatch(fetchPosts());
   };
 
-  if (status === "loading") {
+  if (specialPostStatus === "loading" || status === "loading") {
     return <PageLoading />;
   }
 
@@ -52,7 +68,7 @@ export default function BlogIndex() {
             <h2 className="text-5xl mb-7">
               <span className="text-4xl italic">Today</span> Special...
             </h2>
-            <BlogHorCard />
+            <BlogHorCard post={specialPost} />
           </div>
 
           {/* Blog List */}
@@ -90,7 +106,7 @@ export default function BlogIndex() {
             </Select>
 
             <div className="mt-8">
-              <div className="grid grid-cols-3 gap-6 xl:gap-8">
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 xl:gap-6">
                 {posts &&
                   posts.map((post) => <BlogCard key={post.id} post={post} />)}
               </div>

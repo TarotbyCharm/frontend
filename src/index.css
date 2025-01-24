@@ -6,11 +6,15 @@
 
 @layer components {
   .auth-border-btn {
-    @apply uppercase border px-3 py-px flex items-center gap-2 text-[16px];
+    @apply uppercase border px-3 py-px flex items-center gap-2 text-[16px] hover:border-gray-500;
   }
 
   .astro-primary-btn {
-    @apply bg-primary-500 text-base xl:text-lg text-white px-6 py-1.5 border italic font-bold tracking-wide transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply bg-primary-600 hover:bg-primary-700 text-base xl:text-lg text-white px-6 py-1.5 border italic font-bold tracking-wide transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .white-btn {
+    @apply border px-2.5 bg-white hover:bg-gray-200 flex items-center gap-1 text-black text-sm py-1.5 capitalize;
   }
 }
 

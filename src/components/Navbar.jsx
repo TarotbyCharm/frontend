@@ -54,10 +54,10 @@ const Navbar = () => {
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <Avatar>
-                  <AvatarImage src={user.profile} alt="profile" />
+                  <AvatarImage src={user?.profile} alt="profile" />
                   <AvatarFallback>
                     <img
-                      src={`https://ui-avatars.com/api/?name=${user.name}`}
+                      src={`https://ui-avatars.com/api/?name=${user?.name}`}
                       alt=""
                     />
                   </AvatarFallback>
@@ -108,10 +108,10 @@ const Navbar = () => {
                 <DropdownMenu>
                   <DropdownMenuTrigger>
                     <Avatar>
-                      <AvatarImage src={user.profile} alt="profile" />
+                      <AvatarImage src={user?.profile} alt="profile" />
                       <AvatarFallback>
                         <img
-                          src={`https://ui-avatars.com/api/?name=${user.name}`}
+                          src={`https://ui-avatars.com/api/?name=${user?.name}`}
                           alt=""
                         />
                       </AvatarFallback>

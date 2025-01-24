@@ -1,4 +1,4 @@
-import { moon, star, sun } from "@/assets";
+import { moon, star } from "@/assets";
 import ZCard from "@/components/ZCard";
 import { getZodiacs } from "@/redux/reducers/ZodiacsSlice";
 import { useEffect } from "react";
@@ -14,8 +14,8 @@ export default function Zodiac() {
     }
   }, [status, dispatch]);
   return (
-    <div className="relative py-16 xl:py-52">
-      <div className="container mx-auto">
+    <div className="relative py-16 xl:py-52 z-30">
+      <div className="container mx-auto z-30">
         <div className="text-center mb-10 xl:mb-16">
           <h1 className="text-4xl xl:text-5xl italic mb-7 xl:mb-10">
             Choose
@@ -46,11 +46,11 @@ export default function Zodiac() {
         className="absolute right-52 top-0 opacity-10 h-40 xl:h-52"
         alt="star bg"
       />
-      <img
+      {/* <img
         src={sun}
         className="absolute -bottom-[21rem] -right-40 opacity-10 h-[62rem]"
         alt="sun"
-      />
+      /> */}
     </div>
   );
 }

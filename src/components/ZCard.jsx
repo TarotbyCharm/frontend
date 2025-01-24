@@ -12,9 +12,9 @@ import { zodiacImg } from "@/assets";
 export default function ZCard({ zodiac }) {
   return (
     <>
-      <Dialog>
+      <Dialog className="z-30">
         <DialogTrigger>
-          <Card className="py-2 xl:py-4">
+          <Card className="py-2 xl:py-4 border-gray-700 hover:border-gray-500 z-30 bg-transparent">
             <CardHeader>
               <CardTitle>
                 <img

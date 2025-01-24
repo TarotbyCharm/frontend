@@ -15,6 +15,10 @@ const initialState = {
   searchStatus: "idle",
   searchError: null,
 
+  specialPost: null,
+  specialPostStatus: "idle",
+  specialPostError: null,
+
   currentPage: 1,
   lastPage: 1,
   hasMore: false,
@@ -51,6 +55,20 @@ export const fetchPostDetails = createAsyncThunk(
   async (slug) => {
     try {
       const response = await publicHttp.get(`api/posts-list/${slug}`);
+      return response.data.data;
+    } catch (error) {
+      throw new Error(
+        error.response?.data?.message || "Failed to fetch post details"
+      );
+    }
+  }
+);
+
+export const fetchTodaySpecialPost = createAsyncThunk(
+  "posts/fetchTodaySpecialPost",
+  async () => {
+    try {
+      const response = await publicHttp.get(`api/posts-list/special/today`);
       return response.data.data;
     } catch (error) {
       throw new Error(
@@ -141,6 +159,19 @@ const postsSlice = createSlice({
       .addCase(fetchPostDetails.rejected, (state, action) => {
         state.postStatus = "failed";
         state.postError = action.error.message;
+      })
+      // today special post
+      .addCase(fetchTodaySpecialPost.pending, (state) => {
+        state.specialPostStatus = "loading";
+        state.specialPost = null;
+      })
+      .addCase(fetchTodaySpecialPost.fulfilled, (state, action) => {
+        state.specialPostStatus = "succeeded";
+        state.specialPost = action.payload;
+      })
+      .addCase(fetchTodaySpecialPost.rejected, (state, action) => {
+        state.specialPostStatus = "failed";
+        state.specialPostError = action.error.message;
       })
       // Recent posts
       .addCase(fetchRecentPosts.fulfilled, (state, action) => {

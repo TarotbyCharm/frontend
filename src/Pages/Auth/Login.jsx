@@ -19,6 +19,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/redux/reducers/UserSlice";
 import { useAuth } from "@/context/AuthContext";
+import { setTokens } from "@/utils/axios";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -43,6 +44,7 @@ export default function Login() {
       credentials: "",
       password: "",
       acceptTerms: true,
+      device_name: navigator.userAgent,
     },
   });
 
@@ -52,7 +54,9 @@ export default function Login() {
   const onSubmit = (data) => {
     dispatch(login(data)).then((result) => {
       if (result.payload) {
-        updateUser(result.payload.user);
+        const { user, access_token, refresh_token } = result.payload;
+        setTokens(access_token, refresh_token);
+        updateUser(user);
         form.reset();
         navigate("/");
       }
@@ -172,7 +176,7 @@ export default function Login() {
                   )}
                 />
                 <Button type="submit" className="italic text-base w-full">
-                  {status == 'loading' ? (
+                  {status == "loading" ? (
                     <>
                       <Loader className="animate-spin mr-1.5" />
                       <span>Loading...</span>

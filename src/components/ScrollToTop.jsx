@@ -32,7 +32,7 @@ const ScrollToTop = () => {
   return (
     <div>
       {isVisible && (
-        <button onClick={toTop} className="h-10 w-10 rounded-full fixed right-10 bottom-10 border flex items-center justify-center cursor-pointer z-50 bg-primary-500">
+        <button onClick={toTop} className="h-10 w-10 xl:h-12 xl:w-12 rounded-full fixed right-10 bottom-10 border flex items-center justify-center cursor-pointer z-50 bg-primary-500">
           <ChevronUp size={20} />
         </button>
       )}

@@ -1,10 +1,9 @@
 import { astroSign, sunBg } from "@/assets";
 import styles from "@/styles";
-import { useSelector } from "react-redux";
 
 export default function About() {
   return (
-    <div className="relative h-screen overflow-hidden">
+    <div className="relative h-screen">
       <img
         src={sunBg}
         className="absolute -left-[22rem] xl:-left-[26rem] -top-48 h-[37.5rem] xl:h-[45rem]"

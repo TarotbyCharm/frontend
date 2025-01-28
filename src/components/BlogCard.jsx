@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function BlogCard({ post }) {
   return (
-    <div className="relative border p-3.5 xl:p-4 cursor-pointer hover:shadow-lg hover:border-gray-600">
+    <div className="relative border border-gray-700 p-3.5 xl:p-4 cursor-pointer hover:shadow-lg hover:border-gray-600">
       <Link to={`/blogs/${post.slug}`}>
         <img
           src={

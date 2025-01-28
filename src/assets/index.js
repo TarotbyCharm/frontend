@@ -11,6 +11,9 @@ import soulmate from "./soulmate.png";
 import zodiacImg from "./zodiac.png";
 import facebook from "./facebook.svg";
 import twitterX from "./twitterX.svg";
+import mainAstro from "./main_astro.png";
+import homeCard from "./card.jpg";
+import doubleStars from "./double_stars.png";
 
 export {
   fullLogo,
@@ -26,4 +29,7 @@ export {
   zodiacImg,
   facebook,
   twitterX,
+  mainAstro,
+  homeCard,
+  doubleStars,
 };

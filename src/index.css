@@ -5,8 +5,16 @@
 @tailwind utilities;
 
 @layer components {
-  .border-btn {
-    @apply uppercase border px-3 py-px flex items-center gap-2 text-[16px];
+  .auth-border-btn {
+    @apply uppercase border px-3 py-px flex items-center gap-2 text-[16px] hover:border-gray-500;
+  }
+
+  .astro-primary-btn {
+    @apply bg-primary-600 hover:bg-primary-700 text-base xl:text-xl text-white px-6 py-1.5 border italic font-bold tracking-wide transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .white-btn {
+    @apply border px-2.5 bg-white hover:bg-gray-200 flex items-center gap-1 text-black text-sm py-1.5 capitalize;
   }
 }
 
@@ -27,4 +35,43 @@
     #b8b8b8 -78.47%,
     #141414 91.61%
   );
+}
+
+@layer base {
+  :root {
+    --background: 0, 0%, 8%;
+    --foreground: 210 20% 98%;
+    --card: 0, 0%, 8%;
+    --card-foreground: 210 20% 98%;
+    --popover: 0, 0%, 8%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 263.4 70% 50.4%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 263.4 70% 50.4%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --radius: 0rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

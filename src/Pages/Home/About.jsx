@@ -1,16 +1,19 @@
 import { astroSign, sunBg } from "@/assets";
+import ScrollRevealComponent from "@/components/ScrollReveal";
 import styles from "@/styles";
 
 export default function About() {
   return (
-    <div className="relative h-screen">
-      <img
-        src={sunBg}
-        className="absolute -left-[22rem] xl:-left-[26rem] -top-48 h-[37.5rem] xl:h-[45rem]"
-        alt="sun bg"
-      />
+    <div className="relative h-screen" id="#about">
+      <ScrollRevealComponent options={{ origin: "left" }}>
+        <img
+          src={sunBg}
+          className="absolute -left-[22rem] xl:-left-[26rem] -top-48 h-[37.5rem] xl:h-[45rem]"
+          alt="sun bg"
+        />
+      </ScrollRevealComponent>
       <div className={`${styles.paddingX} ${styles.flexCenter} h-full`}>
-        <div>
+        <ScrollRevealComponent>
           <h1 className="text-6xl xl:text-7xl mb-6">
             Who We <span className="text-4xl ml-2 xl:text-5xl italic">Are</span>
           </h1>
@@ -25,13 +28,15 @@ export default function About() {
           <div>
             <button className="astro-primary-btn">Book Now !</button>
           </div>
-        </div>
+        </ScrollRevealComponent>
       </div>
-      <img
-        src={astroSign}
-        className="absolute -right-20 xl:-right-28 bottom-5 h-72 xl:h-[26rem]"
-        alt="astro-sign"
-      />
+      <ScrollRevealComponent options={{ origin: "right" }}>
+        <img
+          src={astroSign}
+          className="absolute -right-20 xl:-right-28 bottom-5 h-72 xl:h-[26rem]"
+          alt="astro-sign"
+        />
+      </ScrollRevealComponent>
     </div>
   );
 }

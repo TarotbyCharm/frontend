@@ -5,6 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import ScrollReveal from "scrollreveal";
 
 export default function HomeBlog() {
   const dispatch = useDispatch();
@@ -13,22 +14,32 @@ export default function HomeBlog() {
   useEffect(() => {
     if (status === "idle") {
       dispatch(fetchPosts());
+
+      const bottomTitle = ScrollReveal({
+        origin: "bottom",
+        distance: "50px",
+        duration: 1000,
+        delay: 200,
+        reset: false,
+      });
+
+      bottomTitle.reveal(".bottom-title", { delay: 300 });
     }
   }, [status, dispatch]);
   return (
-    <div className="relative container mx-auto py-16 xl:py-40">
+    <div className="relative container mx-auto py-20">
       <img
         src={sun}
         className="absolute -bottom-[14rem] xl:-bottom-[2rem] -right-72 xl:-right-[22rem] opacity-10 h-[62rem] xl:h-[80rem]"
         alt="sun"
       />
       <div className="flex justify-between">
-        <h1 className="text-5xl xl:text-6xl">
+        <h1 className="bottom-title text-5xl xl:text-6xl">
           <span className="text-4xl xl:text-5xl italic">Latest</span> Blogs
         </h1>
         <Link
           to="/blogs"
-          className="z-10 auth-border-btn flex items-center text-sm italic"
+          className="bottom-title z-10 auth-border-btn flex items-center text-sm italic"
         >
           View All Our Blogs
           <ArrowUpRight size={16} />

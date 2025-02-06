@@ -7,14 +7,14 @@ import Index from "./Home/Index";
 
 export default function HomeNew() {
   return (
-    <div className={`${styles.flexCenter}`}>
-      <div className="w-full">
-        <Index />
-        <About />
-        <Service />
-        <Zodiac />
-        <HomeBlog />
+      <div className={`${styles.flexCenter}`}>
+        <div className="w-full">
+          <Index />
+          <About />
+          <Service />
+          <Zodiac />
+          <HomeBlog />
+        </div>
       </div>
-    </div>
   );
 }

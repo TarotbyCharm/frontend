@@ -17,6 +17,7 @@ import {
 import { Loader } from "lucide-react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import ScrollReveal from "scrollreveal";
 
 export default function BlogIndex() {
   const dispatch = useDispatch();
@@ -33,6 +34,16 @@ export default function BlogIndex() {
   useEffect(() => {
     if (status === "idle") {
       dispatch(fetchPosts());
+      const sr = ScrollReveal({
+        origin: "bottom",
+        distance: "50px",
+        duration: 1000,
+        delay: 200,
+        reset: false,
+      });
+
+      sr.reveal(".header-title", { delay: 200 });
+      sr.reveal(".today-title", { delay: 400 });
     }
   }, [status, dispatch]);
 
@@ -59,12 +70,12 @@ export default function BlogIndex() {
     <div>
       <div className="container mx-auto">
         <div className="my-10">
-          <h1 className="text-5xl text-center">
+          <h1 className="header-title text-5xl text-center">
             <span className="text-4xl italic">Our</span> Blogs
           </h1>
 
           {/* Today Special */}
-          <div className="mt-20">
+          <div className="today-title mt-20">
             <h2 className="text-5xl mb-7">
               <span className="text-4xl italic">Today</span> Special...
             </h2>

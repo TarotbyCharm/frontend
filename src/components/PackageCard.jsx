@@ -1,16 +1,33 @@
-import { soulmate } from "@/assets";
+import { packageImg } from "@/assets";
+import ScrollRevealComponent from "./ScrollReveal";
 
-export default function PackageCard() {
+export default function PackageCard({ item }) {
   return (
-    <div className="border px-6 py-8 z-10 hover:border-gray-600">
-      <img src={soulmate} className="h-20 w-auto mx-auto" alt="Soulmate" />
-      <div className="">
-        <h3 className="text-3xl italic my-10 tracking-wide font-bold">
-          Soulmate Connection
-        </h3>
-        <h5 className="mb-2">12000 Ks</h5>
-        <button className="astro-primary-btn">Book Now</button>
+    <ScrollRevealComponent
+      options={{ delay: 300 }}
+      className="cursor-pointer group transition-all ease-linear relative h-60 md:h-72 w-full bg-secondary-500"
+    >
+      {/* <div className="h-[85%] absolute top-px left-11 w-[85%] border rounded-tr-[2rem]"></div> */}
+      <div className="relative">
+        <div className="z-10 absolute items-center h-full justify-center w-full hidden group-hover:flex bg-black bg-opacity-40"></div>
+        <img
+          src={item.image || packageImg}
+          alt="Emerge artwork"
+          className="h-60 md:h-72 w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black"></div>
+        <div className="z-20 absolute left-4 bottom-4">
+          <h2 className="text-2xl font-semibold mb-1 italic">{item.name}</h2>
+          <p className="text-sm text-gray-300">
+            {item.price} {item.currency}
+          </p>
+        </div>
+        <div className="z-20 absolute bottom-4 right-3">
+          <p className="text-sm text-gray-300">
+            {item.th_price} {item.th_currency}
+          </p>
+        </div>
       </div>
-    </div>
+    </ScrollRevealComponent>
   );
 }

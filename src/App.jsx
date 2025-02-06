@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import Layout from "./Pages/Layout";
 import Home from "./Pages/Home";
 import Login from "./Pages/Auth/Login";
@@ -12,6 +12,7 @@ import store from "./redux/store";
 import { AuthProvider } from "./context/AuthContext";
 import PubliceRoute from "./components/routes/PubliceRoute";
 import PrivateRoute from "./components/routes/PrivateRoute";
+import PackageIndex from "./Pages/Packages/PackageIndex";
 
 export default function App() {
   return (
@@ -23,17 +24,15 @@ export default function App() {
             <Route path="/" element={<Layout />}>
               <Route index element={<HomeNew />} />
 
+              <Route path="/packages" element={<PackageIndex />} />
+
               <Route path="/blogs" element={<BlogIndex />} />
               <Route path="/blogs/:slug" element={<BlogDetails />} />
 
               {/* Private route with layout */}
               <Route
                 path="/private-route"
-                element={
-                  <PrivateRoute>
-                    {/* <PostDetails /> */}
-                  </PrivateRoute>
-                }
+                element={<PrivateRoute>{/* <PostDetails /> */}</PrivateRoute>}
               />
             </Route>
 

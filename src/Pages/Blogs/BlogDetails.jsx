@@ -3,6 +3,7 @@ import BlogSmallCard from "@/components/BlogSmallCard";
 import FetchError from "@/components/FetchError";
 import NotFound from "@/components/NotFound";
 import PageLoading from "@/components/PageLoading";
+import ScrollRevealComponent from "@/components/ScrollReveal";
 import { Badge } from "@/components/ui/badge";
 import {
   Breadcrumb,
@@ -76,7 +77,7 @@ export default function BlogDetails() {
         <div className="flex items-start gap-4 xl:gap-6">
           {/* left  */}
           <div className="flex-1">
-            <Breadcrumb className="mb-8">
+            <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
                   <BreadcrumbLink href="/">Home</BreadcrumbLink>
@@ -92,64 +93,66 @@ export default function BlogDetails() {
               </BreadcrumbList>
             </Breadcrumb>
 
-            <h1 className="text-4xl mb-4">{currentPost.title}</h1>
-            <div className="flex items-center gap-5 text-gray-400 text-sm mb-10">
-              <h4 className="flex items-center gap-1">
-                <User size={16} /> {currentPost.author}
-              </h4>
-              <h4 className="flex items-center gap-1">
-                <Calendar size={16} /> {currentPost.published_at}
-              </h4>
-            </div>
-            <p className="text-gray-300 leading-7 mb-[55px]">
-              {currentPost.desc}
-            </p>
-            <img
-              src={
-                currentPost.poster_url
-                  ? currentPost.poster_url
-                  : "https://img.freepik.com/free-photo/numerology-collage-concept_23-2150061758.jpg?t=st=1737230077~exp=1737233677~hmac=accc89e5e7f17911d42be59e88f1674c839c03c1450e8b7fafaf0e30ccee24e3&w=1800"
-              }
-              alt="poster"
-            />
-            <div className="flex justify-between items-center border-y py-3.5 mt-10 text-sm">
-              <div className="flex items-center gap-4">
-                <h4>Category:</h4>
-                <div className="space-x-2">
-                  <Badge>
-                    {currentPost.category ? currentPost.category.name : ""}
-                  </Badge>
-                </div>
+            <div className="mt-8">
+              <h1 className="text-4xl mb-4">{currentPost.title}</h1>
+              <div className="flex items-center gap-5 text-gray-400 text-sm mb-10">
+                <h4 className="flex items-center gap-1">
+                  <User size={16} /> {currentPost.author}
+                </h4>
+                <h4 className="flex items-center gap-1">
+                  <Calendar size={16} /> {currentPost.published_at}
+                </h4>
               </div>
-              <div className="flex items-center text-sm">
-                <h4 className="mr-4">Share: </h4>
+              <p className="text-gray-300 leading-7 mb-[55px]">
+                {currentPost.desc}
+              </p>
+              <img
+                src={
+                  currentPost.poster_url
+                    ? currentPost.poster_url
+                    : "https://img.freepik.com/free-photo/numerology-collage-concept_23-2150061758.jpg?t=st=1737230077~exp=1737233677~hmac=accc89e5e7f17911d42be59e88f1674c839c03c1450e8b7fafaf0e30ccee24e3&w=1800"
+                }
+                alt="poster"
+              />
+              <div className="flex justify-between items-center border-y py-3.5 mt-10 text-sm">
                 <div className="flex items-center gap-4">
-                  <button
-                    onClick={copyToClipboard}
-                    type="button"
-                    disabled={copied}
-                    className="bg-slate-800 disabled:hover:bg-slate-800 cursor-pointer hover:bg-slate-700 rounded-full p-2"
-                  >
-                    {copied ? (
-                      <span className="text-green-500 px-2">Copied!</span>
-                    ) : (
-                      <Copy size={17} />
-                    )}
-                  </button>
-                  <a
-                    href={`https://www.facebook.com/sharer.php?u=${window.location.href}`}
-                    target="_blank"
-                    className="bg-slate-800 hover:bg-slate-700 rounded-full p-2"
-                  >
-                    <img src={facebook} alt="facebook" />
-                  </a>
-                  <a
-                    href={`https://www.x.com/share?url=${window.location.href}`}
-                    target="_blank"
-                    className="bg-slate-800 hover:bg-slate-700 rounded-full p-2"
-                  >
-                    <img src={twitterX} alt="twitter-x" />
-                  </a>
+                  <h4>Category:</h4>
+                  <div className="space-x-2">
+                    <Badge>
+                      {currentPost.category ? currentPost.category.name : ""}
+                    </Badge>
+                  </div>
+                </div>
+                <div className="flex items-center text-sm">
+                  <h4 className="mr-4">Share: </h4>
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={copyToClipboard}
+                      type="button"
+                      disabled={copied}
+                      className="bg-slate-800 disabled:hover:bg-slate-800 cursor-pointer hover:bg-slate-700 rounded-full p-2"
+                    >
+                      {copied ? (
+                        <span className="text-green-500 px-2">Copied!</span>
+                      ) : (
+                        <Copy size={17} />
+                      )}
+                    </button>
+                    <a
+                      href={`https://www.facebook.com/sharer.php?u=${window.location.href}`}
+                      target="_blank"
+                      className="bg-slate-800 hover:bg-slate-700 rounded-full p-2"
+                    >
+                      <img src={facebook} alt="facebook" />
+                    </a>
+                    <a
+                      href={`https://www.x.com/share?url=${window.location.href}`}
+                      target="_blank"
+                      className="bg-slate-800 hover:bg-slate-700 rounded-full p-2"
+                    >
+                      <img src={twitterX} alt="twitter-x" />
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

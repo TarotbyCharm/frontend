@@ -1,9 +1,23 @@
 import { fullLogo } from "@/assets";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import ScrollReveal from "scrollreveal";
 
 export default function Footer() {
+  useEffect(() => {
+    // Initialize ScrollReveal
+    const sr = ScrollReveal({
+      origin: "bottom",
+      distance: "50px",
+      duration: 1000,
+      delay: 200,
+      reset: false,
+    });
+
+    sr.reveal(".footer", { delay: 200 });
+  }, []);
   return (
-    <div className="relative pt-16 pb-8 xl:pt-40">
+    <div className="footer relative pt-16 pb-8 xl:pt-40">
       <div className="container mx-auto ">
         <div className="flex items-start">
           <div className="w-full md:w-[40%] lg:w-[60%]">

@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/redux/reducers/UserSlice";
 import { useAuth } from "@/context/AuthContext";
 import { setTokens } from "@/utils/axios";
+import ScrollRevealComponent from "@/components/ScrollReveal";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -67,6 +68,10 @@ export default function Login() {
     console.log("errors", errors);
   };
 
+  const handleActive = (title) => {
+    localStorage.setItem("active", title);
+  };
+
   return (
     <div className="grid grid-cols-2 gap-4 h-screen overflow-hidden divide-x divide-white z-10">
       <div className="relative z-10">
@@ -98,14 +103,16 @@ export default function Login() {
       </div>
       <div className="flex items-center pt-10 bg-secondary-500 z-20">
         <div className="w-full">
-          <div className="text-center mb-10">
-            <img src={fullLogo} className="w-auto mx-auto" alt="Logo" />
+          <ScrollRevealComponent className="text-center mb-10">
+            <Link to="/" onClick={() => handleActive("Home")}>
+              <img src={fullLogo} className="w-auto mx-auto" alt="Logo" />
+            </Link>
             <h2 className="mt-10 text-3xl">
               <span className="text-6xl mr-4">Welcome</span>
               <span className="italic">back!</span>
             </h2>
-          </div>
-          <div className="px-32">
+          </ScrollRevealComponent>
+          <ScrollRevealComponent options={{ delay: 500 }} className="px-32">
             {error && <small className="text-red-500 mb-4">{error}</small>}
             <Form {...form}>
               <form
@@ -244,7 +251,7 @@ export default function Login() {
                 </p>
               </form>
             </Form>
-          </div>
+          </ScrollRevealComponent>
         </div>
       </div>
     </div>

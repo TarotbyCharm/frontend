@@ -1,9 +1,10 @@
 import { ArrowUpRight, Bookmark, Calendar, User } from "lucide-react";
 import { Link } from "react-router-dom";
+import ScrollRevealComponent from "./ScrollReveal";
 
 export default function BlogCard({ post }) {
   return (
-    <div className="relative border border-gray-700 p-3.5 xl:p-4 cursor-pointer hover:shadow-lg hover:border-gray-600">
+    <ScrollRevealComponent className="relative border border-gray-700 p-3.5 xl:p-4 cursor-pointer hover:shadow-lg hover:border-gray-600">
       <Link to={`/blogs/${post.slug}`}>
         <img
           src={
@@ -33,16 +34,19 @@ export default function BlogCard({ post }) {
         <div className="flex justify-between items-center mt-4">
           <Link
             to={`/blogs/${post.slug}`}
-            className="white-btn absolute bottom-4"
+            className="astro-secondary-btn absolute bottom-4"
           >
             Read More
             <ArrowUpRight size={16} />
           </Link>
-          <button type="button" className="absolute right-5 bottom-5 text-gray-500">
+          <button
+            type="button"
+            className="absolute right-5 bottom-5 text-gray-500"
+          >
             <Bookmark />
           </button>
         </div>
       </div>
-    </div>
+    </ScrollRevealComponent>
   );
 }

@@ -19,11 +19,14 @@ export default function BlogHorCard({ post }) {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Link to={`/blogs/${post?.slug}`} className="white-btn">
+              <Link to={`/blogs/${post?.slug}`} className="astro-secondary-btn">
                 Read More
                 <ArrowUpRight size={16} />
               </Link>
-              <button type="button" className="auth-border-btn border-gray-500 hover:border-gray-600 p-2">
+              <button
+                type="button"
+                className="auth-border-btn border-gray-500 hover:border-gray-600 p-2"
+              >
                 <Bookmark size={17} />
               </button>
             </div>

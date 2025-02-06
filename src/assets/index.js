@@ -7,7 +7,7 @@ import sunBg from "./sun_bg.png";
 import sun from "./sun.png";
 import moon from "./moon.png";
 import astroSign from "./astro_sign.png";
-import soulmate from "./soulmate.png";
+import packageImg from "./package.webp";
 import zodiacImg from "./zodiac.png";
 import facebook from "./facebook.svg";
 import twitterX from "./twitterX.svg";
@@ -25,7 +25,7 @@ export {
   sun,
   moon,
   astroSign,
-  soulmate,
+  packageImg,
   zodiacImg,
   facebook,
   twitterX,

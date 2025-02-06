@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { fullLogo, menu, close, star } from "../assets";
 import { navLinks } from "../constants";
 import { Link, useNavigate } from "react-router-dom";
@@ -16,6 +16,7 @@ import { logout } from "@/redux/reducers/UserSlice";
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
+  const [active, setActive] = useState("");
 
   const { isAuthenticated, clearAuth } = useAuth();
   const { user } = useSelector((state) => state.user);
@@ -31,6 +32,15 @@ const Navbar = () => {
       console.error("Logout failed:", error);
     }
   };
+
+  const handleActive = (title) => {
+    setActive(title);
+    localStorage.setItem("active", title);
+  };
+
+  useEffect(() => {
+    setActive(localStorage.getItem("active"));
+  }, []);
   return (
     <nav className="w-full flex py-4 xl:py-5 justify-between items-center navbar">
       <img src={fullLogo} alt="logo" className="h-[32px] xl:h-[36px]" />
@@ -39,12 +49,40 @@ const Navbar = () => {
         {navLinks.map((nav, index) => (
           <li
             key={index}
-            className={`font-normal cursor-pointer text-[16px] mr-7`}
+            className={`font-normal cursor-pointer text-[15px] mr-7`}
           >
-            {nav.link !== null ? (
-              <Link to={nav.link}>{nav.title}</Link>
+            {nav.link != null ? (
+              <Link
+                to={nav.link}
+                onClick={() => handleActive(nav.title)}
+                className={`relative transition duration-300 group ${
+                  active === nav.title
+                    ? "text-white font-medium"
+                    : "text-gray-300"
+                }`}
+              >
+                {nav.title}
+                <span
+                  className={`absolute left-0 -bottom-1 h-0.5 w-full bg-white transition-transform duration-300 ${
+                    active === nav.title ? "scale-x-100" : "scale-x-0"
+                  } group-hover:scale-x-100`}
+                ></span>
+              </Link>
             ) : (
-              <Link href={`#${nav.id}`}>{nav.title}</Link>
+              <Link
+                href={`#${nav.id}`}
+                onClick={() => handleActive(nav.id)}
+                className={`relative transition duration-300 group ${
+                  active === nav.id ? "text-white font-medium" : "text-gray-300"
+                }`}
+              >
+                {nav.title}
+                <span
+                  className={`absolute left-0 -bottom-1 h-0.5 w-full bg-white transition-transform duration-300 ${
+                    active === nav.id ? "scale-x-100" : "scale-x-0"
+                  } group-hover:scale-x-100`}
+                ></span>
+              </Link>
             )}
           </li>
         ))}

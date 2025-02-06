@@ -11,8 +11,8 @@ export const navLinks = [
   },
   {
     id: "package",
-    title: "Package",
-    link: null,
+    title: "Packages",
+    link: "/packages",
   },
   {
     id: "blogs",

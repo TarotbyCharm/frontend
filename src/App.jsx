@@ -13,6 +13,9 @@ import { AuthProvider } from "./context/AuthContext";
 import PubliceRoute from "./components/routes/PubliceRoute";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import PackageIndex from "./Pages/Packages/PackageIndex";
+import MakeAppointment from "./Pages/Booking/MakeAppointment";
+import Payment from "./Pages/Booking/Payment";
+import BookedSlip from "./Pages/Booking/BookingSlip";
 
 export default function App() {
   return (
@@ -31,8 +34,17 @@ export default function App() {
 
               {/* Private route with layout */}
               <Route
-                path="/private-route"
-                element={<PrivateRoute>{/* <PostDetails /> */}</PrivateRoute>}
+                path="/appointment"
+                element={<PrivateRoute>{<MakeAppointment />}</PrivateRoute>}
+              />
+              <Route
+                path="/appointment/:appointmentNo/payment"
+                element={<PrivateRoute>{<Payment />}</PrivateRoute>}
+              />
+
+              <Route
+                path="/appointment/:appointmentNo/booking/slip"
+                element={<PrivateRoute>{<BookedSlip />}</PrivateRoute>}
               />
             </Route>
 

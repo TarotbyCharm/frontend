@@ -70,13 +70,13 @@ export default function BlogIndex() {
     <div>
       <div className="container mx-auto">
         <div className="my-10">
-          <h1 className="header-title text-5xl text-center">
+          <h1 className="header-title text-3xl md:text-4xl xl:text-5xl text-center">
             <span className="text-4xl italic">Our</span> Blogs
           </h1>
 
           {/* Today Special */}
           <div className="today-title mt-20">
-            <h2 className="text-5xl mb-7">
+            <h2 className="text-3xl md:text-4xl xl:text-5xl mb-7">
               <span className="text-4xl italic">Today</span> Special...
             </h2>
             <BlogHorCard post={specialPost} />
@@ -122,7 +122,7 @@ export default function BlogIndex() {
                   posts.map((post) => <BlogCard key={post.id} post={post} />)}
               </div>
               {hasMore && (
-                <div className="text-center">
+                <div className="flex justify-center">
                   <button
                     className="astro-primary-btn mt-10"
                     onClick={handleLoadMore}

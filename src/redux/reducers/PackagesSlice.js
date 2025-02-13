@@ -2,10 +2,18 @@ import { publicHttp } from "@/utils/axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  name: "package",
+  packages: [],
   status: "idle",
   error: null,
-  packages: [],
+
+  packagesAll: [],
+  packagesAllStatus: "idle",
+  packagesAllError: null,
+
+  singlePackage: null,
+  packageStatus: "idle",
+  packageError: null,
+
   currentPage: 1,
   lastPage: 1,
   hasMore: false,
@@ -34,6 +42,34 @@ export const fetchPackages = createAsyncThunk(
     } catch (error) {
       throw new Error(
         error.response?.data?.message || "Failed to fetch packages"
+      );
+    }
+  }
+);
+
+export const fetchPackagesAll = createAsyncThunk(
+  "packages/fetchPackagesAll",
+  async () => {
+    try {
+      const response = await publicHttp.get("/api/packages-all");
+      return response.data.data.data;
+    } catch (error) {
+      throw new Error(
+        error.response?.data?.message || "Failed to fetch packages"
+      );
+    }
+  }
+);
+
+export const fetchPackage = createAsyncThunk(
+  "posts/fetchPackage",
+  async (id) => {
+    try {
+      const response = await publicHttp.get(`api/packages-list/${id}`);
+      return response.data.data;
+    } catch (error) {
+      throw new Error(
+        error.response?.data?.message || "Failed to fetch post details"
       );
     }
   }
@@ -74,6 +110,30 @@ const packagesSlice = createSlice({
         state.status = "failed";
         state.loadingMore = false;
         state.error = action.error.message;
+      })
+      .addCase(fetchPackagesAll.pending, (state) => {
+        state.packagesAllStatus = "loading";
+        state.packagesAll = [];
+      })
+      .addCase(fetchPackagesAll.fulfilled, (state, action) => {
+        state.packagesAllStatus = "succeeded";
+        state.packagesAll = action.payload;
+      })
+      .addCase(fetchPackagesAll.rejected, (state, action) => {
+        state.packagesAllStatus = "failed";
+        state.packagesAllError = action.error.message;
+      })
+      .addCase(fetchPackage.pending, (state) => {
+        state.packageStatus = "loading";
+        state.singlePackage = null;
+      })
+      .addCase(fetchPackage.fulfilled, (state, action) => {
+        state.packageStatus = "succeeded";
+        state.singlePackage = action.payload;
+      })
+      .addCase(fetchPackage.rejected, (state, action) => {
+        state.packageStatus = "failed";
+        state.packageError = action.error.message;
       });
   },
 });

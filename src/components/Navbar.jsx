@@ -16,7 +16,7 @@ import { logout } from "@/redux/reducers/UserSlice";
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
-  const [active, setActive] = useState("");
+  const [active, setActive] = useState("Home");
 
   const { isAuthenticated, clearAuth } = useAuth();
   const { user } = useSelector((state) => state.user);
@@ -35,12 +35,7 @@ const Navbar = () => {
 
   const handleActive = (title) => {
     setActive(title);
-    localStorage.setItem("active", title);
   };
-
-  useEffect(() => {
-    setActive(localStorage.getItem("active"));
-  }, []);
   return (
     <nav className="w-full flex py-4 xl:py-5 justify-between items-center navbar">
       <img src={fullLogo} alt="logo" className="h-[32px] xl:h-[36px]" />
@@ -87,6 +82,15 @@ const Navbar = () => {
           </li>
         ))}
 
+        <li className="mr-4">
+          <Link
+            to="/appointment"
+            className="astro-secondary-btn uppercase text-xs"
+          >
+            Book Now
+          </Link>
+        </li>
+
         <li>
           {isAuthenticated ? (
             <DropdownMenu>
@@ -96,7 +100,7 @@ const Navbar = () => {
                   <AvatarFallback>
                     <img
                       src={`https://ui-avatars.com/api/?name=${user?.name}`}
-                      alt=""
+                      alt="profile"
                     />
                   </AvatarFallback>
                 </Avatar>
@@ -110,7 +114,7 @@ const Navbar = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Link to="/login" className="auth-border-btn">
+            <Link to="/login" className="astro-border-btn">
               Login
               <img src={star} alt="Star" className="h-4" />
             </Link>
@@ -164,7 +168,7 @@ const Navbar = () => {
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
-                <Link to="/login" className="auth-border-btn">
+                <Link to="/login" className="astro-border-btn">
                   Login
                   <img src={star} alt="Star" className="h-4" />
                 </Link>

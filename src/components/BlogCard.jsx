@@ -34,7 +34,7 @@ export default function BlogCard({ post }) {
         <div className="flex justify-between items-center mt-4">
           <Link
             to={`/blogs/${post.slug}`}
-            className="astro-secondary-btn absolute bottom-4"
+            className="astro-secondary-btn text-sm absolute bottom-4"
           >
             Read More
             <ArrowUpRight size={16} />

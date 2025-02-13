@@ -3,6 +3,7 @@ import userReducer from "./reducers/UserSlice";
 import postsReducer from "./reducers/PostsSlice";
 import zodiacsReducer from "./reducers/ZodiacsSlice";
 import packagesReducer from "./reducers/PackagesSlice";
+import appointmentReducer from "./reducers/AppointmentSlice";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     posts: postsReducer,
     zodiacs: zodiacsReducer,
     packages: packagesReducer,
+    appointment: appointmentReducer,
   },
 });
 

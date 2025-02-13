@@ -39,7 +39,7 @@ export default function HomeBlog() {
         </h1>
         <Link
           to="/blogs"
-          className="bottom-title z-10 auth-border-btn flex items-center text-sm italic"
+          className="bottom-title z-10 astro-border-btn flex items-center text-sm italic"
         >
           View All Our Blogs
           <ArrowUpRight size={16} />

@@ -13,6 +13,18 @@ export const login = createAsyncThunk(
   }
 );
 
+export const oAuthLogin = createAsyncThunk(
+  "/user/oauth",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await publicHttp.get(`/api/auth/google/redirect`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "Login failed");
+    }
+  }
+);
+
 export const logout = createAsyncThunk(
   "user/logout",
   async (_, { rejectWithValue }) => {
@@ -20,6 +32,19 @@ export const logout = createAsyncThunk(
       await http.post("/api/auth/logout");
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Logout failed");
+    }
+  }
+);
+
+export const bookNow = createAsyncThunk(
+  "user/bookNow",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await http.post("/api/auth/appointment/store", data);
+
+      return response.data.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "Booking failed");
     }
   }
 );

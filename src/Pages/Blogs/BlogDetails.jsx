@@ -3,7 +3,6 @@ import BlogSmallCard from "@/components/BlogSmallCard";
 import FetchError from "@/components/FetchError";
 import NotFound from "@/components/NotFound";
 import PageLoading from "@/components/PageLoading";
-import ScrollRevealComponent from "@/components/ScrollReveal";
 import { Badge } from "@/components/ui/badge";
 import {
   Breadcrumb,
@@ -74,7 +73,7 @@ export default function BlogDetails() {
   return (
     <div className="relative">
       <div className="container mx-auto py-16">
-        <div className="flex items-start gap-4 xl:gap-6">
+        <div className="flex items-start gap-4 lg:gap-6">
           {/* left  */}
           <div className="flex-1">
             <Breadcrumb>
@@ -88,14 +87,25 @@ export default function BlogDetails() {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>{currentPost.slug}</BreadcrumbPage>
+                  <BreadcrumbPage className="text-primary-500">
+                    {currentPost.title}
+                  </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
 
             <div className="mt-8">
-              <h1 className="text-4xl mb-4">{currentPost.title}</h1>
-              <div className="flex items-center gap-5 text-gray-400 text-sm mb-10">
+              <img
+                src={
+                  currentPost.poster_url
+                    ? currentPost.poster_url
+                    : "https://img.freepik.com/free-photo/numerology-collage-concept_23-2150061758.jpg?t=st=1737230077~exp=1737233677~hmac=accc89e5e7f17911d42be59e88f1674c839c03c1450e8b7fafaf0e30ccee24e3&w=1800"
+                }
+                className="max-h-[22rem] w-full object-cover"
+                alt="poster"
+              />
+              <h1 className="text-4xl mb-4 mt-8">{currentPost.title}</h1>
+              <div className="flex items-center gap-5 text-gray-400 text-sm mb-8">
                 <h4 className="flex items-center gap-1">
                   <User size={16} /> {currentPost.author}
                 </h4>
@@ -106,14 +116,6 @@ export default function BlogDetails() {
               <p className="text-gray-300 leading-7 mb-[55px]">
                 {currentPost.desc}
               </p>
-              <img
-                src={
-                  currentPost.poster_url
-                    ? currentPost.poster_url
-                    : "https://img.freepik.com/free-photo/numerology-collage-concept_23-2150061758.jpg?t=st=1737230077~exp=1737233677~hmac=accc89e5e7f17911d42be59e88f1674c839c03c1450e8b7fafaf0e30ccee24e3&w=1800"
-                }
-                alt="poster"
-              />
               <div className="flex justify-between items-center border-y py-3.5 mt-10 text-sm">
                 <div className="flex items-center gap-4">
                   <h4>Category:</h4>
@@ -168,7 +170,9 @@ export default function BlogDetails() {
 
               <Card>
                 <CardHeader className="border-b py-3">
-                  <CardTitle className="text-xl">Recent Posts</CardTitle>
+                  <CardTitle className="text-xl text-primary-500 underline underline-offset-4">
+                    Recent Posts
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="p-0">
                   {recentPosts &&
@@ -179,10 +183,16 @@ export default function BlogDetails() {
               </Card>
               <Card>
                 <CardHeader className="border-b py-3">
-                  <CardTitle className="text-xl">Tags</CardTitle>
+                  <CardTitle className="text-xl text-primary-500 underline underline-offset-4">
+                    Tags
+                  </CardTitle>
                 </CardHeader>
-                <CardContent className="py-3">
-                  <Badge variant="secondary"># Badge</Badge>
+                <CardContent className="py-3 space-x-1">
+                  {currentPost?.tags?.map((tag, index) => (
+                    <Badge key={index} variant="secondary">
+                      # {tag?.name}
+                    </Badge>
+                  ))}
                 </CardContent>
               </Card>
             </div>

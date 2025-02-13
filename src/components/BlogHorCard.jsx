@@ -25,7 +25,7 @@ export default function BlogHorCard({ post }) {
               </Link>
               <button
                 type="button"
-                className="auth-border-btn border-gray-500 hover:border-gray-600 p-2"
+                className="astro-border-btn border-gray-500 hover:border-gray-600 p-2"
               >
                 <Bookmark size={17} />
               </button>

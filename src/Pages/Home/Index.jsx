@@ -1,6 +1,7 @@
 import { homeCard, mainAstro, doubleStars } from "@/assets";
 import ScrollRevealComponent from "@/components/ScrollReveal";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import ScrollReveal from "scrollreveal";
 
 const Index = () => {
@@ -57,9 +58,11 @@ const Index = () => {
                 </p>
                 <p>Better Future</p>
               </div>
-              <button className="mt-8 xl:mt-12 astro-primary-btn">
-                Make Appointment Now
-              </button>
+              <div className="mt-8 xl:mt-12 flex justify-center">
+                <Link to="/appointment" className="astro-primary-btn w-fit">
+                  Make Appointment Now
+                </Link>
+              </div>
             </div>
           </ScrollRevealComponent>
 

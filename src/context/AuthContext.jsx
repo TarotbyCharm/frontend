@@ -17,8 +17,13 @@ export function AuthProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
 
   const updateUser = (user) => {
-    setIsAuthenticated(true);
-    dispatch(login.fulfilled({ user }, "", {}));
+    if (user) {
+      setIsAuthenticated(true);
+      dispatch(login.fulfilled({ user }, "", {}));
+    } else {
+      clearAuth();
+      return;
+    }
   };
 
   const clearAuth = () => {
@@ -42,14 +47,15 @@ export function AuthProvider({ children }) {
         // Try to get user data with current token
         try {
           const response = await http.get("/api/auth/user");
-          updateUser(response.data);
+          updateUser(response.data.data);
         } catch (error) {
           // If token is invalid but we have refresh token, let the interceptor handle it
           if (error.response?.status === 401 && refreshToken) {
             const response = await http.get("/api/auth/user");
-            updateUser(response.data);
+            updateUser(response.data.data);
           } else {
-            throw error;
+            clearAuth();
+            return;
           }
         }
       } catch (error) {

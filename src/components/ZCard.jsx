@@ -1,4 +1,3 @@
-import ScrollRevealComponent from "./ScrollReveal";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import {
   Dialog,
@@ -15,7 +14,6 @@ export default function ZCard({ zodiac }) {
     <>
       <Dialog className="z-30">
         <DialogTrigger>
-          <ScrollRevealComponent>
             <Card className="py-2 xl:py-4 border-gray-700 hover:border-gray-500 z-30 bg-transparent">
               <CardHeader>
                 <CardTitle>
@@ -35,7 +33,6 @@ export default function ZCard({ zodiac }) {
                 </div>
               </CardContent>
             </Card>
-          </ScrollRevealComponent>
         </DialogTrigger>
         <DialogContent className="max-w-2xl">
           <DialogHeader>

@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/redux/reducers/UserSlice";
 import { useAuth } from "@/context/AuthContext";
 import { setTokens } from "@/utils/axios";
-import ScrollRevealComponent from "@/components/ScrollReveal";
+import { motion } from "framer-motion";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -40,7 +40,7 @@ export default function Login() {
   });
 
   const form = useForm({
-    resolver: yupResolver(schema), // Connect Yup with React Hook Form
+    resolver: yupResolver(schema),
     defaultValues: {
       credentials: "",
       password: "",
@@ -64,14 +64,6 @@ export default function Login() {
     });
   };
 
-  // dispatch(oAuthLogin()).then((result) => {
-  //   if (result.payload) {
-  //     const { user, access_token, refresh_token } = result.payload;
-  //     setTokens(access_token, refresh_token);
-  //     updateUser(user);
-  //   }
-  // });
-
   const onError = (errors) => {
     console.log("errors", errors);
   };
@@ -81,8 +73,8 @@ export default function Login() {
   };
 
   return (
-    <div className="grid grid-cols-2 gap-4 h-screen overflow-hidden divide-x divide-white z-10">
-      <div className="relative z-10">
+    <div className="grid md:grid-cols-2 gap-4 h-screen overflow-x-hidden md:divide-x md:divide-white z-10">
+      <div className="hidden md:block relative z-10">
         <img
           src={astroSign}
           className="absolute -top-32 xl:-top-40 h-80 xl:h-auto -right-20 xl:-right-24 opacity-40"
@@ -109,18 +101,31 @@ export default function Login() {
           alt="Sun"
         />
       </div>
-      <div className="flex items-center pt-10 bg-secondary-500 z-20">
-        <div className="w-full">
-          <ScrollRevealComponent className="text-center mb-10">
+      <div className="flex items-center justify-center pt-10 bg-secondary-500 z-20">
+        <div className="max-w-lg sm:w-[28rem] md:w-[30rem]">
+          {/* Logo Animation with Framer Motion */}
+          <motion.div
+            className="text-center mb-10"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+          >
             <Link to="/" onClick={() => handleActive("Home")}>
               <img src={fullLogo} className="w-auto mx-auto" alt="Logo" />
             </Link>
             <h2 className="mt-10 text-3xl">
-              <span className="text-6xl mr-4">Welcome</span>
+              <span className="text-4xl lg:text-5xl mr-4">Welcome</span>
               <span className="italic">back!</span>
             </h2>
-          </ScrollRevealComponent>
-          <ScrollRevealComponent options={{ delay: 500 }} className="px-32">
+          </motion.div>
+
+          {/* Form Animation with Framer Motion */}
+          <motion.div
+            className="mt-10"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
+          >
             {error && <small className="text-red-500 mb-4">{error}</small>}
             <Form {...form}>
               <form
@@ -191,7 +196,7 @@ export default function Login() {
                   )}
                 />
                 <Button type="submit" className="italic text-base w-full">
-                  {status == "loading" ? (
+                  {status === "loading" ? (
                     <>
                       <Loader className="animate-spin mr-1.5" />
                       <span>Loading...</span>
@@ -205,9 +210,6 @@ export default function Login() {
                   <p className="text-sm text-center">or</p>
                   <hr className="w-full border-gray-300" />
                 </div>
-                {/* <GoogleOAuthProvider clientId="48612501590-m4hqn5atauhabqu40jllnk6luokbjqgc.apps.googleusercontent.com">
-                  <GoogleOAuth />
-                </GoogleOAuthProvider> */}
                 <p className="text-center">
                   Don&#39;t have an account?
                   <Link
@@ -219,7 +221,7 @@ export default function Login() {
                 </p>
               </form>
             </Form>
-          </ScrollRevealComponent>
+          </motion.div>
         </div>
       </div>
     </div>

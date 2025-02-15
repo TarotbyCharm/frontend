@@ -1,85 +1,131 @@
-import { Button } from "@/components/ui/button";
-import { useGoogleLogin } from "@react-oauth/google";
-import React from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 
-export default function GoogleOAuth() {
-  const handleOAuth = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      try {
-        // First, get the CSRF cookie
-        await fetch("http://127.0.0.1:8000/sanctum/csrf-cookie", {
-          credentials: "include",
-        });
+const Login = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-        const response = await fetch(
-          "http://127.0.0.1:8000/api/auth/google/redirect",
-          {
-            mode: 'no-cors',
-            method: "POST",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-              "X-Requested-With": "XMLHttpRequest",
-            },
-            body: JSON.stringify({
-              access_token: tokenResponse.access_token,
-            }),
-          }
-        );
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle login logic here
+  };
 
-        const data = await response.json();
-
-        console.log(data);
-      } catch (err) {
-        console.log(err);
-      }
-    },
-  });
   return (
-    <Button
-      onClick={() => handleOAuth()}
-      type="button"
-      className="bg-white hover:bg-white hover:text-primary-500 text-black italic text-base w-full"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20px"
-        className="inline"
-        viewBox="0 0 512 512"
+    <div className="min-h-screen bg-gradient-to-b from-black via-purple-950 to-black flex items-center justify-center px-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md"
       >
-        <path
-          fill="#fbbd00"
-          d="M120 256c0-25.367 6.989-49.13 19.131-69.477v-86.308H52.823C18.568 144.703 0 198.922 0 256s18.568 111.297 52.823 155.785h86.308v-86.308C126.989 305.13 120 281.367 120 256z"
-          data-original="#fbbd00"
-        />
-        <path
-          fill="#0f9d58"
-          d="m256 392-60 60 60 60c57.079 0 111.297-18.568 155.785-52.823v-86.216h-86.216C305.044 385.147 281.181 392 256 392z"
-          data-original="#0f9d58"
-        />
-        <path
-          fill="#31aa52"
-          d="m139.131 325.477-86.308 86.308a260.085 260.085 0 0 0 22.158 25.235C123.333 485.371 187.62 512 256 512V392c-49.624 0-93.117-26.72-116.869-66.523z"
-          data-original="#31aa52"
-        />
-        <path
-          fill="#3c79e6"
-          d="M512 256a258.24 258.24 0 0 0-4.192-46.377l-2.251-12.299H256v120h121.452a135.385 135.385 0 0 1-51.884 55.638l86.216 86.216a260.085 260.085 0 0 0 25.235-22.158C485.371 388.667 512 324.38 512 256z"
-          data-original="#3c79e6"
-        />
-        <path
-          fill="#cf2d48"
-          d="m352.167 159.833 10.606 10.606 84.853-84.852-10.606-10.606C388.668 26.629 324.381 0 256 0l-60 60 60 60c36.326 0 70.479 14.146 96.167 39.833z"
-          data-original="#cf2d48"
-        />
-        <path
-          fill="#eb4132"
-          d="M256 120V0C187.62 0 123.333 26.629 74.98 74.98a259.849 259.849 0 0 0-22.158 25.235l86.308 86.308C162.883 146.72 206.376 120 256 120z"
-          data-original="#eb4132"
-        />
-      </svg>
-      Sign In With Google
-    </Button>
+        <div className="bg-black/40 backdrop-blur-lg p-8 rounded-2xl border border-purple-500/20">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-serif text-white mb-2">
+              Welcome Back
+            </h2>
+            <p className="text-gray-400">Enter your details to continue</p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
+                Email Address
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full bg-black/40 border border-purple-500/30 rounded-lg py-2 pl-10 pr-4 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+            </div>
+
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
+                Password
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full bg-black/40 border border-purple-500/30 rounded-lg py-2 pl-10 pr-10 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
+                  placeholder="Enter your password"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300"
+                >
+                  {showPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
+                </button>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  id="remember"
+                  className="h-4 w-4 rounded border-gray-300 text-purple-500 focus:ring-purple-500"
+                />
+                <label
+                  htmlFor="remember"
+                  className="ml-2 block text-sm text-gray-300"
+                >
+                  Remember me
+                </label>
+              </div>
+              <Link
+                to="/forgot-password"
+                className="text-sm text-purple-400 hover:text-purple-300"
+              >
+                Forgot password?
+              </Link>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full py-3 px-4 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-medium hover:from-purple-600 hover:to-indigo-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+            >
+              Sign in
+            </button>
+
+            <p className="text-center text-sm text-gray-400">
+              Dont have an account?{" "}
+              <Link
+                to="/register"
+                className="text-purple-400 hover:text-purple-300 font-medium"
+              >
+                Sign up
+              </Link>
+            </p>
+          </form>
+        </div>
+      </motion.div>
+    </div>
   );
-}
+};
+
+export default Login;

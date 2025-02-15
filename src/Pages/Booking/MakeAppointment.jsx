@@ -1,7 +1,7 @@
 import { publicHttp } from "@/utils/axios";
-
 import { useEffect, useState } from "react";
-import ScrollReveal from "scrollreveal";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 import AppointmentForm from "./AppointmentForm";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPackagesAll } from "@/redux/reducers/PackagesSlice";
@@ -41,16 +41,6 @@ export default function MakeAppointment() {
   }, [packagesAllStatus, dispatch]);
 
   useEffect(() => {
-    const sr = ScrollReveal({
-      origin: "bottom",
-      distance: "50px",
-      duration: 1000,
-      delay: 200,
-      reset: false,
-    });
-
-    sr.reveal(".header-title", { delay: 100 });
-
     fetchGenders();
     fetchWeekdays();
   }, []);
@@ -63,12 +53,26 @@ export default function MakeAppointment() {
     return <FetchError error={packagesAllError} />;
   }
 
+  // Framer Motion animation configuration
+  const motionVariants = {
+    initial: { opacity: 0, y: 50 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 1, ease: "easeOut" },
+  };
+
   return (
-    <div className="container mx-auto">
-      <div className="my-10">
-        <h1 className="header-title text-3xl md:text-4xl xl:text-5xl text-center">
+    <div className="container mx-auto px-6 md:px-0">
+      <div className="mt-24 mb-0 md:mb-auto my-10">
+        {/* Apply Framer Motion to header */}
+        <motion.h1
+          className="header-title text-3xl md:text-4xl xl:text-5xl text-center"
+          variants={motionVariants}
+          initial="initial"
+          animate="animate"
+          transition={{ ...motionVariants.transition, delay: 0.2 }}
+        >
           <span className="text-4xl italic">Make</span> Appointment
-        </h1>
+        </motion.h1>
       </div>
       <AppointmentForm
         genders={genders}

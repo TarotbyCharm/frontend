@@ -83,7 +83,7 @@ export default function BlogDetails() {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/blogs">Blogs</BreadcrumbLink>
+                  <BreadcrumbLink href="/blog">Blog</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>

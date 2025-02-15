@@ -1,12 +1,8 @@
 import { packageImg } from "@/assets";
-import ScrollRevealComponent from "./ScrollReveal";
 
 export default function PackageCard({ item }) {
   return (
-    <ScrollRevealComponent
-      options={{ delay: 300 }}
-      className="cursor-pointer group transition-all ease-linear relative h-60 md:h-72 w-full bg-secondary-500"
-    >
+    <div className="cursor-pointer group transition-all ease-linear relative h-60 md:h-72 w-full bg-secondary-500">
       {/* <div className="h-[85%] absolute top-px left-11 w-[85%] border rounded-tr-[2rem]"></div> */}
       <div className="relative">
         <div className="z-10 absolute items-center h-full justify-center w-full hidden group-hover:flex bg-black bg-opacity-40"></div>
@@ -28,6 +24,6 @@ export default function PackageCard({ item }) {
           </p>
         </div>
       </div>
-    </ScrollRevealComponent>
+    </div>
   );
 }

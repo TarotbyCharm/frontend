@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 export default function BlogHorCard({ post }) {
   return (
     <div className="border p-5">
-      <div className="flex gap-4">
-        <div className="w-[40%]">
+      <div className="flex flex-col-reverse md:flex-row gap-4">
+        <div className="w-full md:w-[40%]">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <img
                 src={`https://ui-avatars.com/api/?name=${post?.author}&background=1f2937&color=fff`}
-                className="h-10"
+                className="h-8 md:h-10"
                 alt="Man"
               />
               <div className="text-sm">
@@ -19,9 +19,9 @@ export default function BlogHorCard({ post }) {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Link to={`/blogs/${post?.slug}`} className="astro-secondary-btn">
+              <Link to={`/blog/${post?.slug}`} className="astro-secondary-btn">
                 Read More
-                <ArrowUpRight size={16} />
+                <ArrowUpRight size={16} className="hidden md:block" />
               </Link>
               <button
                 type="button"
@@ -33,21 +33,22 @@ export default function BlogHorCard({ post }) {
           </div>
           <div className="mt-4">
             <h1 className="text-xl lg:text-2xl font-medium mb-3 line-clamp-2">
-              <Link to={`/blogs/${post?.slug}`}>{post?.title}</Link>
+              <Link to={`/blog/${post?.slug}`}>{post?.title}</Link>
             </h1>
-            <p className="text-gray-400 text-justify line-clamp-8 text-sm lg:text-base">
+            <p className="text-gray-400 text-justify line-clamp-[8] md:line-clamp-[10] text-sm lg:text-base">
               {post?.excerpt}
             </p>
           </div>
         </div>
-        <div className="w-[60%]">
-          <Link to={`/blogs/${post?.slug}`}>
+        <div className="w-full md:w-[60%]">
+          <Link to={`/blog/${post?.slug}`}>
             <img
               src={
                 post?.poster_url
                   ? post?.poster_url
                   : "https://img.freepik.com/free-photo/numerology-collage-concept_23-2150061758.jpg?t=st=1737230077~exp=1737233677~hmac=accc89e5e7f17911d42be59e88f1674c839c03c1450e8b7fafaf0e30ccee24e3&w=1800"
               }
+              className="md:h-[22rem]"
               alt="poster"
             />
           </Link>

@@ -21,11 +21,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { http } from "@/utils/axios";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { format } from "date-fns";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import { useInView } from "framer-motion";
+import { motion } from "framer-motion";
 
 export default function AppointmentForm({ genders, weekdays, packages }) {
   const { user } = useSelector((state) => state.user);
@@ -85,14 +87,28 @@ export default function AppointmentForm({ genders, weekdays, packages }) {
     }
   };
 
+  const formRef = useRef(null);
+  const isInView = useInView(formRef, { once: true });
+
   return (
-    <div className="py-10">
+    <motion.div
+      ref={formRef}
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8 }}
+      className="py-10"
+    >
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col lg:flex-row gap-4 lg:gap-6"
+          className="flex flex-col-reverse lg:flex-row gap-4 lg:gap-6"
         >
-          <div className="w-full lg:w-[35%]">
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="w-full lg:w-[35%]"
+          >
             <div className="grid md:grid-cols-2 gap-4 lg:gap-6">
               <FormField
                 control={form.control}
@@ -241,10 +257,15 @@ export default function AppointmentForm({ genders, weekdays, packages }) {
                 Book Now
               </Button>
             </div>
-          </div>
+          </motion.div>
 
           {/* Package Selection */}
-          <div className="w-full lg:w-[65%]">
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="w-full lg:w-[65%]"
+          >
             <FormField
               control={form.control}
               name="packages"
@@ -297,9 +318,9 @@ export default function AppointmentForm({ genders, weekdays, packages }) {
                 </FormItem>
               )}
             />
-          </div>
+          </motion.div>
         </form>
       </Form>
-    </div>
+    </motion.div>
   );
 }

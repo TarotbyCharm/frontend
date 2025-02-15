@@ -60,6 +60,34 @@
   display: none;
 }
 
+/* .main-bg-img {
+  background-size: 70vh;
+} */
+
+@media (max-width: 1700px) {
+  .main-bg-img {
+    background-size: 70vh;
+  }
+}
+
+@media (max-width: 1400px) {
+  .main-bg-img {
+    background-size: 60vh;
+  }
+}
+
+@media (max-width: 1060px) {
+  .main-bg-img {
+    background-size: 50vh;
+  }
+}
+
+@media (max-width: 450px) {
+  .main-bg-img {
+    background-size: 45vh;
+  }
+}
+
 @layer base {
   :root {
     --background: 0, 0%, 8%;

@@ -14,6 +14,7 @@ import twitterX from "./twitterX.svg";
 import mainAstro from "./main_astro.png";
 import homeCard from "./card.jpg";
 import doubleStars from "./double_stars.png";
+import userProfile from "./user.png";
 
 export {
   fullLogo,
@@ -32,4 +33,5 @@ export {
   mainAstro,
   homeCard,
   doubleStars,
+  userProfile,
 };

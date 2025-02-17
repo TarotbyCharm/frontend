@@ -14,14 +14,14 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-purple-950 to-black flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-b from-black via-primary-950 to-black flex items-center justify-center px-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="w-full max-w-md"
       >
-        <div className="bg-black/40 backdrop-blur-lg p-8 rounded-2xl border border-purple-500/20">
+        <div className="bg-black/40 backdrop-blur-lg p-8 rounded-2xl border border-primary-500/20">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-serif text-white mb-2">
               Welcome Back
@@ -44,7 +44,7 @@ const Login = () => {
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-black/40 border border-purple-500/30 rounded-lg py-2 pl-10 pr-4 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
+                  className="w-full bg-black/40 border border-primary-500/30 rounded-lg py-2 pl-10 pr-4 text-white placeholder-gray-500 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   placeholder="Enter your email"
                   required
                 />
@@ -65,7 +65,7 @@ const Login = () => {
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-black/40 border border-purple-500/30 rounded-lg py-2 pl-10 pr-10 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
+                  className="w-full bg-black/40 border border-primary-500/30 rounded-lg py-2 pl-10 pr-10 text-white placeholder-gray-500 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
                   placeholder="Enter your password"
                   required
                 />
@@ -88,7 +88,7 @@ const Login = () => {
                 <input
                   type="checkbox"
                   id="remember"
-                  className="h-4 w-4 rounded border-gray-300 text-purple-500 focus:ring-purple-500"
+                  className="h-4 w-4 rounded border-gray-300 text-primary-500 focus:ring-primary-500"
                 />
                 <label
                   htmlFor="remember"
@@ -99,7 +99,7 @@ const Login = () => {
               </div>
               <Link
                 to="/forgot-password"
-                className="text-sm text-purple-400 hover:text-purple-300"
+                className="text-sm text-primary-400 hover:text-primary-300"
               >
                 Forgot password?
               </Link>
@@ -107,7 +107,7 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full py-3 px-4 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-medium hover:from-purple-600 hover:to-indigo-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+              className="w-full py-3 px-4 rounded-lg bg-gradient-to-r from-primary-500 to-indigo-500 text-white font-medium hover:from-primary-600 hover:to-indigo-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-gray-900"
             >
               Sign in
             </button>
@@ -116,7 +116,7 @@ const Login = () => {
               Dont have an account?{" "}
               <Link
                 to="/register"
-                className="text-purple-400 hover:text-purple-300 font-medium"
+                className="text-primary-400 hover:text-primary-300 font-medium"
               >
                 Sign up
               </Link>

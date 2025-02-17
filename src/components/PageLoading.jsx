@@ -2,9 +2,8 @@ import { Loader } from "lucide-react";
 
 export default function PageLoading() {
   return (
-    <div className="flex items-center justify-center p-8">
-      <Loader className="w-8 h-8 animate-spin text-gray-500" />
-      <span className="ml-2 text-gray-500">Loading...</span>
+    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-10">
+      <Loader className="w-8 h-8 text-primary-400 animate-spin" />
     </div>
   );
 }

@@ -11,7 +11,7 @@ export const fetchAppointment = createAsyncThunk(
   "appointment/fetchAppointment",
   async (appointmentNo) => {
     try {
-      const response = await http.get(`/api/auth/appointment/${appointmentNo}`);
+      const response = await http.get(`/api/auth/appointments/${appointmentNo}`);
       return response.data.data;
     } catch (error) {
       throw new Error(

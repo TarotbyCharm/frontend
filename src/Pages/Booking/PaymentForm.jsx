@@ -118,7 +118,7 @@ export default function PaymentForm({ appointmentNo }) {
 
       // Replace with your API endpoint
       await http.post(
-        `/api/auth/appointment/${appointmentNo}/payment/store`,
+        `/api/auth/appointments/${appointmentNo}/payment/store`,
         formData,
         {
           headers: {
@@ -126,7 +126,7 @@ export default function PaymentForm({ appointmentNo }) {
           },
         }
       );
-
+      setFormErrors([]);
       navigate(`/appointment/${appointmentNo}/booking/slip`);
     } catch (error) {
       if (error.response && error.response.data.errors) {

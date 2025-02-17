@@ -17,6 +17,7 @@ import {
 import { Loader } from "lucide-react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { motion } from "framer-motion";
 
 export default function BlogIndex() {
   const dispatch = useDispatch();
@@ -57,13 +58,25 @@ export default function BlogIndex() {
     return <FetchError error={error} />;
   }
 
+  const motionVariants = {
+    initial: { opacity: 0, y: 50 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 1, ease: "easeOut" },
+  };
+
   return (
     <div className="container mx-auto mt-24 mb-20 px-6 md:px-0">
       {/* Header */}
       <div className="my-10">
-        <h1 className="text-3xl md:text-4xl xl:text-5xl text-center">
-          <span className="text-4xl italic">Our</span> Blog
-        </h1>
+        <motion.h1
+          className="header-title text-3xl md:text-4xl lg:text-5xl text-center"
+          variants={motionVariants}
+          initial="initial"
+          animate="animate"
+          transition={{ ...motionVariants.transition, delay: 0.2 }}
+        >
+          <span className="italic">Our</span> Blog
+        </motion.h1>
       </div>
 
       {/* Today Special */}

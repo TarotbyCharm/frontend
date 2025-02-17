@@ -35,7 +35,7 @@ export default function AppointmentForm({ genders, weekdays, packages }) {
   const [formErrors, setFormErrors] = useState([]);
 
   const schema = yup.object({
-    email: yup.string(),
+    email: yup.string().email("Must be a valid email"),
     dob: yup.string().required("Date of Birth is required."),
     gender: yup.number().required("Gender is required."),
     birthday: yup.number().required("Birthday is required."),
@@ -75,10 +75,11 @@ export default function AppointmentForm({ genders, weekdays, packages }) {
 
     try {
       const response = await http.post(
-        `/api/auth/appointment/store`,
+        `/api/auth/appointments/store`,
         formattedData
       );
       const { appointment_no } = response.data.data;
+      setFormErrors([]);
       navigate(`/appointment/${appointment_no}/payment`);
     } catch (error) {
       if (error.response && error.response.data.errors) {
@@ -107,7 +108,7 @@ export default function AppointmentForm({ genders, weekdays, packages }) {
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="w-full lg:w-[35%]"
+            className="w-full lg:w-[35%] "
           >
             <div className="grid md:grid-cols-2 gap-4 lg:gap-6">
               <FormField
@@ -259,7 +260,6 @@ export default function AppointmentForm({ genders, weekdays, packages }) {
             </div>
           </motion.div>
 
-          {/* Package Selection */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -278,8 +278,8 @@ export default function AppointmentForm({ genders, weekdays, packages }) {
                         key={pkg.id}
                         className={`border p-4 rounded-lg cursor-pointer text-center transition ${
                           selectedPackages.includes(pkg.id)
-                            ? "border-primary-600 bg-primary-600"
-                            : "border-gray-600"
+                            ? "border-primary-900 bg-gradient-to-r from-primary-900/30 to-primary-800/30"
+                            : "border-primary-500/20 bg-primary-950/5"
                         }`}
                       >
                         <Controller
@@ -296,13 +296,13 @@ export default function AppointmentForm({ genders, weekdays, packages }) {
                           )}
                         />
                         <div className="h-24 xl:h-28 flex flex-col justify-center items-center">
-                          <h6 className="text-xs xl:text-sm font-semibold mb-2">
+                          <h6 className="text-primary-200 text-xs xl:text-sm font-semibold mb-2">
                             {pkg.name}
                           </h6>
-                          <p className="text-xs xl:text-sm bg-white text-black px-2 py-px rounded">
+                          <p className="text-xs xl:text-sm bg-gray-300 text-black px-2 py-px">
                             {pkg.price} {pkg.currency ?? "Ks"}
                           </p>
-                          <p className="text-xs xl:text-sm bg-gray-800 text-white px-2 py-px mt-1 rounded">
+                          <p className="text-xs xl:text-sm bg-gray-800 text-white px-2 py-px mt-1">
                             {pkg.th_price} {pkg.th_currency ?? "฿"}
                           </p>
                         </div>

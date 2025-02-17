@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { LogOut, Menu, User, UserCircle, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { logout } from "@/redux/reducers/UserSlice";
-import { star } from "@/assets";
+import { fullLogo, star, userProfile } from "@/assets";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,6 +38,10 @@ const Navbar = () => {
     return location.pathname === path;
   };
 
+  const goProfile = () => {
+    navigate("/user/profile");
+  };
+
   const handleLogout = async () => {
     try {
       await dispatch(logout());
@@ -49,12 +53,12 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed w-full z-50 bg-black/20 backdrop-blur-lg border-b border-purple-500/20">
+    <nav className="fixed w-full z-50 bg-black/20 backdrop-blur-lg border-b border-primary-500/20">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="text-2xl font-serif text-white">
-            TarotByCharm
+            <img src={fullLogo} className="h-10" alt="Tarot by Charm Logo" />
           </Link>
 
           {/* Desktop Navigation */}
@@ -63,13 +67,18 @@ const Navbar = () => {
               <Link
                 key={item.name}
                 to={item.path}
-                className={`text-sm font-medium transition-colors ${
+                className={`text-sm font-medium relative transition duration-300 group ${
                   isActive(item.path)
-                    ? "text-purple-300"
-                    : "text-gray-200 hover:text-purple-300"
+                    ? "text-primary-300"
+                    : "text-gray-200 hover:text-primary-300"
                 }`}
               >
                 {item.name}
+                {/* <span
+                  className={`absolute left-0 -bottom-1 h-0.5 w-full bg-primary-200 transition-transform duration-300 ${
+                    isActive(item.path) ? "scale-x-100" : "scale-x-0"
+                  } group-hover:scale-x-100`}
+                ></span> */}
               </Link>
             ))}
             <div className="flex items-center space-x-6">
@@ -83,19 +92,23 @@ const Navbar = () => {
                 <DropdownMenu>
                   <DropdownMenuTrigger>
                     <Avatar>
-                      <AvatarImage src={user?.profile} alt="profile" />
+                      <AvatarImage
+                        src={user?.profile || userProfile}
+                        className="rounded-full object-cover"
+                      />
                       <AvatarFallback>
-                        <img
-                          src={`https://ui-avatars.com/api/?name=${user?.name}`}
-                          alt="profile"
-                        />
+                        <User className="w-12 h-12" />
                       </AvatarFallback>
                     </Avatar>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
+                    <DropdownMenuItem onClick={goProfile}>
+                      <UserCircle />
+                      <span>Profile</span>
+                    </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={handleLogout}>
+                      <LogOut className="text-red-500" />
                       <span className="text-red-500">Log Out</span>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -126,7 +139,7 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-black/90 backdrop-blur-lg border-b border-purple-500/20"
+            className="md:hidden bg-black/90 backdrop-blur-lg border-b border-primary-500/20"
           >
             <div className="container mx-auto px-4 py-4 space-y-4">
               {navItems.map((item) => (
@@ -136,8 +149,8 @@ const Navbar = () => {
                   onClick={() => setIsOpen(false)}
                   className={`block text-sm font-medium transition-colors ${
                     isActive(item.path)
-                      ? "text-purple-300"
-                      : "text-gray-200 hover:text-purple-300"
+                      ? "text-primary-300"
+                      : "text-gray-200 hover:text-primary-300"
                   }`}
                 >
                   {item.name}
@@ -154,19 +167,23 @@ const Navbar = () => {
                   <DropdownMenu>
                     <DropdownMenuTrigger>
                       <Avatar>
-                        <AvatarImage src={user?.profile} alt="profile" />
+                        <AvatarImage
+                          src={user?.profile || userProfile}
+                          className="rounded-full object-cover"
+                        />
                         <AvatarFallback>
-                          <img
-                            src={`https://ui-avatars.com/api/?name=${user?.name}`}
-                            alt="profile"
-                          />
+                          <User className="w-12 h-12" />
                         </AvatarFallback>
                       </Avatar>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                      <DropdownMenuItem>Profile</DropdownMenuItem>
+                      <DropdownMenuItem onClick={goProfile}>
+                        <UserCircle />
+                        <span>Profile</span>
+                      </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem onClick={handleLogout}>
+                        <LogOut className="text-red-500" />
                         <span className="text-red-500">Log Out</span>
                       </DropdownMenuItem>
                     </DropdownMenuContent>

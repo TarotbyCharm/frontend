@@ -53,7 +53,6 @@ export default function MakeAppointment() {
     return <FetchError error={packagesAllError} />;
   }
 
-  // Framer Motion animation configuration
   const motionVariants = {
     initial: { opacity: 0, y: 50 },
     animate: { opacity: 1, y: 0 },
@@ -65,13 +64,16 @@ export default function MakeAppointment() {
       <div className="mt-24 mb-0 md:mb-auto my-10">
         {/* Apply Framer Motion to header */}
         <motion.h1
-          className="header-title text-3xl md:text-4xl xl:text-5xl text-center"
+          className="header-title text-3xl md:text-4xl lg:text-5xl text-center"
           variants={motionVariants}
           initial="initial"
           animate="animate"
           transition={{ ...motionVariants.transition, delay: 0.2 }}
         >
-          <span className="text-4xl italic">Make</span> Appointment
+          <span className="italic">Make</span> Appointment
+          <span className="mt-4 text-lg md:text-xl xl:text-2xl italic tracking-wide text-primary-200/70">
+            You can pay with MMK or THB
+          </span>
         </motion.h1>
       </div>
       <AppointmentForm

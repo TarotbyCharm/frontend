@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
@@ -34,39 +35,41 @@ const CustomDatePicker = ({ name = "dob", label = "Date of Birth" }) => {
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className="flex flex-col">
+        <FormItem>
           <FormLabel className="text-sm font-medium">{label}</FormLabel>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn(
-                  "w-full sm:min-w-[200px] justify-start text-left rounded-lg p-3 text-sm",
-                  !field.value && "text-muted-foreground"
-                )}
+          <FormControl>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "bg-primary-950/5 border-primary-600/20 !text-primary-200 justify-start text-left rounded-lg p-3 text-sm w-full",
+                    !field.value && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-5 w-5 opacity-60" />
+                  {field.value
+                    ? format(new Date(field.value), "yyyy-MM-dd")
+                    : "Pick a date"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent
+                align="start"
+                className="w-auto p-0 min-w-[250px] sm:min-w-[300px]"
               >
-                <CalendarIcon className="mr-2 h-5 w-5 opacity-60" />
-                {field.value
-                  ? format(new Date(field.value), "yyyy-MM-dd")
-                  : "Pick a date"}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent
-              align="start"
-              className="w-auto p-0 min-w-[250px] sm:min-w-[300px]"
-            >
-              <Calendar
-                mode="single"
-                selected={field.value ? new Date(field.value) : undefined}
-                onSelect={handleDateSelect} // Ensure selection formats date
-                initialFocus
-                fromYear={fromYear}
-                toYear={toYear}
-                captionLayout="dropdown-buttons"
-                className="rounded-md border shadow-lg"
-              />
-            </PopoverContent>
-          </Popover>
+                <Calendar
+                  mode="single"
+                  selected={field.value ? new Date(field.value) : undefined}
+                  onSelect={handleDateSelect} // Ensure selection formats date
+                  initialFocus
+                  fromYear={fromYear}
+                  toYear={toYear}
+                  captionLayout="dropdown-buttons"
+                  className="rounded-md border shadow-lg"
+                />
+              </PopoverContent>
+            </Popover>
+          </FormControl>
           <FormMessage className="text-xs text-red-500 mt-1" />
         </FormItem>
       )}

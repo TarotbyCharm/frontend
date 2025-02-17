@@ -5,6 +5,7 @@ import { fetchPackages, incrementPage } from "@/redux/reducers/PackagesSlice";
 import { Loader } from "lucide-react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { motion } from "framer-motion";
 
 export default function PackageIndex() {
   const dispatch = useDispatch();
@@ -31,11 +32,23 @@ export default function PackageIndex() {
     return <FetchError error={error} />;
   }
 
+  const motionVariants = {
+    initial: { opacity: 0, y: 50 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 1, ease: "easeOut" },
+  };
+
   return (
     <div className="container mx-auto mt-24 mb-20 px-6 md:px-0">
-      <h1 className="title text-5xl text-center">
-        <span className="text-4xl italic">Our</span> Packages
-      </h1>
+      <motion.h1
+        className="header-title text-3xl md:text-4xl lg:text-5xl text-center"
+        variants={motionVariants}
+        initial="initial"
+        animate="animate"
+        transition={{ ...motionVariants.transition, delay: 0.2 }}
+      >
+        <span className="italic">Our</span> Packages
+      </motion.h1>
 
       <div className="mt-8 package-grid grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 xl:gap-6">
         {packages &&

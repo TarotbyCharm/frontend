@@ -2,10 +2,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { fetchAppointment } from "@/redux/reducers/AppointmentSlice";
 import { number_format } from "@/utils/common";
-import { Receipt, Calendar, Package, Download, User, ListTodo } from "lucide-react";
+import {
+  Receipt,
+  Calendar,
+  Package,
+  Download,
+  User,
+  ListTodo,
+} from "lucide-react";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import html2canvas from "html2canvas";
 
 const BookingSlip = () => {
@@ -36,7 +43,10 @@ const BookingSlip = () => {
 
   return (
     <>
-      <Card className="w-full max-w-lg mx-auto my-10" ref={slipRef}>
+      <Card
+        className="bg-black/20 backdrop-blur-md border-primary-500/20 text-primary-200 w-full max-w-lg mx-auto my-10 mt-24 px-6 md:px-0"
+        ref={slipRef}
+      >
         <CardHeader className="text-center border-b">
           <div className="flex justify-center gap-2">
             <Receipt className="size-8 text-primary" />
@@ -119,10 +129,13 @@ const BookingSlip = () => {
           </div>
         </CardContent>
       </Card>
-      <div className="flex justify-center mb-5 gap-4">
-        <button className="astro-border-btn italic font-bold">
+      <div className="flex justify-center mb-10 gap-4">
+        <Link
+          to="/user/bookings-list"
+          className="astro-border-btn italic font-bold"
+        >
           <ListTodo className="h-5 w-5" /> View Your Bookings
-        </button>
+        </Link>
         <button className="astro-primary-btn" onClick={downloadImage}>
           <Download className="h-5 w-5" /> Download Image
         </button>

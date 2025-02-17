@@ -1,6 +1,7 @@
 import { homeCard, mainAstro, doubleStars } from "@/assets";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { Star } from "lucide-react";
 
 const fadeInVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -10,6 +11,30 @@ const fadeInVariants = {
 const Index = () => {
   return (
     <div className="relative min-h-screen py-16">
+      <div className="absolute inset-0">
+        {[...Array(45)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute"
+            initial={{ opacity: 0.2, scale: 0.5 }}
+            animate={{
+              opacity: [0.2, 0.8, 0.2],
+              scale: [0.5, 1, 0.5],
+            }}
+            transition={{
+              duration: Math.random() * 3 + 2,
+              repeat: Infinity,
+              delay: Math.random() * 2,
+            }}
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+          >
+            <Star className="w-3 h-3 text-primary-300" />
+          </motion.div>
+        ))}
+      </div>
       <div
         className="relative mx-auto bg-no-repeat bg-center h-screen flex flex-col md:flex-row items-center justify-center main-bg-img"
         style={{ backgroundImage: `url(${mainAstro})` }}

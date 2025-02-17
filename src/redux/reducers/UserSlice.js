@@ -36,19 +36,6 @@ export const logout = createAsyncThunk(
   }
 );
 
-export const bookNow = createAsyncThunk(
-  "user/bookNow",
-  async (data, { rejectWithValue }) => {
-    try {
-      const response = await http.post("/api/auth/appointment/store", data);
-
-      return response.data.data;
-    } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Booking failed");
-    }
-  }
-);
-
 const userSlice = createSlice({
   name: "user",
   initialState: {

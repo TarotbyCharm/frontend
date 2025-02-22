@@ -6,11 +6,7 @@ const initialState = {
   status: "idle",
   error: null,
 
-  currentPost: null,
-  postStatus: "idle",
-  postError: null,
-
-  recentPosts: [],
+  recommendedPosts: [],
   searchResults: [],
   searchStatus: "idle",
   searchError: null,
@@ -18,6 +14,10 @@ const initialState = {
   specialPost: null,
   specialPostStatus: "idle",
   specialPostError: null,
+
+  popularPosts: null,
+  popularPostsStatus: "idle",
+  popularPostsError: null,
 
   currentPage: 1,
   lastPage: 1,
@@ -50,20 +50,6 @@ export const fetchPosts = createAsyncThunk(
   }
 );
 
-export const fetchPostDetails = createAsyncThunk(
-  "posts/fetchPostDetails",
-  async (slug) => {
-    try {
-      const response = await publicHttp.get(`api/posts-list/${slug}`);
-      return response.data.data;
-    } catch (error) {
-      throw new Error(
-        error.response?.data?.message || "Failed to fetch post details"
-      );
-    }
-  }
-);
-
 export const fetchTodaySpecialPost = createAsyncThunk(
   "posts/fetchTodaySpecialPost",
   async () => {
@@ -78,33 +64,31 @@ export const fetchTodaySpecialPost = createAsyncThunk(
   }
 );
 
-export const fetchRecentPosts = createAsyncThunk(
-  "posts/fetchRecentPosts",
+export const fetchRecommendedPosts = createAsyncThunk(
+  "posts/fetchRecommendedPosts",
   async (params) => {
     try {
       const response = await publicHttp.get(
-        `/api/posts-list/${params.postId}/recent?category=${params.category}`
+        `/api/posts-list/${params.postId}/recommended?category=${params.category}`
       );
       return response.data.data;
     } catch (error) {
       throw new Error(
-        error.response?.data?.message || "Failed to fetch recent posts"
+        error.response?.data?.message || "Failed to fetch recommended posts"
       );
     }
   }
 );
 
-export const searchPosts = createAsyncThunk(
-  "posts/searchPosts",
-  async (query) => {
+export const fetchPopularPosts = createAsyncThunk(
+  "posts/fetchPopularPosts",
+  async () => {
     try {
-      const response = await publicHttp.get(`api/posts-list/search`, {
-        params: { search: query },
-      });
+      const response = await publicHttp.get(`/api/posts-list/popular/posts`);
       return response.data.data;
     } catch (error) {
       throw new Error(
-        error.response?.data?.message || "Failed to search posts"
+        error.response?.data?.message || "Failed to fetch recommended posts"
       );
     }
   }
@@ -147,19 +131,6 @@ const postsSlice = createSlice({
         state.loadingMore = false;
         state.error = action.error.message;
       })
-      // Post details
-      .addCase(fetchPostDetails.pending, (state) => {
-        state.postStatus = "loading";
-        state.currentPost = null;
-      })
-      .addCase(fetchPostDetails.fulfilled, (state, action) => {
-        state.postStatus = "succeeded";
-        state.currentPost = action.payload;
-      })
-      .addCase(fetchPostDetails.rejected, (state, action) => {
-        state.postStatus = "failed";
-        state.postError = action.error.message;
-      })
       // today special post
       .addCase(fetchTodaySpecialPost.pending, (state) => {
         state.specialPostStatus = "loading";
@@ -173,21 +144,22 @@ const postsSlice = createSlice({
         state.specialPostStatus = "failed";
         state.specialPostError = action.error.message;
       })
-      // Recent posts
-      .addCase(fetchRecentPosts.fulfilled, (state, action) => {
-        state.recentPosts = action.payload;
+      // popular
+      .addCase(fetchPopularPosts.pending, (state) => {
+        state.popularPostsStatus = "loading";
+        state.popularPosts = null;
       })
-      // Search posts
-      .addCase(searchPosts.pending, (state) => {
-        state.searchStatus = "loading";
+      .addCase(fetchPopularPosts.fulfilled, (state, action) => {
+        state.popularPostsStatus = "succeeded";
+        state.popularPosts = action.payload;
       })
-      .addCase(searchPosts.fulfilled, (state, action) => {
-        state.searchStatus = "succeeded";
-        state.searchResults = action.payload;
+      .addCase(fetchPopularPosts.rejected, (state, action) => {
+        state.popularPostsStatus = "failed";
+        state.popularPostsError = action.error.message;
       })
-      .addCase(searchPosts.rejected, (state, action) => {
-        state.searchStatus = "failed";
-        state.searchError = action.error.message;
+      // Recommended posts
+      .addCase(fetchRecommendedPosts.fulfilled, (state, action) => {
+        state.recommendedPosts = action.payload;
       });
   },
 });

@@ -1,6 +1,5 @@
 import { facebook, twitterX } from "@/assets";
 import BlogSmallCard from "@/components/BlogSmallCard";
-import FetchError from "@/components/FetchError";
 import NotFound from "@/components/NotFound";
 import PageLoading from "@/components/PageLoading";
 import { Badge } from "@/components/ui/badge";
@@ -13,23 +12,30 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  fetchPostDetails,
-  fetchRecentPosts,
-} from "@/redux/reducers/PostsSlice";
-import { Calendar, Copy, User } from "lucide-react";
-import { useEffect, useState } from "react";
+import { fetchRecommendedPosts } from "@/redux/reducers/PostsSlice";
+import { Calendar, Copy, Dot, Eye, Search, ThumbsUp, User } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import SearchModal from "./SearchModal";
+import { http, publicHttp } from "@/utils/axios";
+import { useToast } from "@/hooks/use-toast";
 
 export default function BlogDetails() {
   const { slug } = useParams();
+  const { user } = useSelector((state) => state.user);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const dispatch = useDispatch();
-  const { currentPost, postStatus, postError, recentPosts } = useSelector(
-    (state) => state.posts
-  );
+  const [loading, setLoading] = useState(false);
+  const { recommendedPosts } = useSelector((state) => state.posts);
+  const [post, setPost] = useState(null);
+  const [upVotes, setUpVotes] = useState(0);
+  const { toast } = useToast();
 
   const [copied, setCopied] = useState(false);
+  const [vote, setVote] = useState(false);
+
+  const contentRef = useRef(null);
 
   const copyToClipboard = () => {
     let link = window.location.href;
@@ -37,7 +43,7 @@ export default function BlogDetails() {
       .writeText(link)
       .then(() => {
         setCopied(true);
-        setTimeout(() => setCopied(false), 2000); // Reset copied state after 2 seconds
+        setTimeout(() => setCopied(false), 2000);
       })
       .catch((err) => {
         console.error("Failed to copy: ", err);
@@ -46,84 +52,146 @@ export default function BlogDetails() {
 
   useEffect(() => {
     if (slug) {
-      dispatch(fetchPostDetails(slug));
+      fetchCurrentPost(slug);
     }
   }, [slug, dispatch]);
 
   useEffect(() => {
-    if (currentPost) {
+    if (post) {
       const params = {
-        postId: currentPost.id,
-        category: currentPost.category.slug,
+        postId: post.id,
+        category: post.category.slug,
       };
-      dispatch(fetchRecentPosts(params));
+      dispatch(fetchRecommendedPosts(params));
+      getVotes(post.id);
     }
-  }, [currentPost, dispatch]);
+  }, [post, dispatch]);
 
-  if (postStatus === "loading") {
+  const fetchCurrentPost = async (slug) => {
+    try {
+      setLoading(true);
+      const response = await publicHttp.get(
+        `api/posts-list/${slug}?userId=${user?.id}`
+      );
+      setPost(response.data.data);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
+  };
+
+  const checkVote = () => {
+    if (post?.votes.length > 0) {
+      const userVoted = post.votes.some((vote) => vote.user_id === user?.id);
+      setVote(userVoted);
+    }
+  };
+
+  const getVotes = async (postId) => {
+    try {
+      const response = await publicHttp.get(`/api/posts/${postId}/votes`);
+      setUpVotes(response.data.data.length);
+      checkVote();
+    } catch (error) {
+      console.error("Error fetching votes:", error);
+    }
+  };
+
+  // Updated to only fetch votes and update necessary state
+  const handleVotes = async () => {
+    try {
+      await http.post(`/api/posts/${post?.id}/votes/store`);
+
+      // Only update votes count and vote status
+      const votesResponse = await publicHttp.get(
+        `/api/posts/${post?.id}/votes`
+      );
+      setUpVotes(votesResponse.data.data.length);
+      setPost((prev) => ({
+        ...prev,
+        votes: votesResponse.data.data,
+      }));
+
+      checkVote();
+    } catch (err) {
+      console.error(err);
+      setVote(false);
+      toast({
+        description: "✅ Unauthenticated. Please Log In!",
+        variant: "destructive",
+      });
+    }
+  };
+
+  if (loading) {
     return <PageLoading />;
   }
-
-  if (postStatus === "failed") {
-    return <FetchError error={postError} />;
-  }
-  if (!currentPost) {
+  if (!post) {
     return <NotFound />;
   }
   return (
     <div className="relative">
-      <div className="container mx-auto py-16">
-        <div className="flex items-start gap-4 lg:gap-6">
-          {/* left  */}
-          <div className="flex-1">
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/">Home</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/blog">Blog</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage className="text-primary-500">
-                    {currentPost.title}
-                  </BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-
-            <div className="mt-8">
+      <div className="container mx-auto mt-24 mb-20 px-6 md:px-0">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/blog">Blog</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage className="text-white">
+                {post.title}
+              </BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <div className="flex flex-wrap items-start gap-4 md:gap-6">
+          <div className="w-full md:w-[70%]" ref={contentRef}>
+            <div className="mt-8 relative">
               <img
                 src={
-                  currentPost.poster_url
-                    ? currentPost.poster_url
-                    : "https://img.freepik.com/free-photo/numerology-collage-concept_23-2150061758.jpg?t=st=1737230077~exp=1737233677~hmac=accc89e5e7f17911d42be59e88f1674c839c03c1450e8b7fafaf0e30ccee24e3&w=1800"
+                  post.poster_url
+                    ? post.poster_url
+                    : "https://images.pexels.com/photos/7947733/pexels-photo-7947733.jpeg?auto=compress&cs=tinysrgb&w=1200"
                 }
                 className="max-h-[22rem] w-full object-cover"
                 alt="poster"
               />
-              <h1 className="text-4xl mb-4 mt-8">{currentPost.title}</h1>
-              <div className="flex items-center gap-5 text-gray-400 text-sm mb-8">
+              <Badge className="absolute top-4 left-4 px-3">
+                {post.category ? post.category.name : ""}
+              </Badge>
+              <h1 className="text-4xl mb-4 mt-8 text-primary-300">
+                {post.title}
+              </h1>
+              <div className="flex flex-wrap items-center gap-4 text-gray-400 text-sm mb-8">
                 <h4 className="flex items-center gap-1">
-                  <User size={16} /> {currentPost.author}
+                  <User size={16} /> {post.author}
                 </h4>
                 <h4 className="flex items-center gap-1">
-                  <Calendar size={16} /> {currentPost.published_at}
+                  <Calendar size={16} /> {post.published_at}
                 </h4>
+                <h4 className="flex items-center gap-1">
+                  <Eye size={16} /> {post.views} views
+                </h4>
+                <Dot size={20} />
+                <h4 className="flex items-center">{post.read_time}</h4>
               </div>
-              <p className="text-gray-300 leading-7 mb-[55px]">
-                {currentPost.desc}
-              </p>
+              <p className="text-white/60 leading-7 mb-[55px]">{post.desc}</p>
               <div className="flex justify-between items-center border-y py-3.5 mt-10 text-sm">
                 <div className="flex items-center gap-4">
-                  <h4>Category:</h4>
-                  <div className="space-x-2">
-                    <Badge>
-                      {currentPost.category ? currentPost.category.name : ""}
-                    </Badge>
-                  </div>
+                  <button
+                    className={`flex items-center gap-2 ${
+                      vote ? "text-primary-500" : "text-gray-500"
+                    }`}
+                    onClick={handleVotes}
+                  >
+                    <ThumbsUp size={20} /> {upVotes}
+                  </button>
                 </div>
                 <div className="flex items-center text-sm">
                   <h4 className="mr-4">Share: </h4>
@@ -159,40 +227,56 @@ export default function BlogDetails() {
               </div>
             </div>
           </div>
-
           {/* right sidebar */}
-          <div className="w-[30%]">
+          <div className="w-full md:w-[28%] mt-8">
             <div className="space-y-6">
-              {/* <div className="flex w-full max-w-sm items-center space-x-2">
-                <Input placeholder="Type Something..." />
-                <Button type="submit">Search</Button>
-              </div> */}
+              <div>
+                <button
+                  onClick={() => setIsSearchOpen(true)}
+                  className="w-full max-w-xl text-sm flex items-center gap-3 px-4 h-10 bg-primary-950/5 border-primary-600/20 text-primary-200 border shadow-sm transition-colors"
+                >
+                  <Search className="w-5 h-5 text-gray-400" />
+                  <span className="text-gray-500">Search posts...</span>
+                </button>
+                <SearchModal
+                  isOpen={isSearchOpen}
+                  onClose={() => setIsSearchOpen(false)}
+                />
+              </div>
 
-              <Card>
+              <Card className="bg-primary-950/5 border-primary-600/20">
                 <CardHeader className="border-b py-3">
-                  <CardTitle className="text-xl text-primary-500 underline underline-offset-4">
-                    Recent Posts
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-0">
-                  {recentPosts &&
-                    recentPosts.map((recentPost) => (
-                      <BlogSmallCard key={recentPost.id} post={recentPost} />
-                    ))}
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="border-b py-3">
-                  <CardTitle className="text-xl text-primary-500 underline underline-offset-4">
+                  <CardTitle className="text-xl text-white underline underline-offset-4">
                     Tags
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="py-3 space-x-1">
-                  {currentPost?.tags?.map((tag, index) => (
+                  {post?.tags?.map((tag, index) => (
                     <Badge key={index} variant="secondary">
                       # {tag?.name}
                     </Badge>
                   ))}
+                </CardContent>
+              </Card>
+
+              <Card className="bg-primary-950/5 border-primary-600/20">
+                <CardHeader className="border-b py-3">
+                  <CardTitle className="text-xl text-white underline underline-offset-4">
+                    Recommended Posts
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-0">
+                  <div className="grid grid-cols-1 ss:grid-cols-2 md:grid-cols-1">
+                    {recommendedPosts &&
+                      recommendedPosts.map((recommendedPost) => (
+                        <div key={recommendedPost.id} className="m-3">
+                          <BlogSmallCard
+                            cardHeight="h-[250px] xl:h-[300px]"
+                            post={recommendedPost}
+                          />
+                        </div>
+                      ))}
+                  </div>
                 </CardContent>
               </Card>
             </div>

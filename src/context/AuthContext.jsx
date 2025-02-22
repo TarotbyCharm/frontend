@@ -1,15 +1,19 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import {
   setupAuthInterceptors,
+  http,
   getToken,
   getRefreshToken,
   removeTokens,
-  http,
-} from "@/utils/axios";
+} from "../utils/axios";
 import { useDispatch } from "react-redux";
 import { login } from "@/redux/reducers/UserSlice";
+import PageLoading from "@/components/PageLoading";
 
 const AuthContext = createContext(null);
+
+// Maximum time to wait for authentication check
+const AUTH_CHECK_TIMEOUT = 5000; // 5 seconds
 
 export function AuthProvider({ children }) {
   const dispatch = useDispatch();
@@ -17,13 +21,12 @@ export function AuthProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
 
   const updateUser = (user) => {
-    if (user) {
-      setIsAuthenticated(true);
-      dispatch(login.fulfilled({ user }, "", {}));
-    } else {
+    if (!user) {
       clearAuth();
       return;
     }
+    setIsAuthenticated(true);
+    dispatch(login.fulfilled({ user }, "", {}));
   };
 
   const clearAuth = () => {
@@ -33,48 +36,85 @@ export function AuthProvider({ children }) {
   };
 
   useEffect(() => {
-    // Check authentication status on mount
+    let timeoutId;
+    let isSubscribed = true;
+
     const checkAuth = async () => {
       try {
         const token = getToken();
         const refreshToken = getRefreshToken();
 
+        // Clear auth if no tokens exist
         if (!token && !refreshToken) {
           clearAuth();
           return;
         }
 
-        // Try to get user data with current token
-        try {
-          const response = await http.get("/api/auth/user");
-          updateUser(response.data.data);
-        } catch (error) {
-          // If token is invalid but we have refresh token, let the interceptor handle it
-          if (error.response?.status === 401 && refreshToken) {
-            const response = await http.get("/api/auth/user");
-            updateUser(response.data.data);
-          } else {
+        // Set a timeout to prevent infinite loading
+        timeoutId = setTimeout(() => {
+          if (isSubscribed) {
+            console.warn("Auth check timed out");
             clearAuth();
-            return;
+            setIsLoading(false);
+          }
+        }, AUTH_CHECK_TIMEOUT);
+
+        try {
+          // First attempt with access token
+          const response = await http.get("/api/auth/user");
+          if (isSubscribed) {
+            updateUser(response.data.data);
+          }
+        } catch (error) {
+          // If token is invalid and we have refresh token
+          if (error.response?.status === 401 && refreshToken) {
+            try {
+              // Let the interceptor handle the refresh
+              const response = await http.get("/api/auth/user");
+              if (isSubscribed) {
+                updateUser(response.data.data);
+              }
+            } catch (refreshError) {
+              // If refresh fails, clear auth
+              if (isSubscribed) {
+                console.error("Token refresh failed:", refreshError);
+                clearAuth();
+              }
+            }
+          } else {
+            // For any other error, clear auth
+            if (isSubscribed) {
+              console.error("Auth check failed:", error);
+              clearAuth();
+            }
           }
         }
       } catch (error) {
-        clearAuth();
+        if (isSubscribed) {
+          console.error("Auth check failed:", error);
+          clearAuth();
+        }
       } finally {
-        setIsLoading(false);
+        if (isSubscribed) {
+          clearTimeout(timeoutId);
+          setIsLoading(false);
+        }
       }
     };
 
-    checkAuth();
+    // Initialize auth interceptors before checking auth
     setupAuthInterceptors(updateUser, clearAuth);
+    checkAuth();
+
+    // Cleanup function
+    return () => {
+      isSubscribed = false;
+      clearTimeout(timeoutId);
+    };
   }, [dispatch]);
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-      </div>
-    );
+    return <PageLoading />;
   }
 
   return (

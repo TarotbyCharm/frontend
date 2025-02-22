@@ -76,7 +76,7 @@ export default function AccountSidebar() {
               </Button>
             </div>
 
-            <h2 className="text-2xl font-serif text-primary-200 mb-2">kiran</h2>
+            <h2 className="text-2xl font-serif text-primary-200 mb-2">{user?.name}</h2>
             <p className="text-primary-400/80 mb-6">Member</p>
 
             <div className="w-full">

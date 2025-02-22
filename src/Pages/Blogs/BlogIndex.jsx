@@ -10,16 +10,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
+  fetchPopularPosts,
   fetchPosts,
   fetchTodaySpecialPost,
   incrementPage,
 } from "@/redux/reducers/PostsSlice";
-import { Loader } from "lucide-react";
-import { useEffect } from "react";
+import { Loader, Search } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
+import SearchModal from "./SearchModal";
+import BlogSmallCard from "@/components/BlogSmallCard";
 
 export default function BlogIndex() {
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const dispatch = useDispatch();
   const {
     posts,
@@ -29,6 +33,8 @@ export default function BlogIndex() {
     loadingMore,
     specialPost,
     specialPostStatus,
+    popularPosts,
+    popularPostsStatus,
   } = useSelector((state) => state.posts);
 
   useEffect(() => {
@@ -39,7 +45,11 @@ export default function BlogIndex() {
     if (specialPostStatus === "idle") {
       dispatch(fetchTodaySpecialPost());
     }
-  }, [status, dispatch, specialPostStatus]);
+
+    if (popularPostsStatus === "idle") {
+      dispatch(fetchPopularPosts());
+    }
+  }, [status, dispatch, specialPostStatus, popularPostsStatus]);
 
   const handleLoadMore = () => {
     dispatch(incrementPage());
@@ -65,11 +75,11 @@ export default function BlogIndex() {
   };
 
   return (
-    <div className="container mx-auto mt-24 mb-20 px-6 md:px-0">
+    <div className="container mx-auto mt-24 mb-20 px-6 ss:px-2">
       {/* Header */}
       <div className="my-10">
         <motion.h1
-          className="header-title text-3xl md:text-4xl lg:text-5xl text-center"
+          className="header-title text-3xl ss:text-4xl lg:text-5xl text-center"
           variants={motionVariants}
           initial="initial"
           animate="animate"
@@ -79,50 +89,80 @@ export default function BlogIndex() {
         </motion.h1>
       </div>
 
-      {/* Today Special */}
-      <div className="today-title md:mt-20">
-        <h2 className="text-3xl md:text-4xl xl:text-5xl mb-7">
-          <span className="text-4xl italic">Today</span> Special...
-        </h2>
-        <BlogHorCard post={specialPost} />
+      <h2 className="text-2xl ss:text-2xl lg:text-4xl ss:mt-20">
+        <span className="text-xl ss:text-2xl lg:text-3xl italic">Today</span>{" "}
+        Special...
+      </h2>
+
+      <div className="flex flex-col ss:flex-row gap-4">
+        {/* Today Special */}
+        <div className="flex-1 mt-7">
+          <BlogHorCard post={specialPost} />
+        </div>
+
+        {/* Popular Posts */}
+        <div className="w-full ss:w-[30%] ss:mt-7">
+          {popularPosts &&
+            popularPosts.map((popularPost, index) => (
+              <div key={index} className="ss:mb-5">
+                <BlogSmallCard post={popularPost} />
+              </div>
+            ))}
+        </div>
       </div>
 
       {/* Blog List */}
       <div className="mt-20 blog-list">
-        <Select defaultValue="latest">
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Sort" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="latest">
-              Sort By
-              <span className="font-bold italic ml-1.5 text-primary-500">
-                Latest
-              </span>
-            </SelectItem>
-            <SelectItem value="oldest">
-              Sort By
-              <span className="font-bold italic ml-1.5 text-primary-500">
-                Oldest
-              </span>
-            </SelectItem>
-            <SelectItem value="alphabet-asc">
-              Sort By
-              <span className="font-bold italic ml-1.5 text-primary-500">
-                A-Z
-              </span>
-            </SelectItem>
-            <SelectItem value="alphabet-desc">
-              Sort By
-              <span className="font-bold italic ml-1.5 text-primary-500">
-                Z-A
-              </span>
-            </SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="flex items-center justify-between">
+          <Select defaultValue="latest">
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Sort" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="latest">
+                Sort By
+                <span className="font-bold italic ml-1.5 text-primary-500">
+                  Latest
+                </span>
+              </SelectItem>
+              <SelectItem value="oldest">
+                Sort By
+                <span className="font-bold italic ml-1.5 text-primary-500">
+                  Oldest
+                </span>
+              </SelectItem>
+              <SelectItem value="alphabet-asc">
+                Sort By
+                <span className="font-bold italic ml-1.5 text-primary-500">
+                  A-Z
+                </span>
+              </SelectItem>
+              <SelectItem value="alphabet-desc">
+                Sort By
+                <span className="font-bold italic ml-1.5 text-primary-500">
+                  Z-A
+                </span>
+              </SelectItem>
+            </SelectContent>
+          </Select>
+
+          <div>
+            <button
+              onClick={() => setIsSearchOpen(true)}
+              className="w-full max-w-xl text-sm flex items-center gap-3 px-4 h-10 bg-primary-950/5 border-primary-600/20 text-primary-200 border shadow-sm transition-colors"
+            >
+              <Search className="w-5 h-5 text-gray-400" />
+              <span className="text-gray-500">Search posts...</span>
+            </button>
+            <SearchModal
+              isOpen={isSearchOpen}
+              onClose={() => setIsSearchOpen(false)}
+            />
+          </div>
+        </div>
 
         <div className="mt-8">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 xl:gap-6">
+          <div className="grid ss:grid-cols-2 lg:grid-cols-4 gap-4 xl:gap-6">
             {posts &&
               posts.map((post) => <BlogCard key={post.id} post={post} />)}
           </div>

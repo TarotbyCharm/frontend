@@ -1,6 +1,20 @@
 import { http, publicHttp } from "@/utils/axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+export const register = createAsyncThunk(
+  "user/register",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await publicHttp.post(`/api/register`, data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Register failed"
+      );
+    }
+  }
+);
+
 export const login = createAsyncThunk(
   "user/login",
   async (data, { rejectWithValue }) => {
@@ -50,6 +64,22 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(register.pending, (state) => ({
+        ...state,
+        status: "loading",
+      }))
+      .addCase(register.fulfilled, (state, action) => ({
+        ...state,
+        status: "succeeded",
+        user: action.payload.user,
+        error: null,
+      }))
+      .addCase(register.rejected, (state, action) => ({
+        ...state,
+        status: "failed",
+        user: null,
+        error: action.error.message,
+      }))
       .addCase(login.pending, (state) => ({
         ...state,
         status: "loading",

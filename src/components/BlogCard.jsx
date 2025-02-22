@@ -9,14 +9,14 @@ export default function BlogCard({ post }) {
           src={
             post?.poster_url
               ? post?.poster_url
-              : "https://img.freepik.com/free-photo/numerology-collage-concept_23-2150061758.jpg?t=st=1737230077~exp=1737233677~hmac=accc89e5e7f17911d42be59e88f1674c839c03c1450e8b7fafaf0e30ccee24e3&w=1800"
+              : "https://images.pexels.com/photos/7947733/pexels-photo-7947733.jpeg?auto=compress&cs=tinysrgb&w=1200"
           }
-          className="h-36 w-auto object-cover"
+          className="h-36 w-full object-cover"
           alt="poster"
         />
       </Link>
       <div className="pb-8 mt-3">
-        <h1 className="text-lg xl:text-xl hover:text-primary-500 font-medium mb-1 line-clamp-1">
+        <h1 className="text-lg xl:text-xl text-primary-200 hover:text-primary-500 font-medium mb-1 line-clamp-1">
           <Link to={`/blog/${post?.slug}`}>{post?.title}</Link>
         </h1>
         <div className="flex items-center gap-4 text-xs xl:text-sm text-gray-500 mb-3">
@@ -27,7 +27,7 @@ export default function BlogCard({ post }) {
             <Calendar size={14} /> {post?.published_at}
           </h6>
         </div>
-        <p className="text-gray-400 text-justify line-clamp-3 text-sm xl:text-base">
+        <p className="text-white/60 text-justify line-clamp-3 text-sm xl:text-base">
           {post?.excerpt}
         </p>
         <div className="flex justify-between items-center mt-4">

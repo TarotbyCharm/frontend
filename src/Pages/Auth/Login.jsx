@@ -68,12 +68,8 @@ export default function Login() {
     console.log("errors", errors);
   };
 
-  const handleActive = (title) => {
-    localStorage.setItem("active", title);
-  };
-
   return (
-    <div className="grid md:grid-cols-2 gap-4 h-screen overflow-x-hidden md:divide-x md:divide-white z-10">
+    <div className="grid md:grid-cols-2 gap-4 h-screen overflow-hidden md:divide-x md:divide-white z-10">
       <div className="hidden md:block relative z-10">
         <img
           src={astroSign}
@@ -110,11 +106,11 @@ export default function Login() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
-            <Link to="/" onClick={() => handleActive("Home")}>
-              <img src={fullLogo} className="w-auto mx-auto" alt="Logo" />
+            <Link to="/">
+              <img src={fullLogo} className="w-auto h-12 mx-auto" alt="Logo" />
             </Link>
             <h2 className="mt-10 text-3xl">
-              <span className="text-4xl lg:text-5xl mr-4">Welcome</span>
+              <span className="text-3xl lg:text-4xl mr-4">Welcome</span>
               <span className="italic">back!</span>
             </h2>
           </motion.div>

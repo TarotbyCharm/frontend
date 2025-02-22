@@ -1,9 +1,10 @@
 import { ArrowUpRight, Bookmark, Calendar, User } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Badge } from "./ui/badge";
 
 export default function BlogCard({ post }) {
   return (
-    <div className="relative border border-gray-700 p-3.5 xl:p-4 cursor-pointer hover:shadow-lg hover:border-gray-600">
+    <div className="relative border bg-primary-950/5 border-primary-600/20 p-3.5 xl:p-4 cursor-pointer hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 hover:border-primary-950">
       <Link to={`/blog/${post?.slug}`}>
         <img
           src={
@@ -15,6 +16,12 @@ export default function BlogCard({ post }) {
           alt="poster"
         />
       </Link>
+      <div className="absolute top-8 left-6">
+        <Badge variant="secondary">
+          {post?.category && post?.category.name}
+        </Badge>
+        {/* <span className="text-white/80 text-sm block">{post?.read_time}</span> */}
+      </div>
       <div className="pb-8 mt-3">
         <h1 className="text-lg xl:text-xl text-primary-200 hover:text-primary-500 font-medium mb-1 line-clamp-1">
           <Link to={`/blog/${post?.slug}`}>{post?.title}</Link>

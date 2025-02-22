@@ -14,6 +14,8 @@ import {
   fetchPosts,
   fetchTodaySpecialPost,
   incrementPage,
+  setSort,
+  setCategory,
 } from "@/redux/reducers/PostsSlice";
 import { Loader, Search } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -21,6 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import SearchModal from "./SearchModal";
 import BlogSmallCard from "@/components/BlogSmallCard";
+import { publicHttp } from "@/utils/axios";
 
 export default function BlogIndex() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -35,11 +38,18 @@ export default function BlogIndex() {
     specialPostStatus,
     popularPosts,
     popularPostsStatus,
+    sortBy,
+    selectedCategory,
   } = useSelector((state) => state.posts);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     if (status === "idle") {
-      dispatch(fetchPosts());
+      fetchPostsByCategory();
     }
 
     if (specialPostStatus === "idle") {
@@ -51,9 +61,46 @@ export default function BlogIndex() {
     }
   }, [status, dispatch, specialPostStatus, popularPostsStatus]);
 
+  useEffect(() => {
+    fetchPostsByCategory();
+  }, [selectedCategory]);
+
+  const fetchPostsByCategory = () => {
+    dispatch(
+      fetchPosts({ category: selectedCategory, sortBy: sortBy, page: 1 })
+    );
+  };
+
   const handleLoadMore = () => {
     dispatch(incrementPage());
-    dispatch(fetchPosts());
+    dispatch(fetchPostsByCategory());
+  };
+
+  const fetchCategories = async () => {
+    try {
+      const response = await publicHttp.get("/api/categories-list");
+      setCategories(response.data.data);
+    } catch (err) {
+      setCategories([]);
+      console.log(err);
+    }
+  };
+
+  const handleSortChange = (value) => {
+    const scrollY = window.scrollY;
+    dispatch(setSort(value));
+    setTimeout(() => {
+      window.scrollTo(0, scrollY); // Restore scroll position
+    }, 100);
+  };
+
+  const handleCategoryChange = (category) => {
+    const scrollY = window.scrollY;
+    dispatch(incrementPage(1)); //reset page to 1 when changing category.
+    dispatch(setCategory(category));
+    setTimeout(() => {
+      window.scrollTo(0, scrollY); // Restore scroll position
+    }, 100);
   };
 
   if (specialPostStatus === "loading" || status === "loading") {
@@ -113,8 +160,8 @@ export default function BlogIndex() {
 
       {/* Blog List */}
       <div className="mt-20 blog-list">
-        <div className="flex items-center justify-between">
-          <Select defaultValue="latest">
+        <div className="flex flex-wrap gap-1 items-center justify-between">
+          <Select value={sortBy} onValueChange={handleSortChange}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Sort" />
             </SelectTrigger>
@@ -146,6 +193,33 @@ export default function BlogIndex() {
             </SelectContent>
           </Select>
 
+          {/* Categories Tab */}
+          <div className="border bg-primary-950/5 border-primary-600/20 flex items-center gap-2 overflow-x-auto p-0.5 w-full ss:w-auto">
+            <button
+              onClick={() => handleCategoryChange("all")}
+              className={`px-4 py-1.5 text-sm whitespace-nowrap transition-colors ${
+                selectedCategory === "all"
+                  ? "bg-primary-500 text-white"
+                  : "bg-primary-950/5 hover:bg-primary-950/10 text-primary-200"
+              }`}
+            >
+              All
+            </button>
+            {categories?.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => handleCategoryChange(category.slug)}
+                className={`px-4 py-1.5 text-sm whitespace-nowrap transition-colors ${
+                  selectedCategory === category.slug
+                    ? "bg-primary-500 text-white"
+                    : "bg-primary-950/5 hover:bg-primary-950/40 text-primary-200"
+                }`}
+              >
+                {category.name}
+              </button>
+            ))}
+          </div>
+
           <div>
             <button
               onClick={() => setIsSearchOpen(true)}
@@ -164,7 +238,7 @@ export default function BlogIndex() {
         <div className="mt-8">
           <div className="grid ss:grid-cols-2 lg:grid-cols-4 gap-4 xl:gap-6">
             {posts &&
-              posts.map((post) => <BlogCard key={post.id} post={post} />)}
+              posts.map((post, index) => <BlogCard key={index} post={post} />)}
           </div>
           {hasMore && (
             <div className="flex justify-center">

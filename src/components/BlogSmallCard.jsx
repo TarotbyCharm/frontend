@@ -28,7 +28,7 @@ export default function BlogSmallCard({ post, cardHeight = 'h-[250px]' }) {
           {post?.title}
         </Link>
         <p className="text-white/65 my-4 line-clamp-2 text-sm md:text-base">
-          {post?.excerpt}
+          {post?.desc}
         </p>
         {/* <div className="flex flex-col">
           <div className="flex items-center gap-2">

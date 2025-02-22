@@ -269,7 +269,7 @@ export default function BlogDetails() {
                   <div className="grid grid-cols-1 ss:grid-cols-2 md:grid-cols-1">
                     {recommendedPosts &&
                       recommendedPosts.map((recommendedPost) => (
-                        <div key={recommendedPost.id} className="m-3">
+                        <div key={recommendedPost.id} className="mx-2 my-1">
                           <BlogSmallCard
                             cardHeight="h-[250px] xl:h-[300px]"
                             post={recommendedPost}

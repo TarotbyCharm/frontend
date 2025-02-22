@@ -24,15 +24,21 @@ const initialState = {
   hasMore: false,
   loadingMore: false,
   total: 0,
+  sortBy: "latest",
+  selectedCategory: "all",
 };
 
 export const fetchPosts = createAsyncThunk(
   "posts/fetchPosts",
   async (_, { getState }) => {
-    const { currentPage } = getState().posts;
+    const { selectedCategory, sortBy, currentPage } = getState().posts;
     try {
       const response = await publicHttp.get(`/api/posts-list`, {
-        params: { page: currentPage },
+        params: {
+          page: currentPage,
+          sort: sortBy,
+          category: selectedCategory,
+        },
       });
 
       return {
@@ -54,7 +60,7 @@ export const fetchTodaySpecialPost = createAsyncThunk(
   "posts/fetchTodaySpecialPost",
   async () => {
     try {
-      const response = await publicHttp.get(`api/posts-list/special/today`);
+      const response = await publicHttp.get(`api/today-special-post`);
       return response.data.data;
     } catch (error) {
       throw new Error(
@@ -84,7 +90,7 @@ export const fetchPopularPosts = createAsyncThunk(
   "posts/fetchPopularPosts",
   async () => {
     try {
-      const response = await publicHttp.get(`/api/posts-list/popular/posts`);
+      const response = await publicHttp.get(`/api/popular-posts`);
       return response.data.data;
     } catch (error) {
       throw new Error(
@@ -100,6 +106,26 @@ const postsSlice = createSlice({
   reducers: {
     incrementPage: (state) => {
       state.currentPage += 1;
+    },
+    setSort: (state, action) => {
+      state.sortBy = action.payload;
+      state.currentPage = 1;
+      state.posts = [];
+      state.status = "idle";
+      state.hasMore = false;
+    },
+    setCategory: (state, action) => {
+      // New reducer
+      state.selectedCategory = action.payload;
+      state.currentPage = 1;
+      state.posts = [];
+      state.status = "idle";
+    },
+    resetPosts: (state) => {
+      state.posts = [];
+      state.currentPage = 1;
+      state.status = "idle";
+      state.hasMore = false;
     },
   },
   extraReducers: (builder) => {
@@ -164,5 +190,6 @@ const postsSlice = createSlice({
   },
 });
 
-export const { incrementPage } = postsSlice.actions;
+export const { incrementPage, setSort, setCategory, resetPosts } =
+  postsSlice.actions;
 export default postsSlice.reducer;

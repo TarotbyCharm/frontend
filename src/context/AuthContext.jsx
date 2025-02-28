@@ -13,7 +13,7 @@ import PageLoading from "@/components/PageLoading";
 const AuthContext = createContext(null);
 
 // Maximum time to wait for authentication check
-const AUTH_CHECK_TIMEOUT = 5000; // 5 seconds
+const AUTH_CHECK_TIMEOUT = 3000;
 
 export function AuthProvider({ children }) {
   const dispatch = useDispatch();

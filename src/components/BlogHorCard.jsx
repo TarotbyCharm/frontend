@@ -12,7 +12,7 @@ export default function BlogHorCard({ post }) {
             : "https://images.pexels.com/photos/7947733/pexels-photo-7947733.jpeg?auto=compress&cs=tinysrgb&w=1200"
         }
         alt={post?.title}
-        className="w-full h-[500px] object-cover transition-transform duration-500 group-hover:scale-105"
+        className="w-full h-[450px] object-cover transition-transform duration-500 group-hover:scale-105"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent transition-opacity duration-300 group-hover:from-black/70" />
       <div className="absolute bottom-0 left-0 p-6 w-full transform transition-transform duration-300 group-hover:translate-y-[-8px]">

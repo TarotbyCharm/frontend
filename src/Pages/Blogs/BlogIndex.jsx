@@ -149,12 +149,15 @@ export default function BlogIndex() {
 
         {/* Popular Posts */}
         <div className="w-full ss:w-[30%] ss:mt-7">
-          {popularPosts &&
+          {/* {popularPosts &&
             popularPosts.map((popularPost, index) => (
               <div key={index} className="ss:mb-5">
                 <BlogSmallCard post={popularPost} />
               </div>
-            ))}
+            ))} */}
+          <div className="flex items-center justify-center h-full border bg-primary-950/5 border-primary-600/20">
+            <h1 className="text-primary-200">Ad Go Here!</h1>
+          </div>
         </div>
       </div>
 

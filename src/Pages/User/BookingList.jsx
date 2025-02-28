@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
-  Pencil,
+  Receipt,
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
@@ -30,6 +30,7 @@ import {
 } from "@tanstack/react-table";
 import { http } from "@/utils/axios";
 import PageLoading from "@/components/PageLoading";
+import { Link } from "react-router-dom";
 
 export default function BookingList() {
   const { user } = useSelector((state) => state.user);
@@ -113,14 +114,13 @@ export default function BookingList() {
       {
         accessorKey: "action",
         header: "Action",
-        cell: () => (
-          <Button
-            size="icon"
-            variant="ghost"
+        cell: ({ row }) => (
+          <Link
+            to={`/appointment/${row.original.appointment_no}/booking/slip`}
             className="text-primary-300 hover:text-primary-200 hover:bg-primary-500/20"
           >
-            <Pencil className="h-4 w-4" />
-          </Button>
+            <Receipt className="h-4 w-4" />
+          </Link>
         ),
       },
     ],

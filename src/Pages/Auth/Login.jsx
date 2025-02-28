@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Eye, EyeOff, Loader } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +23,15 @@ import { setTokens } from "@/utils/axios";
 import { motion } from "framer-motion";
 
 export default function Login() {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  });
   const [showPassword, setShowPassword] = useState(false);
   const { updateUser } = useAuth();
   const { status, error } = useSelector((state) => state.user);
@@ -49,12 +58,9 @@ export default function Login() {
     },
   });
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
   const onSubmit = (data) => {
     dispatch(login(data)).then((result) => {
-      if (result.payload) {
+      if (result.payload !== "Login failed") {
         const { user, access_token, refresh_token } = result.payload;
         setTokens(access_token, refresh_token);
         updateUser(user);

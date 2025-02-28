@@ -7,7 +7,7 @@ import sunBg from "./sun_bg.png";
 import sun from "./sun.png";
 import moon from "./moon.png";
 import astroSign from "./astro_sign.png";
-import packageImg from "./package.webp";
+import packageImg from "./package.jpg";
 import zodiacImg from "./zodiac.png";
 import facebook from "./facebook.svg";
 import twitterX from "./twitterX.svg";
@@ -15,6 +15,7 @@ import mainAstro from "./main_astro.png";
 import homeCard from "./card.jpg";
 import doubleStars from "./double_stars.png";
 import userProfile from "./user.png";
+import notFoundImg from "./notfound.jpg";
 
 export {
   fullLogo,
@@ -34,4 +35,5 @@ export {
   homeCard,
   doubleStars,
   userProfile,
+  notFoundImg,
 };

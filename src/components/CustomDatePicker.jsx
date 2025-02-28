@@ -50,7 +50,7 @@ const CustomDatePicker = ({ name = "dob", label = "Date of Birth" }) => {
                   <CalendarIcon className="mr-2 h-5 w-5 opacity-60" />
                   {field.value
                     ? format(new Date(field.value), "yyyy-MM-dd")
-                    : "Pick a date"}
+                    : "YYYY-MM-dd"}
                 </Button>
               </PopoverTrigger>
               <PopoverContent

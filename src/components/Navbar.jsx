@@ -28,7 +28,7 @@ const Navbar = () => {
     { name: "Home", path: "/" },
     { name: "Packages", path: "/packages" },
     { name: "Blog", path: "/blog" },
-    { name: "Contact", path: "/#contact" },
+    { name: "Contact", path: "/contact" },
   ];
 
   const isActive = (path) => {

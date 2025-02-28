@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { fetchAppointment } from "@/redux/reducers/AppointmentSlice";
-import { number_format } from "@/utils/common";
+import { formatDate, number_format } from "@/utils/common";
 import {
   Receipt,
   Calendar,
@@ -66,8 +66,10 @@ const BookingSlip = () => {
             <div className="grid grid-cols-2 gap-2 text-sm">
               <div className="text-gray-500">Appointment No:</div>
               <div className="font-medium">{appointment?.appointment_no}</div>
-              <div className="text-gray-500">Date:</div>
-              <div className="font-medium">{appointment?.date}</div>
+              <div className="text-gray-500">Appointment Date:</div>
+              <div className="font-medium">
+                {formatDate(appointment?.appointment_date, "DD-MM-YYYY")}
+              </div>
             </div>
           </div>
           <Separator />
@@ -126,6 +128,18 @@ const BookingSlip = () => {
                 </tr>
               </tfoot>
             </table>
+            <p className="text-gray-500">
+              မှတ်ချက်။ Booking Date အတွင်း admin ဘက်များမှ
+              တစ်စုံတစ်ယောက်အကြောင်းပြန်ခြင်းမရှိပါက{" "}
+              <a
+                href="https://www.facebook.com/messages/t/472003349323395"
+                target="_blank"
+                className="underline underline-offset-2 text-primary-500"
+              >
+                Facebook Messenger
+              </a>{" "}
+              တွင် ဤ slip အားပြသ၍ မေးမြန်းနိုင်ပါသည်။
+            </p>
           </div>
         </CardContent>
       </Card>

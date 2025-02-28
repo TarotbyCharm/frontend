@@ -12,17 +12,21 @@ import { AuthProvider } from "./context/AuthContext";
 import PubliceRoute from "./components/routes/PubliceRoute";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import PackageIndex from "./Pages/Packages/PackageIndex";
-import MakeAppointment from "./Pages/Booking/MakeAppointment";
+import CalendarSelection from "./Pages/Booking/CalendarSelection";
 import Payment from "./Pages/Booking/Payment";
 import BookedSlip from "./Pages/Booking/BookingSlip";
 import BookingList from "./Pages/User/BookingList";
 import Profile from "./Pages/User/Profile";
+import MakeAppointment from "./Pages/Booking/MakeAppointment";
+import LocalStorageManager from "./components/LocalStorageManager";
+import Index from "./Pages/Contact/Index";
 
 export default function App() {
   return (
     <Provider store={store}>
       <AuthProvider>
         <BrowserRouter>
+          <LocalStorageManager />
           <Routes>
             {/* Public route with layout */}
             <Route path="/" element={<Layout />}>
@@ -32,10 +36,15 @@ export default function App() {
 
               <Route path="/blog" element={<BlogIndex />} />
               <Route path="/blog/:slug" element={<BlogDetails />} />
+              <Route path="/contact" element={<Index />} />
 
               {/* Private route with layout */}
               <Route
                 path="/appointment"
+                element={<PrivateRoute>{<CalendarSelection />}</PrivateRoute>}
+              />
+              <Route
+                path="/appointment/form"
                 element={<PrivateRoute>{<MakeAppointment />}</PrivateRoute>}
               />
               <Route
@@ -57,6 +66,8 @@ export default function App() {
                 path="/user/profile"
                 element={<PrivateRoute>{<Profile />}</PrivateRoute>}
               />
+
+              <Route path="*" element={<NotFound />} />
             </Route>
 
             {/* Public auth routes - redirect to home if authenticated */}
@@ -76,8 +87,6 @@ export default function App() {
                 </PubliceRoute>
               }
             />
-
-            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>

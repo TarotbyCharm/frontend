@@ -29,7 +29,12 @@ import * as yup from "yup";
 import { useInView } from "framer-motion";
 import { motion } from "framer-motion";
 
-export default function AppointmentForm({ genders, weekdays, packages }) {
+export default function AppointmentForm({
+  genders,
+  weekdays,
+  packages,
+  selectedDate,
+}) {
   const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [formErrors, setFormErrors] = useState([]);
@@ -54,6 +59,7 @@ export default function AppointmentForm({ genders, weekdays, packages }) {
       social_link: user?.social_link ?? "",
       desc: "",
       packages: [],
+      appointment_date: selectedDate ?? null,
     },
   });
 
@@ -70,7 +76,8 @@ export default function AppointmentForm({ genders, weekdays, packages }) {
   const onSubmit = async (data) => {
     const formattedData = {
       ...data,
-      dob: format(new Date(data.dob), "yyyy-MM-dd"), // Ensure proper format
+      dob: format(new Date(data.dob), "yyyy-MM-dd"),
+      appointment_date: format(new Date(data.appointment_date), "yyyy-MM-dd"),
     };
 
     try {
@@ -97,7 +104,7 @@ export default function AppointmentForm({ genders, weekdays, packages }) {
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8 }}
-      className="py-10"
+      className="py-16 ss:py-10"
     >
       <Form {...form}>
         <form
@@ -118,7 +125,7 @@ export default function AppointmentForm({ genders, weekdays, packages }) {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Email" />
+                      <Input {...field} placeholder="Email" type="email" />
                     </FormControl>
                     {formErrors["email"] && (
                       <p className="text-red-500 text-sm">
@@ -240,7 +247,6 @@ export default function AppointmentForm({ genders, weekdays, packages }) {
                     <FormControl>
                       <Textarea
                         placeholder="Tell us what you want to know"
-                        className="resize-none"
                         {...field}
                       />
                     </FormControl>

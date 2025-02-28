@@ -1,17 +1,20 @@
 import { publicHttp } from "@/utils/axios";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
 import AppointmentForm from "./AppointmentForm";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPackagesAll } from "@/redux/reducers/PackagesSlice";
 import PageLoading from "@/components/PageLoading";
 import FetchError from "@/components/FetchError";
+import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function MakeAppointment() {
   const [genders, setGenders] = useState([]);
   const [weekdays, setWeekdays] = useState([]);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [selectedDate, setSelectedDate] = useState(null);
   const { packagesAll, packagesAllStatus, packagesAllError } = useSelector(
     (state) => state.packages
   );
@@ -34,6 +37,10 @@ export default function MakeAppointment() {
     }
   };
 
+  const goBack = () => {
+    navigate("/appointment");
+  };
+
   useEffect(() => {
     if (packagesAllStatus === "idle") {
       dispatch(fetchPackagesAll());
@@ -43,6 +50,8 @@ export default function MakeAppointment() {
   useEffect(() => {
     fetchGenders();
     fetchWeekdays();
+
+    setSelectedDate(localStorage.getItem("selectedDate"));
   }, []);
 
   if (packagesAllStatus === "loading" || packagesAllStatus === "loading") {
@@ -61,16 +70,24 @@ export default function MakeAppointment() {
 
   return (
     <div className="container mx-auto px-6 md:px-0">
-      <div className="mt-24 mb-0 md:mb-auto my-10">
+      <div className="mt-24 mb-0 md:mb-auto my-10 relative">
+        <button
+          className="astro-border-btn absolute left-0 top-24 ss:top-5"
+          onClick={() => goBack()}
+        >
+          <ArrowLeft size={16} /> Back
+        </button>
         {/* Apply Framer Motion to header */}
         <motion.h1
-          className="header-title text-3xl md:text-4xl lg:text-5xl text-center"
+          className="flex flex-col text-3xl md:text-4xl lg:text-5xl text-center"
           variants={motionVariants}
           initial="initial"
           animate="animate"
           transition={{ ...motionVariants.transition, delay: 0.2 }}
         >
-          <span className="italic">Make</span> Appointment
+          <span>
+            <span className="italic">Make</span> Appointment
+          </span>
           <span className="mt-4 text-lg md:text-xl xl:text-2xl italic tracking-wide text-primary-200/70">
             You can pay with MMK or THB
           </span>
@@ -80,6 +97,7 @@ export default function MakeAppointment() {
         genders={genders}
         weekdays={weekdays}
         packages={packagesAll}
+        selectedDate={selectedDate}
       />
     </div>
   );

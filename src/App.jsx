@@ -20,6 +20,7 @@ import Profile from "./Pages/User/Profile";
 import MakeAppointment from "./Pages/Booking/MakeAppointment";
 import LocalStorageManager from "./components/LocalStorageManager";
 import Index from "./Pages/Contact/Index";
+import SavedPosts from "./Pages/User/SavedPosts";
 
 export default function App() {
   return (
@@ -65,6 +66,11 @@ export default function App() {
               <Route
                 path="/user/profile"
                 element={<PrivateRoute>{<Profile />}</PrivateRoute>}
+              />
+
+              <Route
+                path="/user/saved-posts"
+                element={<PrivateRoute>{<SavedPosts />}</PrivateRoute>}
               />
 
               <Route path="*" element={<NotFound />} />

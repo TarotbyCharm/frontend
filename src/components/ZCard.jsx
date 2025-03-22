@@ -14,7 +14,7 @@ export default function ZCard({ zodiac }) {
     <>
       <Dialog className="z-30">
         <DialogTrigger>
-            <Card className="py-2 xl:py-4 border-gray-700 hover:border-gray-500 z-30 bg-transparent">
+            <Card className="border border-primary-500/20 bg-primary-900/10 backdrop-blur-md transition-all duration-300 py-2 xl:py-4 hover:border-primary-950 z-30">
               <CardHeader>
                 <CardTitle>
                   <img

@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Pencil, ListChecks, User, Camera, LogOut } from "lucide-react";
+import {
+  Pencil,
+  ListChecks,
+  User,
+  Camera,
+  LogOut,
+  BookmarkCheck,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -22,6 +29,11 @@ const navItems = [
     icon: <ListChecks className="mr-2 h-4 w-4" />,
     label: "Your Bookings",
     path: "/user/bookings-list",
+  },
+  {
+    icon: <BookmarkCheck className="mr-2 h-4 w-4" />,
+    label: "Saved Posts",
+    path: "/user/saved-posts",
   },
 ];
 
@@ -76,8 +88,12 @@ export default function AccountSidebar() {
               </Button>
             </div>
 
-            <h2 className="text-2xl font-serif text-primary-200 mb-2">{user?.name}</h2>
-            <p className="text-primary-400/80 mb-6">Member</p>
+            <h2 className="text-2xl font-serif text-primary-200 mb-2">
+              {user?.name}
+            </h2>
+            <p className="text-primary-400/80 mb-6">
+              {user?.role == "User" ? "Member" : user?.role}
+            </p>
 
             <div className="w-full">
               {navItems.map((item) => (

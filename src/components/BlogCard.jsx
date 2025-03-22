@@ -1,8 +1,58 @@
-import { ArrowUpRight, Bookmark, Calendar, User } from "lucide-react";
+import {
+  ArrowUpRight,
+  Bookmark,
+  BookmarkPlus,
+  Calendar,
+  User,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { Badge } from "./ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
+import { useEffect, useState } from "react";
+import { http } from "@/utils/axios";
+import { useToast } from "@/hooks/use-toast";
+import { useSelector } from "react-redux";
 
 export default function BlogCard({ post }) {
+  const [saved, setSaved] = useState(false);
+  const { toast } = useToast();
+
+  const { user } = useSelector((state) => state.user);
+
+  const handleSavedPost = async (postId) => {
+    try {
+      if (!saved) {
+        await http.post(`/api/posts/${postId}/saved`);
+        setSaved(true);
+        toast({ description: "Saved Post." });
+      } else {
+        await http.delete(`/api/posts/${postId}/unsaved`);
+        setSaved(false);
+        toast({ description: "Removed from Saved." });
+      }
+    } catch (err) {
+      console.log("error", err);
+      toast({
+        variant: "destructive",
+        description: "Failed to save post. Please try again.",
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (user?.saved_posts) {
+      const isSaved = user.saved_posts.some(
+        (savedPost) => savedPost.id === post.id
+      );
+      setSaved(isSaved);
+    }
+  }, [user, post.id]);
+
   return (
     <div className="relative border bg-primary-950/5 border-primary-600/20 p-3.5 xl:p-4 cursor-pointer hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 hover:border-primary-950">
       <Link to={`/blog/${post?.slug}`}>
@@ -23,7 +73,7 @@ export default function BlogCard({ post }) {
         {/* <span className="text-white/80 text-sm block">{post?.read_time}</span> */}
       </div>
       <div className="pb-8 mt-3">
-        <h1 className="text-lg xl:text-xl text-primary-200 hover:text-primary-500 font-medium mb-1 line-clamp-1">
+        <h1 className="text-lg xl:text-xl text-primary-200 hover:text-primary-500 font-medium mb-1 line-clamp-2">
           <Link to={`/blog/${post?.slug}`}>{post?.title}</Link>
         </h1>
         <div className="flex items-center gap-4 text-xs xl:text-sm text-gray-500 mb-3">
@@ -45,12 +95,22 @@ export default function BlogCard({ post }) {
             Read More
             <ArrowUpRight size={16} />
           </Link>
-          <button
-            type="button"
-            className="absolute right-5 bottom-5 text-gray-500"
-          >
-            <Bookmark />
-          </button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  onClick={() => handleSavedPost(post?.id)}
+                  type="button"
+                  className="absolute right-5 bottom-5 text-gray-500"
+                >
+                  {saved ? <Bookmark fill="currentColor" /> : <BookmarkPlus />}
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{saved ? "Unsave Post" : "Save Post"}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
     </div>

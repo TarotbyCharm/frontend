@@ -14,12 +14,23 @@ import {
 } from "@/components/ui/form";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { publicHttp } from "@/utils/axios";
 import { useToast } from "@/hooks/use-toast";
+import { fetchInfo } from "@/redux/reducers/InfoSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const Index = () => {
   const [formErrors, setFormErrors] = useState([]);
+  const dispatch = useDispatch();
+  const { info, status } = useSelector((state) => state.info);
+
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchInfo());
+    }
+  }, [status, dispatch]);
+
   const schema = yup.object().shape({
     name: yup.string().required("Name is required"),
     email: yup.string().email("Invalid email").required("Email is required"),
@@ -163,8 +174,12 @@ const Index = () => {
             <h3 className="text-lg font-medium text-purple-400 mb-3">
               Email Us
             </h3>
-            <a href="mailto:admin@tarotbycharm.com" className="text-gray-300">
-              admin@tarotbycharm.com
+            <a
+              href={`mailto:${info?.email || "shinthant234223@gmail.com"}`}
+              target="_blank"
+              className="text-gray-300"
+            >
+              {info?.email || "shinthant234223@gmail.com"}
             </a>
           </div>
 

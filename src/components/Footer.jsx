@@ -199,8 +199,11 @@ const Footer = () => {
             <ul className="space-y-2">
               <li className="text-gray-300 text-sm">
                 Email:{" "}
-                <a href={`mailto:${info?.email}`} target="_blank">
-                  {info?.email}
+                <a
+                  href={`mailto:${info?.email || "shinthant234223@gmail.com"}`}
+                  target="_blank"
+                >
+                  {info?.email || "shinthant234223@gmail.com"}
                 </a>
               </li>
               <li className="text-gray-300 text-sm">
@@ -235,7 +238,7 @@ const Footer = () => {
             </div>
             <p className="text-gray-400 text-sm flex items-center">
               Made with <Heart className="w-4 h-4 mx-1 text-primary-400" /> by
-              TarotByCharm
+              Zeronee Tech
             </p>
           </div>
         </div>

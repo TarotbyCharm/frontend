@@ -157,6 +157,11 @@
   transition: background-color 0.2s;
 }
 
+.rdp-caption_dropdowns select option {
+  background-color: #000;
+  color: white;
+}
+
 /* .main-bg-img {
   background-size: 70vh;
 } */

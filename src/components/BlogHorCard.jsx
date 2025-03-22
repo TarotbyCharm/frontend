@@ -64,7 +64,7 @@ export default function BlogHorCard({ post }) {
         </div> */}
         <Link
           to={`/blog/${post?.slug}`}
-          className="text-primary-200 text-2xl md:text-3xl lg:text-4xl font-bold mb-4 leading-tight"
+          className="text-primary-200 text-2xl md:text-3xl lg:text-4xl font-bold mb-4 leading-tight line-clamp-3"
         >
           {post?.title}
         </Link>

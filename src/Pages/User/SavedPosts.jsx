@@ -1,11 +1,11 @@
 import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
-  Receipt,
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
+  Eye,
 } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -16,11 +16,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
-import AccountSidebar from "./Sidebar";
+import { Badge } from "@/components/ui/badge";
 import { useSelector } from "react-redux";
+import PageLoading from "@/components/PageLoading";
+import { Link } from "react-router-dom";
 import {
   useReactTable,
   getCoreRowModel,
@@ -28,9 +28,7 @@ import {
   getPaginationRowModel,
   flexRender,
 } from "@tanstack/react-table";
-import { http } from "@/utils/axios";
-import PageLoading from "@/components/PageLoading";
-import { Link } from "react-router-dom";
+import AccountSidebar from "./Sidebar";
 import {
   Tooltip,
   TooltipContent,
@@ -38,10 +36,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-export default function BookingList() {
+export default function SavedPosts() {
   const { user } = useSelector((state) => state.user);
+  const [savedPosts, setSavedPosts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [bookings, setBookings] = useState([]);
   const [globalFilter, setGlobalFilter] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [pagination, setPagination] = useState({
@@ -50,22 +48,10 @@ export default function BookingList() {
   });
 
   useEffect(() => {
-    fetchBookings();
+    setSavedPosts(user?.saved_posts);
+    console.log(savedPosts);
+    setIsLoading(false);
   }, [user?.id]);
-
-  const fetchBookings = async () => {
-    setIsLoading(true);
-    try {
-      const response = await http.get(
-        `/api/auth/appointments/users/${user?.id}/bookings`
-      );
-      setBookings(response.data.data);
-    } catch (err) {
-      console.log("fetch error", err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   useEffect(() => {
     setGlobalFilter(searchQuery);
@@ -74,48 +60,34 @@ export default function BookingList() {
   const columns = useMemo(
     () => [
       {
-        accessorKey: "appointment_no",
-        header: "Book No.",
+        accessorKey: "title",
+        header: "Title",
         filterFn: "includesString",
-      },
-      { accessorKey: "packageNames", header: "Packages" },
-      {
-        accessorKey: "total_price",
-        header: "Total Price",
         cell: ({ row }) => (
-          <div className="flex gap-2">
-            <Badge
-              variant="secondary"
-              className="bg-primary/40 whitespace-nowrap"
-            >
-              {row.original.total_price} Ks
-            </Badge>
-            <Badge
-              variant="secondary"
-              className="bg-primary/40 whitespace-nowrap"
-            >
-              {row.original.th_total_price} THB
-            </Badge>
-          </div>
+          <Link
+            to={`/blog/${row.original.slug}`}
+            className="text-primary-300 hover:text-primary-100"
+          >
+            {row.original.title}
+          </Link>
         ),
       },
-      { accessorKey: "date", header: "Booked Date" },
-      { accessorKey: "is_paid", header: "Payment" },
       {
-        accessorKey: "status",
-        header: "Status",
+        accessorKey: "category",
+        header: "Category",
         cell: ({ row }) => (
-          <Badge
-            className={cn(
-              "bg-opacity-20 border-opacity-30",
-              row.original.status === "Booked"
-                ? "bg-green-500 border-green-500 text-green-200"
-                : "bg-yellow-500 border-yellow-500 text-yellow-200"
-            )}
-          >
-            {row.original.status}
+          <Badge variant="secondary">
+            {row.original.category?.name ?? "Uncategorized"}
           </Badge>
         ),
+      },
+      {
+        accessorKey: "author",
+        header: "Author",
+      },
+      {
+        accessorKey: "published_at",
+        header: "Published Date",
       },
       {
         accessorKey: "action",
@@ -125,17 +97,14 @@ export default function BookingList() {
             <Tooltip>
               <TooltipTrigger>
                 <Link
-                  to={`/appointment/${row.original.appointment_no}/booking/slip`}
-                  className={buttonVariants({
-                    variant: "secondary",
-                    size: "sm",
-                  })}
+                  to={`/blog/${row.original.slug}`}
+                  className={buttonVariants({ variant: "secondary", size: "sm" })}
                 >
-                  <Receipt className="h-4 w-4" />
+                  <Eye className="h-4 w-4" />
                 </Link>
               </TooltipTrigger>
               <TooltipContent>
-                <p>See Bill</p>
+                <p>See Details</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -146,7 +115,7 @@ export default function BookingList() {
   );
 
   const table = useReactTable({
-    data: bookings,
+    data: savedPosts,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -164,7 +133,6 @@ export default function BookingList() {
     <div className="container mx-auto mt-24 mb-20 px-6 md:px-0">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <AccountSidebar />
-
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -174,10 +142,10 @@ export default function BookingList() {
           <div className="bg-black/20 backdrop-blur-md border border-primary-500/20 rounded-lg p-6">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-serif text-primary-200 mb-2">
-                Appointments
+                Saved Posts
               </h2>
               <Input
-                placeholder="Search by Booking No..."
+                placeholder="Search by Title..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-64"
@@ -186,7 +154,6 @@ export default function BookingList() {
 
             <div className="overflow-x-auto relative">
               {isLoading && <PageLoading />}
-
               <Table>
                 <TableHeader>
                   {table.getHeaderGroups().map((headerGroup) => (
@@ -206,7 +173,7 @@ export default function BookingList() {
                         colSpan={columns.length}
                         className="h-24 text-center"
                       >
-                        No results found.
+                        No saved posts found.
                       </TableCell>
                     </TableRow>
                   ) : (
@@ -241,7 +208,6 @@ export default function BookingList() {
                   onClick={() => table.setPageIndex(0)}
                   disabled={!table.getCanPreviousPage()}
                 >
-                  <span className="sr-only">Go to first page</span>
                   <ChevronsLeft className="h-4 w-4" />
                 </Button>
                 <Button
@@ -250,7 +216,6 @@ export default function BookingList() {
                   onClick={() => table.previousPage()}
                   disabled={!table.getCanPreviousPage()}
                 >
-                  <span className="sr-only">Go to previous page</span>
                   <ChevronLeft className="h-4 w-4" />
                 </Button>
                 <Button
@@ -259,7 +224,6 @@ export default function BookingList() {
                   onClick={() => table.nextPage()}
                   disabled={!table.getCanNextPage()}
                 >
-                  <span className="sr-only">Go to next page</span>
                   <ChevronRight className="h-4 w-4" />
                 </Button>
                 <Button
@@ -268,7 +232,6 @@ export default function BookingList() {
                   onClick={() => table.setPageIndex(table.getPageCount() - 1)}
                   disabled={!table.getCanNextPage()}
                 >
-                  <span className="sr-only">Go to last page</span>
                   <ChevronsRight className="h-4 w-4" />
                 </Button>
               </div>

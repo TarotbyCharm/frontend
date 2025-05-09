@@ -1,11 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import {
-  setupAuthInterceptors,
-  http,
-  getToken,
-  getRefreshToken,
-  removeTokens,
-} from "../utils/axios";
+import { http, getToken, getRefreshToken, removeTokens } from "../utils/axios";
 import { useDispatch } from "react-redux";
 import { login } from "@/redux/reducers/UserSlice";
 import PageLoading from "@/components/PageLoading";
@@ -103,7 +97,7 @@ export function AuthProvider({ children }) {
     };
 
     // Initialize auth interceptors before checking auth
-    setupAuthInterceptors(updateUser, clearAuth);
+    // setupAuthInterceptors(updateUser, clearAuth);
     checkAuth();
 
     // Cleanup function

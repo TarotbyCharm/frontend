@@ -21,13 +21,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { http } from "@/utils/axios";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { format } from "date-fns";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useInView } from "framer-motion";
 import { motion } from "framer-motion";
+import { updateUserInfo } from "@/redux/reducers/UserSlice";
+import PropTypes from "prop-types";
 
 export default function AppointmentForm({
   genders,
@@ -37,7 +39,31 @@ export default function AppointmentForm({
 }) {
   const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formErrors, setFormErrors] = useState([]);
+
+  useEffect(() => {
+    const updateUser = async () => {
+      const lastUpdateTime = localStorage.getItem("userInfoLastUpdate");
+      const currentTime = Date.now();
+      const fiveMinutes = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+      if (
+        !lastUpdateTime ||
+        currentTime - parseInt(lastUpdateTime) > fiveMinutes
+      ) {
+        try {
+          await dispatch(updateUserInfo()).unwrap();
+          // Store the current time as last update time
+          localStorage.setItem("userInfoLastUpdate", currentTime.toString());
+        } catch (error) {
+          console.error("Failed to update user info:", error);
+        }
+      }
+    };
+
+    updateUser();
+  }, [dispatch]);
 
   const schema = yup.object({
     email: yup.string().email("Must be a valid email"),
@@ -77,8 +103,21 @@ export default function AppointmentForm({
     const formattedData = {
       ...data,
       dob: format(new Date(data.dob), "yyyy-MM-dd"),
-      appointment_date: format(new Date(data.appointment_date), "yyyy-MM-dd"),
     };
+
+    // Handle appointment_date properly
+    if (data.appointment_date) {
+      formattedData.appointment_date = format(
+        new Date(data.appointment_date),
+        "yyyy-MM-dd"
+      );
+    } else if (selectedDate) {
+      // If no appointment_date in form data, use the selectedDate prop
+      formattedData.appointment_date = format(
+        new Date(selectedDate),
+        "yyyy-MM-dd"
+      );
+    }
 
     try {
       const response = await http.post(
@@ -87,6 +126,7 @@ export default function AppointmentForm({
       );
       const { appointment_no } = response.data.data;
       setFormErrors([]);
+
       navigate(`/appointment/${appointment_no}/payment`);
     } catch (error) {
       if (error.response && error.response.data.errors) {
@@ -291,7 +331,7 @@ export default function AppointmentForm({
                         <Controller
                           name="packages"
                           control={form.control}
-                          render={({ field }) => (
+                          render={() => (
                             <Checkbox
                               checked={selectedPackages.includes(pkg.id)}
                               onCheckedChange={() =>
@@ -330,3 +370,33 @@ export default function AppointmentForm({
     </motion.div>
   );
 }
+
+// PropTypes validation
+AppointmentForm.propTypes = {
+  genders: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  weekdays: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  packages: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      name: PropTypes.string.isRequired,
+      price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      currency: PropTypes.string,
+      th_price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      th_currency: PropTypes.string,
+    })
+  ).isRequired,
+  selectedDate: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.instanceOf(Date),
+  ]),
+};

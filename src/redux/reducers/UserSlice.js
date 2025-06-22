@@ -50,6 +50,20 @@ export const logout = createAsyncThunk(
   }
 );
 
+export const updateUserInfo = createAsyncThunk(
+  "user/updateUserInfo",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await http.get(`/api/auth/user`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to update user info"
+      );
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -99,7 +113,17 @@ const userSlice = createSlice({
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
         state.status = "idle";
-      });
+      })
+      // Update user info
+      .addCase(updateUserInfo.fulfilled, (state, action) => ({
+        ...state,
+        user: action.payload.user,
+        error: null,
+      }))
+      .addCase(updateUserInfo.rejected, (state, action) => ({
+        ...state,
+        error: action.error.message,
+      }));
   },
 });
 export const { clearError } = userSlice.actions;

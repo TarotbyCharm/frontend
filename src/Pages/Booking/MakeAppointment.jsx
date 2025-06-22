@@ -51,7 +51,17 @@ export default function MakeAppointment() {
     fetchGenders();
     fetchWeekdays();
 
-    setSelectedDate(localStorage.getItem("selectedDate"));
+    // Get selected date from localStorage and convert to Date object
+    const storedDate = localStorage.getItem("selectedDate");
+    if (storedDate) {
+      const dateObj = new Date(storedDate);
+      // Check if it's a valid date
+      if (!isNaN(dateObj.getTime())) {
+        setSelectedDate(dateObj);
+      } else {
+        console.error("Invalid date stored in localStorage:", storedDate);
+      }
+    }
   }, []);
 
   if (packagesAllStatus === "loading" || packagesAllStatus === "loading") {

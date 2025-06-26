@@ -21,15 +21,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { http } from "@/utils/axios";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { format } from "date-fns";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useInView } from "framer-motion";
 import { motion } from "framer-motion";
-import { updateUserInfo } from "@/redux/reducers/UserSlice";
 import PropTypes from "prop-types";
+import { updateUserInfo } from "@/redux/reducers/UserSlice";
 
 export default function AppointmentForm({
   genders,
@@ -41,29 +41,6 @@ export default function AppointmentForm({
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formErrors, setFormErrors] = useState([]);
-
-  useEffect(() => {
-    const updateUser = async () => {
-      const lastUpdateTime = localStorage.getItem("userInfoLastUpdate");
-      const currentTime = Date.now();
-      const fiveMinutes = 5 * 60 * 1000; // 5 minutes in milliseconds
-
-      if (
-        !lastUpdateTime ||
-        currentTime - parseInt(lastUpdateTime) > fiveMinutes
-      ) {
-        try {
-          await dispatch(updateUserInfo()).unwrap();
-          // Store the current time as last update time
-          localStorage.setItem("userInfoLastUpdate", currentTime.toString());
-        } catch (error) {
-          console.error("Failed to update user info:", error);
-        }
-      }
-    };
-
-    updateUser();
-  }, [dispatch]);
 
   const schema = yup.object({
     email: yup.string().email("Must be a valid email"),
@@ -126,6 +103,13 @@ export default function AppointmentForm({
       );
       const { appointment_no } = response.data.data;
       setFormErrors([]);
+
+      try {
+        await dispatch(updateUserInfo());
+      } catch (e) {
+        // Optionally show a toast or log the error
+        console.error("Failed to update user info:", e);
+      }
 
       navigate(`/appointment/${appointment_no}/payment`);
     } catch (error) {

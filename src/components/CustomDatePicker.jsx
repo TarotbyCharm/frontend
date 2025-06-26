@@ -16,6 +16,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useFormContext } from "react-hook-form";
+import PropTypes from "prop-types";
 
 const CustomDatePicker = ({ name = "dob", label = "Date of Birth" }) => {
   const { control, setValue } = useFormContext();
@@ -60,6 +61,7 @@ const CustomDatePicker = ({ name = "dob", label = "Date of Birth" }) => {
                 <Calendar
                   mode="single"
                   selected={field.value ? new Date(field.value) : undefined}
+                  defaultMonth={field.value ? new Date(field.value) : undefined}
                   onSelect={handleDateSelect} // Ensure selection formats date
                   initialFocus
                   fromYear={fromYear}
@@ -75,6 +77,12 @@ const CustomDatePicker = ({ name = "dob", label = "Date of Birth" }) => {
       )}
     />
   );
+};
+
+// PropTypes validation
+CustomDatePicker.propTypes = {
+  name: PropTypes.string,
+  label: PropTypes.string,
 };
 
 export default CustomDatePicker;

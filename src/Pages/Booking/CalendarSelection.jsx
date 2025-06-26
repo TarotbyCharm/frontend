@@ -85,6 +85,22 @@ function CalendarSelection() {
       disabledOverlay.className = "disabled-overlay";
       el.appendChild(disabledOverlay);
     }
+
+    // Check if this is today's date
+    const todayDate = new Date();
+    todayDate.setHours(0, 0, 0, 0);
+    if (dateObj.getTime() === todayDate.getTime()) {
+      el.classList.add("today-date");
+    }
+
+    // Check if this is the selected date
+    if (selectedDate) {
+      const selectedDateObj = new Date(selectedDate);
+      selectedDateObj.setHours(0, 0, 0, 0);
+      if (dateObj.getTime() === selectedDateObj.getTime()) {
+        el.classList.add("selected-date");
+      }
+    }
   };
 
   const handleGo = () => {
@@ -94,6 +110,29 @@ function CalendarSelection() {
 
   return (
     <div className="container mx-auto mt-20 bg-gradient-to-r from-[#141122] to-secondary-500 text-white rounded-lg shadow-lg p-6">
+      <style>
+        {`
+          .today-date {
+            background-color: #727272 !important;
+            color: white !important;
+            font-weight: bold !important;
+          }
+          
+          .selected-date {
+            background-color: #8b5cf6 !important;
+            color: white !important;
+            font-weight: bold !important;
+          }
+          
+          .selected-date:hover {
+            background-color: #7c3aed !important;
+          }
+          
+          .today-date:hover {
+            background-color: #110E0E !important;
+          }
+        `}
+      </style>
       <div className="grid md:grid-cols-3 gap-6 md:items-center">
         <div className="md:col-span-2">
           <h1 className="text-3xl font-bold mb-6 text-center">
@@ -101,6 +140,7 @@ function CalendarSelection() {
           </h1>
           <div className="calendar-container bg-gradient-to-r from-[#141122] to-secondary-500 border rounded-lg p-4 shadow-inner">
             <FullCalendar
+              key={selectedDate ? selectedDate.toISOString() : "no-date"}
               plugins={[dayGridPlugin, interactionPlugin]}
               initialView="dayGridMonth"
               selectable={true}
@@ -121,14 +161,11 @@ function CalendarSelection() {
                 <span className="text-sm">Booking Full</span>
               </div>
               <div className="flex items-center">
-                <div className="w-4 h-4 bg-primary-500 mr-2"></div>
+                <div className="w-4 h-4 bg-secondary-500 mr-2"></div>
                 <span className="text-sm">Today Date</span>
               </div>
               <div className="flex items-center">
-                <div
-                  className="w-4 h-4 mr-2"
-                  style={{ backgroundColor: "rgba(188,232,241,.3)" }}
-                ></div>
+                <div className="w-4 h-4 bg-primary-500 mr-2"></div>
                 <span className="text-sm">Selected Date</span>
               </div>
             </div>

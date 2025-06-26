@@ -117,7 +117,7 @@ const userSlice = createSlice({
       // Update user info
       .addCase(updateUserInfo.fulfilled, (state, action) => ({
         ...state,
-        user: action.payload.user,
+        user: action.payload.data,
         error: null,
       }))
       .addCase(updateUserInfo.rejected, (state, action) => ({

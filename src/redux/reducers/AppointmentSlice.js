@@ -11,7 +11,9 @@ export const fetchAppointment = createAsyncThunk(
   "appointment/fetchAppointment",
   async (appointmentNo) => {
     try {
-      const response = await http.get(`/api/auth/appointments/${appointmentNo}`);
+      const response = await http.get(
+        `/api/auth/appointments/${appointmentNo}`
+      );
       return response.data.data;
     } catch (error) {
       throw new Error(
@@ -24,6 +26,12 @@ export const fetchAppointment = createAsyncThunk(
 const appointmentSlice = createSlice({
   name: "appointment",
   initialState,
+  reducers: {
+    clearAppointment: (state) => {
+      state.appointment = null;
+      state.status = "idle";
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAppointment.pending, (state) => {
@@ -41,4 +49,5 @@ const appointmentSlice = createSlice({
   },
 });
 
+export const { clearAppointment } = appointmentSlice.actions;
 export default appointmentSlice.reducer;

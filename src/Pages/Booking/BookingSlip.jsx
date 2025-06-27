@@ -1,7 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { fetchAppointment } from "@/redux/reducers/AppointmentSlice";
-import { formatDate, number_format } from "@/utils/common";
+import {
+  fetchAppointment,
+  clearAppointment,
+} from "@/redux/reducers/AppointmentSlice";
+import { formatDate } from "@/utils/common";
 import {
   Receipt,
   Calendar,
@@ -15,21 +18,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import html2canvas from "html2canvas";
 
+// Helper for thousands separator
+const formatNumber = (value) => {
+  if (typeof value !== "number") {
+    value = Number(value);
+  }
+  if (isNaN(value)) return "-";
+  return new Intl.NumberFormat("en-US").format(value);
+};
+
 const BookingSlip = () => {
   const { appointmentNo } = useParams();
   const dispatch = useDispatch();
-  const { appointment, status } = useSelector((state) => state.appointment);
+  const { appointment } = useSelector((state) => state.appointment);
   const slipRef = useRef(null);
 
   useEffect(() => {
-    if (status === "idle") {
-      getAppointment(appointmentNo);
-    }
-  });
-
-  const getAppointment = (appointmentNo) => {
+    dispatch(clearAppointment());
     dispatch(fetchAppointment(appointmentNo));
-  };
+  }, [dispatch, appointmentNo]);
 
   const downloadImage = () => {
     const input = slipRef.current;
@@ -103,10 +110,32 @@ const BookingSlip = () => {
                       {item.package ? item.package.name : "Unknown Package"}
                     </td>
                     <td className="text-right">
-                      {number_format(item.price)} Ks
+                      {item.discount_amt > 0 ? (
+                        <>
+                          <span className="line-through text-gray-400 mr-2 text-xs">
+                            {formatNumber(item.price)} Ks
+                          </span>
+                          <span className="text-red-500 font-bold">
+                            {formatNumber(item.balance)} Ks
+                          </span>
+                        </>
+                      ) : (
+                        <span>{formatNumber(item.price)} Ks</span>
+                      )}
                     </td>
                     <td className="text-right">
-                      {number_format(item.th_price)} ฿
+                      {item.discount_amt > 0 ? (
+                        <>
+                          <span className="line-through text-gray-400 mr-2 text-xs">
+                            {formatNumber(item.th_price)} ฿
+                          </span>
+                          <span className="text-red-400 font-bold">
+                            {formatNumber(item.th_balance)} ฿
+                          </span>
+                        </>
+                      ) : (
+                        <span>{formatNumber(item.th_price)} ฿</span>
+                      )}
                     </td>
                   </tr>
                 ))}
@@ -120,10 +149,32 @@ const BookingSlip = () => {
                 <tr className="text-lg">
                   <td className="font-semibold">Total</td>
                   <td className="text-right font-bold text-primary-500">
-                    {number_format(appointment?.total_price)} Ks
+                    {appointment?.discount_amt > 0 ? (
+                      <>
+                        <span className="line-through text-gray-400 mr-2">
+                          {formatNumber(appointment?.balance)} Ks
+                        </span>
+                        <span className="text-red-500 font-bold">
+                          {formatNumber(appointment?.total_price)} Ks
+                        </span>
+                      </>
+                    ) : (
+                      <span>{formatNumber(appointment?.total_price)} Ks</span>
+                    )}
                   </td>
                   <td className="text-right font-bold text-primary-500">
-                    {number_format(appointment?.th_total_price)} ฿
+                    {appointment?.th_discount_amt > 0 ? (
+                      <>
+                        <span className="line-through text-gray-400 mr-2">
+                          {formatNumber(appointment?.th_balance)} ฿
+                        </span>
+                        <span className="text-red-400 font-bold">
+                          {formatNumber(appointment?.th_total_price)} ฿
+                        </span>
+                      </>
+                    ) : (
+                      <span>{formatNumber(appointment?.th_total_price)} ฿</span>
+                    )}
                   </td>
                 </tr>
               </tfoot>

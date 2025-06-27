@@ -35,6 +35,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { http } from "@/utils/axios";
 
 export default function SavedPosts() {
   const { user } = useSelector((state) => state.user);
@@ -48,9 +49,20 @@ export default function SavedPosts() {
   });
 
   useEffect(() => {
-    setSavedPosts(user?.saved_posts);
-    console.log(savedPosts);
-    setIsLoading(false);
+    const fetchSavedPosts = async () => {
+      if (!user?.id) return;
+      setIsLoading(true);
+      try {
+        const response = await http.get(
+          `/api/auth/users/${user.id}/saved-posts`
+        );
+        setSavedPosts(response.data.data || []);
+      } catch {
+        setSavedPosts([]);
+      }
+      setIsLoading(false);
+    };
+    fetchSavedPosts();
   }, [user?.id]);
 
   useEffect(() => {
@@ -98,7 +110,10 @@ export default function SavedPosts() {
               <TooltipTrigger>
                 <Link
                   to={`/blog/${row.original.slug}`}
-                  className={buttonVariants({ variant: "secondary", size: "sm" })}
+                  className={buttonVariants({
+                    variant: "secondary",
+                    size: "sm",
+                  })}
                 >
                   <Eye className="h-4 w-4" />
                 </Link>

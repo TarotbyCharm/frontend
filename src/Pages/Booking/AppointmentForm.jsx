@@ -329,12 +329,38 @@ export default function AppointmentForm({
                           <h6 className="text-primary-200 text-xs xl:text-sm font-semibold mb-2">
                             {pkg.name}
                           </h6>
-                          <p className="text-xs xl:text-sm bg-gray-300 text-black px-2 py-px">
-                            {pkg.price} {pkg.currency ?? "Ks"}
-                          </p>
-                          <p className="text-xs xl:text-sm bg-gray-800 text-white px-2 py-px mt-1">
-                            {pkg.th_price} {pkg.th_currency ?? "฿"}
-                          </p>
+                          <div className="text-xs xl:text-sm">
+                            {pkg.discount_percent > 0 ? (
+                              <>
+                                <span className="line-through text-gray-400 mr-2">
+                                  {pkg.price} {pkg.currency ?? "Ks"}
+                                </span>
+                                <span className="text-red-500 font-bold">
+                                  {pkg.final_price} {pkg.currency ?? "Ks"}
+                                </span>
+                              </>
+                            ) : (
+                              <span>
+                                {pkg.price} {pkg.currency ?? "Ks"}
+                              </span>
+                            )}
+                          </div>
+                          <div className="text-xs xl:text-sm bg-gray-800 text-white px-2 py-px mt-1">
+                            {pkg.discount_percent > 0 ? (
+                              <>
+                                <span className="line-through text-gray-400 mr-2">
+                                  {pkg.th_price} {pkg.th_currency ?? "฿"}
+                                </span>
+                                <span className="text-red-400 font-bold">
+                                  {pkg.th_final_price} {pkg.th_currency ?? "฿"}
+                                </span>
+                              </>
+                            ) : (
+                              <span>
+                                {pkg.th_price} {pkg.th_currency ?? "฿"}
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </label>
                     ))}

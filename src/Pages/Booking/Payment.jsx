@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchAppointment } from "@/redux/reducers/AppointmentSlice";
+import {
+  fetchAppointment,
+  clearAppointment,
+} from "@/redux/reducers/AppointmentSlice";
 import {
   Table,
   TableBody,
@@ -11,24 +14,27 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { number_format } from "@/utils/common";
 import PaymentForm from "./PaymentForm";
 import { Card, CardContent } from "@/components/ui/card";
+
+// Helper for thousands separator
+const formatNumber = (value) => {
+  if (typeof value !== "number") {
+    value = Number(value);
+  }
+  if (isNaN(value)) return "-";
+  return new Intl.NumberFormat("en-US").format(value);
+};
 
 export default function Payment() {
   const { appointmentNo } = useParams();
   const dispatch = useDispatch();
-  const { appointment, status } = useSelector((state) => state.appointment);
+  const { appointment } = useSelector((state) => state.appointment);
 
   useEffect(() => {
-    if (status === "idle") {
-      getAppointment(appointmentNo);
-    }
-  });
-
-  const getAppointment = (appointmentNo) => {
+    dispatch(clearAppointment());
     dispatch(fetchAppointment(appointmentNo));
-  };
+  }, [dispatch, appointmentNo]);
 
   return (
     <div className="container mx-auto mt-24 mb-20 px-6 md:px-0">
@@ -62,11 +68,33 @@ export default function Payment() {
                       <TableCell className="md:w-[300px] lg:w-[400px]">
                         {item.package ? item.package.name : "Unknown Package"}
                       </TableCell>
-                      <TableCell className="text-right">
-                        {number_format(item.price)} Ks
+                      <TableCell className="text-right text-nowrap">
+                        {item.discount_amt > 0 ? (
+                          <>
+                            <span className="line-through text-gray-400 mr-2 text-xs">
+                              {formatNumber(item.price)} Ks
+                            </span>
+                            <span className="text-red-500 font-bold">
+                              {formatNumber(item.balance)} Ks
+                            </span>
+                          </>
+                        ) : (
+                          <span>{formatNumber(item.price)} Ks</span>
+                        )}
                       </TableCell>
-                      <TableCell className="text-right">
-                        {number_format(item.th_price)} ฿
+                      <TableCell className="text-right text-nowrap">
+                        {item.discount_amt > 0 ? (
+                          <>
+                            <span className="line-through text-gray-400 mr-2 text-xs">
+                              {formatNumber(item.th_price)} ฿
+                            </span>
+                            <span className="text-red-400 font-bold">
+                              {formatNumber(item.th_balance)} ฿
+                            </span>
+                          </>
+                        ) : (
+                          <span>{formatNumber(item.th_price)} ฿</span>
+                        )}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -76,11 +104,25 @@ export default function Payment() {
                     <TableCell className="font-semibold uppercase text-right">
                       Total
                     </TableCell>
-                    <TableCell className="font-semibold text-right">
-                      {number_format(appointment?.total_price)} Ks
+                    <TableCell className="font-semibold text-right text-nowrap">
+                      {appointment?.discount_amt > 0 ? (
+                        <span className="text-red-400 font-bold">
+                          {formatNumber(appointment?.balance)} Ks
+                        </span>
+                      ) : (
+                        <span>{formatNumber(appointment?.total_price)} Ks</span>
+                      )}
                     </TableCell>
-                    <TableCell className="font-semibold text-right">
-                      {number_format(appointment?.th_total_price)} ฿
+                    <TableCell className="font-semibold text-right text-nowrap">
+                      {appointment?.discount_amt > 0 ? (
+                        <span className="text-red-400 font-bold">
+                          {formatNumber(appointment?.th_balance)} ฿
+                        </span>
+                      ) : (
+                        <span>
+                          {formatNumber(appointment?.th_total_price)} ฿
+                        </span>
+                      )}
                     </TableCell>
                   </TableRow>
                 </TableFooter>

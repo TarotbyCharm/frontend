@@ -42,10 +42,8 @@ export default function MakeAppointment() {
   };
 
   useEffect(() => {
-    if (packagesAllStatus === "idle") {
-      dispatch(fetchPackagesAll());
-    }
-  }, [packagesAllStatus, dispatch]);
+    dispatch(fetchPackagesAll());
+  }, [dispatch]);
 
   useEffect(() => {
     fetchGenders();

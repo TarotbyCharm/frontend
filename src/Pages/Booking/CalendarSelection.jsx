@@ -161,7 +161,7 @@ function CalendarSelection() {
                 <span className="text-sm">Booking Full</span>
               </div>
               <div className="flex items-center">
-                <div className="w-4 h-4 bg-secondary-500 mr-2"></div>
+                <div className="w-4 h-4 bg-[#727272] mr-2"></div>
                 <span className="text-sm">Today Date</span>
               </div>
               <div className="flex items-center">

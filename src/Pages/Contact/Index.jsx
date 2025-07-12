@@ -80,7 +80,7 @@ const Index = () => {
           "@type": "ContactPoint",
           contactType: "customer service",
           email: info?.email || "shinthant234223@gmail.com",
-          telephone: "+66660857579",
+          telephone: "+959753472946",
         },
       ],
       sameAs: [
@@ -223,8 +223,8 @@ const Index = () => {
                 Call Us
               </h3>
               <p className="text-gray-300">
-                <a href="tel:+66660857579" target="_blank">
-                  +66660857579
+                <a href="tel:+959753472946" target="_blank">
+                  +959753472946
                 </a>
               </p>
             </div>

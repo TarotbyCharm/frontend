@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { Badge } from "./ui/badge";
 
-export default function BlogSmallCard({ post, cardHeight = 'h-[250px]' }) {
+export default function BlogSmallCard({ post, cardHeight = "h-[250px]" }) {
   return (
     <div className="md:col-span-2 relative overflow-hidden bg-white shadow-lg group cursor-pointer">
       <img
+        loading="lazy"
         src={
           post?.poster_url
             ? post?.poster_url

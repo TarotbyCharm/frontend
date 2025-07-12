@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import Layout from "./Pages/Layout";
 import Home from "./Pages/Home";
 import Login from "./Pages/Auth/Login";
@@ -21,81 +22,95 @@ import MakeAppointment from "./Pages/Booking/MakeAppointment";
 import LocalStorageManager from "./components/LocalStorageManager";
 import Index from "./Pages/Contact/Index";
 import SavedPosts from "./Pages/User/SavedPosts";
+import SettingsPage from "./Pages/User/Settings";
+import ServiceWorkerRegistration from "./components/ServiceWorkerRegistration";
+import OfflineFallback from "./components/OfflineFallback";
+import PWASettings from "./components/PWASettings";
 
 export default function App() {
   return (
-    <Provider store={store}>
-      <AuthProvider>
-        <BrowserRouter>
-          <LocalStorageManager />
-          <Routes>
-            {/* Public route with layout */}
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
+    <HelmetProvider>
+      <Provider store={store}>
+        <AuthProvider>
+          <BrowserRouter>
+            <ServiceWorkerRegistration />
+            <OfflineFallback />
+            <PWASettings />
+            <LocalStorageManager />
+            <Routes>
+              {/* Public route with layout */}
+              <Route path="/" element={<Layout />}>
+                <Route index element={<Home />} />
 
-              <Route path="/packages" element={<PackageIndex />} />
+                <Route path="/packages" element={<PackageIndex />} />
 
-              <Route path="/blog" element={<BlogIndex />} />
-              <Route path="/blog/:slug" element={<BlogDetails />} />
-              <Route path="/contact" element={<Index />} />
+                <Route path="/blog" element={<BlogIndex />} />
+                <Route path="/blog/:slug" element={<BlogDetails />} />
+                <Route path="/contact" element={<Index />} />
 
-              {/* Private route with layout */}
+                {/* Private route with layout */}
+                <Route
+                  path="/appointment"
+                  element={<PrivateRoute>{<CalendarSelection />}</PrivateRoute>}
+                />
+                <Route
+                  path="/appointment/form"
+                  element={<PrivateRoute>{<MakeAppointment />}</PrivateRoute>}
+                />
+                <Route
+                  path="/appointment/:appointmentNo/payment"
+                  element={<PrivateRoute>{<Payment />}</PrivateRoute>}
+                />
+
+                <Route
+                  path="/appointment/:appointmentNo/booking/slip"
+                  element={<PrivateRoute>{<BookedSlip />}</PrivateRoute>}
+                />
+
+                <Route
+                  path="/user/bookings-list"
+                  element={<PrivateRoute>{<BookingList />}</PrivateRoute>}
+                />
+
+                <Route
+                  path="/user/profile"
+                  element={<PrivateRoute>{<Profile />}</PrivateRoute>}
+                />
+
+                <Route
+                  path="/user/saved-posts"
+                  element={<PrivateRoute>{<SavedPosts />}</PrivateRoute>}
+                />
+
+                <Route
+                  path="/user/settings"
+                  element={<PrivateRoute>{<SettingsPage />}</PrivateRoute>}
+                />
+
+                <Route path="*" element={<NotFound />} />
+              </Route>
+
+              {/* Public auth routes - redirect to home if authenticated */}
               <Route
-                path="/appointment"
-                element={<PrivateRoute>{<CalendarSelection />}</PrivateRoute>}
+                path="/login"
+                element={
+                  <PubliceRoute>
+                    <Login />
+                  </PubliceRoute>
+                }
               />
               <Route
-                path="/appointment/form"
-                element={<PrivateRoute>{<MakeAppointment />}</PrivateRoute>}
+                path="/register"
+                element={
+                  <PubliceRoute>
+                    <Register />
+                  </PubliceRoute>
+                }
               />
-              <Route
-                path="/appointment/:appointmentNo/payment"
-                element={<PrivateRoute>{<Payment />}</PrivateRoute>}
-              />
-
-              <Route
-                path="/appointment/:appointmentNo/booking/slip"
-                element={<PrivateRoute>{<BookedSlip />}</PrivateRoute>}
-              />
-
-              <Route
-                path="/user/bookings-list"
-                element={<PrivateRoute>{<BookingList />}</PrivateRoute>}
-              />
-
-              <Route
-                path="/user/profile"
-                element={<PrivateRoute>{<Profile />}</PrivateRoute>}
-              />
-
-              <Route
-                path="/user/saved-posts"
-                element={<PrivateRoute>{<SavedPosts />}</PrivateRoute>}
-              />
-
-              <Route path="*" element={<NotFound />} />
-            </Route>
-
-            {/* Public auth routes - redirect to home if authenticated */}
-            <Route
-              path="/login"
-              element={
-                <PubliceRoute>
-                  <Login />
-                </PubliceRoute>
-              }
-            />
-            <Route
-              path="/register"
-              element={
-                <PubliceRoute>
-                  <Register />
-                </PubliceRoute>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
-      </AuthProvider>
-    </Provider>
+            </Routes>
+          </BrowserRouter>
+        </AuthProvider>
+      </Provider>
+    </HelmetProvider>
   );
 }

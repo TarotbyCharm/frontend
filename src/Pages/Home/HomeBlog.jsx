@@ -28,6 +28,7 @@ export default function HomeBlog() {
         src={sun}
         className="absolute -bottom-[14rem] xl:-bottom-[2rem] -right-72 xl:-right-[22rem] opacity-10 h-[62rem] xl:h-[80rem]"
         alt="sun"
+        loading="lazy"
       />
       <div className="flex justify-between">
         <motion.h1

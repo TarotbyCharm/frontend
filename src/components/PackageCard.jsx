@@ -14,6 +14,7 @@ export default function PackageCard({ item }) {
           src={item.image || packageImg}
           alt="Emerge artwork"
           className="h-60 md:h-72 w-full object-cover"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black"></div>
         <div className="z-20 absolute left-4 bottom-4">

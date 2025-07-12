@@ -58,7 +58,12 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="text-2xl font-serif text-white">
-            <img src={fullLogo} className="h-10" alt="Tarot by Charm Logo" />
+            <img
+              src={fullLogo}
+              className="h-10"
+              alt="Tarot by Charm Logo"
+              loading="lazy"
+            />
           </Link>
 
           {/* Desktop Navigation */}
@@ -116,7 +121,7 @@ const Navbar = () => {
               ) : (
                 <Link to="/login" className="astro-border-btn px-5">
                   Login
-                  <img src={star} alt="Star" className="h-4" />
+                  <img src={star} alt="Star" className="h-4" loading="lazy" />
                 </Link>
               )}
             </div>
@@ -191,7 +196,7 @@ const Navbar = () => {
                 ) : (
                   <Link to="/login" className="astro-border-btn px-5">
                     Login
-                    <img src={star} alt="Star" className="h-4" />
+                    <img src={star} alt="Star" className="h-4" loading="lazy" />
                   </Link>
                 )}
               </div>

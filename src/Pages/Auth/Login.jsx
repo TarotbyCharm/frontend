@@ -23,6 +23,7 @@ import { setTokens } from "@/utils/axios";
 import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
+import SEO from "@/components/SEO";
 
 export default function Login() {
   const { isAuthenticated } = useAuth();
@@ -83,34 +84,61 @@ export default function Login() {
     console.log("errors", errors);
   };
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Login - Tarot by Charm",
+    description:
+      "Sign in to your Tarot by Charm account to access your personalized tarot reading services, manage appointments, and view your spiritual guidance history.",
+    url: "https://tarotbycharm.com/login",
+    mainEntity: {
+      "@type": "WebApplication",
+      name: "Tarot by Charm Login",
+      applicationCategory: "LifestyleApplication",
+      operatingSystem: "Web Browser",
+    },
+  };
+
   return (
     <>
+      <SEO
+        title="Login - Tarot by Charm | Sign In to Your Account"
+        description="Sign in to your Tarot by Charm account to access your personalized tarot reading services, manage appointments, and view your spiritual guidance history."
+        keywords="tarot login, tarot by charm login, spiritual guidance login, tarot reading account, tarot consultation login, tarot reader login"
+        url="/login"
+        structuredData={structuredData}
+      />
       <div className="grid md:grid-cols-2 gap-4 h-screen overflow-hidden md:divide-x md:divide-white z-10">
         <div className="hidden md:block relative z-10">
           <img
             src={astroSign}
             className="absolute -top-32 xl:-top-40 h-80 xl:h-auto -right-20 xl:-right-24 opacity-40"
             alt="Astro Sign"
+            loading="lazy"
           />
           <img
             src={moon}
             className="absolute top-28 xl:top-44 left-28 xl:left-36 h-56 xl:h-[20rem] opacity-10"
             alt="Moon"
+            loading="lazy"
           />
           <img
             src={star}
             className="absolute right-5 top-56 xl:top-[20rem] h-44 xl:h-60 opacity-10"
             alt="Star"
+            loading="lazy"
           />
           <img
             src={sunBg}
             className="absolute -bottom-72 xl:-bottom-[20rem] -left-[23rem] xl:-left-[26.5rem] h-[42rem] xl:h-[50rem] opacity-40"
             alt="Sub Background"
+            loading="lazy"
           />
           <img
             src={sun}
             className="absolute -bottom-[28rem] xl:-bottom-[38rem] -right-[23.5rem] xl:-right-[31rem] h-[54rem] xl:h-auto opacity-10"
             alt="Sun"
+            loading="lazy"
           />
         </div>
         <div className="flex items-center justify-center pt-10 bg-secondary-500 z-20">
@@ -127,6 +155,7 @@ export default function Login() {
                   src={fullLogo}
                   className="w-auto h-12 mx-auto"
                   alt="Logo"
+                  loading="lazy"
                 />
               </Link>
               <h2 className="mt-10 text-3xl">
@@ -198,45 +227,61 @@ export default function Login() {
                     render={({ field }) => (
                       <FormItem>
                         <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="acceptTerms"
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
-                          <FormLabel htmlFor="acceptTerms">
-                            I accept the terms and conditions
-                          </FormLabel>
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <div className="space-y-1 leading-none">
+                            <FormLabel>
+                              I accept the{" "}
+                              <Link
+                                to="/terms"
+                                className="text-primary-500 hover:underline"
+                              >
+                                terms and conditions
+                              </Link>
+                            </FormLabel>
+                          </div>
                         </div>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" className="italic text-base w-full">
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    disabled={status === "loading"}
+                  >
                     {status === "loading" ? (
                       <>
-                        <Loader className="animate-spin mr-1.5" />
-                        <span>Loading...</span>
+                        <Loader className="w-4 h-4 mr-2 animate-spin" />
+                        Signing in...
                       </>
                     ) : (
-                      "Log In"
+                      "Sign In"
                     )}
                   </Button>
-                  <div className="flex items-center gap-4">
-                    <hr className="w-full border-gray-300" />
-                    <p className="text-sm text-center">or</p>
-                    <hr className="w-full border-gray-300" />
-                  </div>
-                  <p className="text-center">
-                    Don&#39;t have an account?
-                    <Link
-                      to="/register"
-                      className="pl-1.5 text-primary-500 underline"
-                    >
-                      Sign Up Here
-                    </Link>
-                  </p>
                 </form>
               </Form>
+
+              <motion.div
+                className="mt-6 text-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, ease: "easeOut", delay: 0.6 }}
+              >
+                <p className="text-sm text-gray-600">
+                  Don&apos;t have an account?{" "}
+                  <Link
+                    to="/register"
+                    className="text-primary-500 hover:underline font-medium"
+                  >
+                    Sign up
+                  </Link>
+                </p>
+              </motion.div>
             </motion.div>
           </div>
         </div>

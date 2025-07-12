@@ -60,11 +60,13 @@ export default function Zodiac() {
         src={moon}
         className="absolute -left-20 -top-60 opacity-10 h-[28rem] xl:h-[40rem]"
         alt="moon bg"
+        loading="lazy"
       />
       <img
         src={star}
         className="absolute right-52 top-0 opacity-10 h-40 xl:h-52"
         alt="star bg"
+        loading="lazy"
       />
     </div>
   );

@@ -64,6 +64,7 @@ export default function BlogCard({ post }) {
           }
           className="h-36 w-full object-cover"
           alt="poster"
+          loading="lazy"
         />
       </Link>
       <div className="absolute top-8 left-6">

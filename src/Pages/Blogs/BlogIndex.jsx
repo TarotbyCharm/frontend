@@ -2,6 +2,7 @@ import BlogCard from "@/components/BlogCard";
 import BlogHorCard from "@/components/BlogHorCard";
 import FetchError from "@/components/FetchError";
 import PageLoading from "@/components/PageLoading";
+import SEO from "@/components/SEO";
 import {
   Select,
   SelectContent,
@@ -103,6 +104,44 @@ export default function BlogIndex() {
     }, 100);
   };
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: "Tarot by Charm Blog",
+    description:
+      "Discover insightful tarot articles, spiritual guidance, and expert insights on love, career, and personal growth. Read our latest tarot blog posts and gain deeper understanding of the mystical world.",
+    url: "https://tarotbycharm.com/blog",
+    publisher: {
+      "@type": "Organization",
+      name: "Tarot by Charm",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://tarotbycharm.com/logo.png",
+      },
+    },
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: posts?.length || 0,
+      itemListElement:
+        posts?.map((post, index) => ({
+          "@type": "BlogPosting",
+          position: index + 1,
+          headline: post.title,
+          description: post.excerpt,
+          author: {
+            "@type": "Person",
+            name: "Tarot by Charm",
+          },
+          datePublished: post.created_at,
+          dateModified: post.updated_at,
+          publisher: {
+            "@type": "Organization",
+            name: "Tarot by Charm",
+          },
+        })) || [],
+    },
+  };
+
   if (specialPostStatus === "loading" || status === "loading") {
     return (
       <div className="mt-20">
@@ -122,147 +161,158 @@ export default function BlogIndex() {
   };
 
   return (
-    <div className="container mx-auto mt-24 mb-20 px-6 ss:px-2">
-      {/* Header */}
-      <div className="my-10">
-        <motion.h1
-          className="header-title text-3xl ss:text-4xl lg:text-5xl text-center"
-          variants={motionVariants}
-          initial="initial"
-          animate="animate"
-          transition={{ ...motionVariants.transition, delay: 0.2 }}
-        >
-          <span className="italic">Our</span> Blog
-        </motion.h1>
-      </div>
-
-      <h2 className="text-2xl ss:text-2xl lg:text-4xl ss:mt-20">
-        <span className="text-xl ss:text-2xl lg:text-3xl italic">Today</span>{" "}
-        Special...
-      </h2>
-
-      <div className="flex flex-col ss:flex-row gap-4">
-        {/* Today Special */}
-        <div className="flex-1 mt-7">
-          <BlogHorCard post={specialPost} />
+    <>
+      <SEO
+        title="Tarot Blog - Spiritual Insights & Guidance | Tarot by Charm"
+        description="Discover insightful tarot articles, spiritual guidance, and expert insights on love, career, and personal growth. Read our latest tarot blog posts and gain deeper understanding of the mystical world."
+        keywords="tarot blog, spiritual guidance, tarot articles, love tarot, career tarot, tarot insights, spiritual blog, tarot reading blog, tarot guidance, mystical articles"
+        url="/blog"
+        structuredData={structuredData}
+      />
+      <div className="container mx-auto mt-24 mb-20 px-6 ss:px-2">
+        {/* Header */}
+        <div className="my-10">
+          <motion.h1
+            className="header-title text-3xl ss:text-4xl lg:text-5xl text-center"
+            variants={motionVariants}
+            initial="initial"
+            animate="animate"
+            transition={{ ...motionVariants.transition, delay: 0.2 }}
+          >
+            <span className="italic">Our</span> Blog
+          </motion.h1>
         </div>
 
-        {/* Popular Posts */}
-        <div className="w-full ss:w-[30%] ss:mt-7">
-          {/* {popularPosts &&
-            popularPosts.map((popularPost, index) => (
-              <div key={index} className="ss:mb-5">
-                <BlogSmallCard post={popularPost} />
-              </div>
-            ))} */}
-          <div className="flex items-center justify-center h-full border bg-primary-950/5 border-primary-600/20">
-            <h1 className="text-primary-200">Ad Go Here!</h1>
+        <h2 className="text-2xl ss:text-2xl lg:text-4xl ss:mt-20">
+          <span className="text-xl ss:text-2xl lg:text-3xl italic">Today</span>{" "}
+          Special...
+        </h2>
+
+        <div className="flex flex-col ss:flex-row gap-4">
+          {/* Today Special */}
+          <div className="flex-1 mt-7">
+            <BlogHorCard post={specialPost} />
+          </div>
+
+          {/* Popular Posts */}
+          <div className="w-full ss:w-[30%] ss:mt-7">
+            {/* {popularPosts &&
+              popularPosts.map((popularPost, index) => (
+                <div key={index} className="ss:mb-5">
+                  <BlogSmallCard post={popularPost} />
+                </div>
+              ))} */}
+            <div className="flex items-center justify-center h-full border bg-primary-950/5 border-primary-600/20">
+              <h1 className="text-primary-200">Ad Go Here!</h1>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Blog List */}
-      <div className="mt-20 blog-list">
-        <div className="flex flex-wrap gap-1 items-center justify-between">
-          <Select value={sortBy} onValueChange={handleSortChange}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Sort" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="latest">
-                Sort By
-                <span className="font-bold italic ml-1.5 text-primary-500">
-                  Latest
-                </span>
-              </SelectItem>
-              <SelectItem value="oldest">
-                Sort By
-                <span className="font-bold italic ml-1.5 text-primary-500">
-                  Oldest
-                </span>
-              </SelectItem>
-              <SelectItem value="alphabet-asc">
-                Sort By
-                <span className="font-bold italic ml-1.5 text-primary-500">
-                  A-Z
-                </span>
-              </SelectItem>
-              <SelectItem value="alphabet-desc">
-                Sort By
-                <span className="font-bold italic ml-1.5 text-primary-500">
-                  Z-A
-                </span>
-              </SelectItem>
-            </SelectContent>
-          </Select>
+        {/* Blog List */}
+        <div className="mt-20 blog-list">
+          <div className="flex flex-wrap gap-1 items-center justify-between">
+            <Select value={sortBy} onValueChange={handleSortChange}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Sort" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="latest">
+                  Sort By
+                  <span className="font-bold italic ml-1.5 text-primary-500">
+                    Latest
+                  </span>
+                </SelectItem>
+                <SelectItem value="oldest">
+                  Sort By
+                  <span className="font-bold italic ml-1.5 text-primary-500">
+                    Oldest
+                  </span>
+                </SelectItem>
+                <SelectItem value="alphabet-asc">
+                  Sort By
+                  <span className="font-bold italic ml-1.5 text-primary-500">
+                    A-Z
+                  </span>
+                </SelectItem>
+                <SelectItem value="alphabet-desc">
+                  Sort By
+                  <span className="font-bold italic ml-1.5 text-primary-500">
+                    Z-A
+                  </span>
+                </SelectItem>
+              </SelectContent>
+            </Select>
 
-          {/* Categories Tab */}
-          <div className="border bg-primary-950/5 border-primary-600/20 flex items-center gap-2 overflow-x-auto p-0.5 w-full ss:w-auto">
-            <button
-              onClick={() => handleCategoryChange("all")}
-              className={`px-4 py-1.5 text-sm whitespace-nowrap transition-colors ${
-                selectedCategory === "all"
-                  ? "bg-primary-500 text-white"
-                  : "bg-primary-950/5 hover:bg-primary-950/10 text-primary-200"
-              }`}
-            >
-              All
-            </button>
-            {categories?.map((category) => (
+            {/* Categories Tab */}
+            <div className="border bg-primary-950/5 border-primary-600/20 flex items-center gap-2 overflow-x-auto p-0.5 w-full ss:w-auto">
               <button
-                key={category.id}
-                onClick={() => handleCategoryChange(category.slug)}
+                onClick={() => handleCategoryChange("all")}
                 className={`px-4 py-1.5 text-sm whitespace-nowrap transition-colors ${
-                  selectedCategory === category.slug
+                  selectedCategory === "all"
                     ? "bg-primary-500 text-white"
-                    : "bg-primary-950/5 hover:bg-primary-950/40 text-primary-200"
+                    : "bg-primary-950/5 hover:bg-primary-950/10 text-primary-200"
                 }`}
               >
-                {category.name}
+                All
               </button>
-            ))}
-          </div>
-
-          <div>
-            <button
-              onClick={() => setIsSearchOpen(true)}
-              className="w-full max-w-xl text-sm flex items-center gap-3 px-4 h-10 bg-primary-950/5 border-primary-600/20 text-primary-200 border shadow-sm transition-colors"
-            >
-              <Search className="w-5 h-5 text-gray-400" />
-              <span className="text-gray-500">Search posts...</span>
-            </button>
-            <SearchModal
-              isOpen={isSearchOpen}
-              onClose={() => setIsSearchOpen(false)}
-            />
-          </div>
-        </div>
-
-        <div className="mt-8">
-          <div className="grid ss:grid-cols-2 lg:grid-cols-4 gap-4 xl:gap-6">
-            {posts &&
-              posts.map((post, index) => <BlogCard key={index} post={post} />)}
-          </div>
-          {hasMore && (
-            <div className="flex justify-center">
-              <button
-                className="astro-primary-btn mt-10"
-                onClick={handleLoadMore}
-                disabled={loadingMore}
-              >
-                {loadingMore ? (
-                  <>
-                    <Loader className="w-5 h-5 animate-spin" />
-                    Loading...
-                  </>
-                ) : (
-                  <>See More</>
-                )}
-              </button>
+              {categories?.map((category) => (
+                <button
+                  key={category.id}
+                  onClick={() => handleCategoryChange(category.slug)}
+                  className={`px-4 py-1.5 text-sm whitespace-nowrap transition-colors ${
+                    selectedCategory === category.slug
+                      ? "bg-primary-500 text-white"
+                      : "bg-primary-950/5 hover:bg-primary-950/40 text-primary-200"
+                  }`}
+                >
+                  {category.name}
+                </button>
+              ))}
             </div>
-          )}
+
+            <div>
+              <button
+                onClick={() => setIsSearchOpen(true)}
+                className="w-full max-w-xl text-sm flex items-center gap-3 px-4 h-10 bg-primary-950/5 border-primary-600/20 text-primary-200 border shadow-sm transition-colors"
+              >
+                <Search className="w-5 h-5 text-gray-400" />
+                <span className="text-gray-500">Search posts...</span>
+              </button>
+              <SearchModal
+                isOpen={isSearchOpen}
+                onClose={() => setIsSearchOpen(false)}
+              />
+            </div>
+          </div>
+
+          <div className="mt-8">
+            <div className="grid ss:grid-cols-2 lg:grid-cols-4 gap-4 xl:gap-6">
+              {posts &&
+                posts.map((post, index) => (
+                  <BlogCard key={index} post={post} />
+                ))}
+            </div>
+            {hasMore && (
+              <div className="flex justify-center">
+                <button
+                  className="astro-primary-btn mt-10"
+                  onClick={handleLoadMore}
+                  disabled={loadingMore}
+                >
+                  {loadingMore ? (
+                    <>
+                      <Loader className="w-5 h-5 animate-spin" />
+                      Loading...
+                    </>
+                  ) : (
+                    <>See More</>
+                  )}
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

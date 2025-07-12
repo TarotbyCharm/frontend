@@ -1,20 +1,50 @@
 import { Link } from "react-router-dom";
-import { Heart } from "lucide-react";
 import { fullLogo } from "@/assets";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchInfo } from "@/redux/reducers/InfoSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Download } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const dispatch = useDispatch();
   const { info, status } = useSelector((state) => state.info);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
 
   useEffect(() => {
     if (status === "idle") {
       dispatch(fetchInfo());
     }
   }, [status, dispatch]);
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+
+    return () => {
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+
+    if (outcome === "accepted") {
+      console.log("App installed successfully");
+    }
+
+    setDeferredPrompt(null);
+  };
 
   return (
     <footer className="bg-black/40 backdrop-blur-lg border-t border-primary-500/20 pt-16 pb-8">
@@ -23,7 +53,12 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="space-y-4">
             <Link to="/" className="text-2xl font-serif text-white">
-              <img src={fullLogo} className="h-12" alt="TarotByCharm" />
+              <img
+                src={fullLogo}
+                className="h-12"
+                alt="TarotByCharm"
+                loading="lazy"
+              />
             </Link>
             <p className="text-gray-300 text-sm">
               Unlock the mysteries of your destiny through mystical tarot
@@ -154,65 +189,46 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Services */}
-          {/* <div>
-            <h3 className="text-white font-serif text-lg mb-4">Services</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  to="/services/free-reading"
-                  className="text-gray-300 hover:text-primary-300 transition-colors text-sm"
-                >
-                  Free Reading
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/services/love-reading"
-                  className="text-gray-300 hover:text-primary-300 transition-colors text-sm"
-                >
-                  Love Reading
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/services/career-reading"
-                  className="text-gray-300 hover:text-primary-300 transition-colors text-sm"
-                >
-                  Career Reading
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/services/spiritual-guidance"
-                  className="text-gray-300 hover:text-primary-300 transition-colors text-sm"
-                >
-                  Spiritual Guidance
-                </Link>
-              </li>
-            </ul>
-          </div> */}
+          {/* Contact & Install */}
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-white font-serif text-lg mb-4">Contact Us</h3>
+              <ul className="space-y-2">
+                <li className="text-gray-300 text-sm">
+                  Email:{" "}
+                  <a
+                    href={`mailto:${
+                      info?.email || "shinthant234223@gmail.com"
+                    }`}
+                    target="_blank"
+                  >
+                    {info?.email || "shinthant234223@gmail.com"}
+                  </a>
+                </li>
+                <li className="text-gray-300 text-sm">
+                  Phone:{" "}
+                  <a href="tel:+66660857579" target="_blank">
+                    +66660857579
+                  </a>
+                </li>
+              </ul>
+            </div>
 
-          {/* Contact */}
-          <div>
-            <h3 className="text-white font-serif text-lg mb-4">Contact Us</h3>
-            <ul className="space-y-2">
-              <li className="text-gray-300 text-sm">
-                Email:{" "}
-                <a
-                  href={`mailto:${info?.email || "shinthant234223@gmail.com"}`}
-                  target="_blank"
+            {/* PWA Install Button */}
+            {deferredPrompt && (
+              <div className="pt-4 border-t border-primary-500/20">
+                <h4 className="text-white font-serif text-sm mb-2">
+                  Install Web App
+                </h4>
+                <button
+                  onClick={handleInstallClick}
+                  className="flex items-center space-x-2 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white px-3 py-2 rounded-lg text-sm font-medium shadow-lg transition-all duration-200 transform hover:scale-105"
                 >
-                  {info?.email || "shinthant234223@gmail.com"}
-                </a>
-              </li>
-              <li className="text-gray-300 text-sm">
-                Phone:{" "}
-                <a href="tel:+66660857579" target="_blank">
-                  +66660857579
-                </a>
-              </li>
-            </ul>
+                  <Download className="w-4 h-4" />
+                  <span>Install App</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
@@ -237,8 +253,14 @@ const Footer = () => {
               </Link>
             </div>
             <p className="text-gray-400 text-sm flex items-center">
-              Made with <Heart className="w-4 h-4 mx-1 text-primary-400" /> by
-              Zeronee Tech
+              Developed by
+              <Link
+                to="https://www.zeroonee.com"
+                target="_blank"
+                className="ml-1 text-primary-500 underline underline-offset-2"
+              >
+                ZeroOnee Tech
+              </Link>
             </p>
           </div>
         </div>

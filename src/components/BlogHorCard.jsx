@@ -13,6 +13,7 @@ export default function BlogHorCard({ post }) {
         }
         alt={post?.title}
         className="w-full h-[450px] object-cover transition-transform duration-500 group-hover:scale-105"
+        loading="lazy"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent transition-opacity duration-300 group-hover:from-black/70" />
       <div className="absolute bottom-0 left-0 p-6 w-full transform transition-transform duration-300 group-hover:translate-y-[-8px]">

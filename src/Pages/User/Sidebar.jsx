@@ -7,6 +7,7 @@ import {
   Camera,
   LogOut,
   BookmarkCheck,
+  Settings,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -34,6 +35,11 @@ const navItems = [
     icon: <BookmarkCheck className="mr-2 h-4 w-4" />,
     label: "Saved Posts",
     path: "/user/saved-posts",
+  },
+  {
+    icon: <Settings className="mr-2 h-4 w-4" />,
+    label: "App Settings",
+    path: "/user/settings",
   },
 ];
 

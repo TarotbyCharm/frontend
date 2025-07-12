@@ -20,7 +20,8 @@ export default function ZCard({ zodiac }) {
                   <img
                     src={zodiac.image ? zodiac.image : zodiacImg}
                     className="h-32 xl:h-48 xl:w-48 object-contain w-auto mx-auto"
-                    alt=""
+                    alt={zodiac.name}
+                    loading="lazy"
                   />
                 </CardTitle>
               </CardHeader>

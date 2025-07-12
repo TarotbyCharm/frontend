@@ -14,6 +14,7 @@ const NotFound = () => {
           src={notFoundImg}
           alt="404 Not Found"
           className="mb-4 max-w-full h-auto mx-auto"
+          loading="lazy"
         />
         <div className="w-fit mx-auto">
           <Link to="/" className="astro-border-btn">

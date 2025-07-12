@@ -173,7 +173,8 @@ export default function PaymentForm({ appointmentNo }) {
                           <img
                             src={bank.image}
                             className="h-[120px] w-[120px] xl:h-36 xl:w-36 object-cover"
-                            alt="Bank Image"
+                            alt={bank.name}
+                            loading="lazy"
                           />
                         </div>
                       </label>
@@ -238,6 +239,7 @@ export default function PaymentForm({ appointmentNo }) {
                           src={preview}
                           alt="Preview"
                           className="max-h-64 mx-auto rounded-lg"
+                          loading="lazy"
                         />
                       ) : (
                         <div className="py-8">

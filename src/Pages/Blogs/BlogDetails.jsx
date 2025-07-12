@@ -161,6 +161,7 @@ export default function BlogDetails() {
                 }
                 className="max-h-[22rem] w-full object-cover"
                 alt="poster"
+                loading="lazy"
               />
               <Badge className="absolute top-4 left-4 px-3">
                 {post.category ? post.category.name : ""}
@@ -213,14 +214,14 @@ export default function BlogDetails() {
                       target="_blank"
                       className="bg-slate-800 hover:bg-slate-700 rounded-full p-2"
                     >
-                      <img src={facebook} alt="facebook" />
+                      <img src={facebook} alt="facebook" loading="lazy" />
                     </a>
                     <a
                       href={`https://www.x.com/share?url=${window.location.href}`}
                       target="_blank"
                       className="bg-slate-800 hover:bg-slate-700 rounded-full p-2"
                     >
-                      <img src={twitterX} alt="twitter-x" />
+                      <img src={twitterX} alt="twitter-x" loading="lazy" />
                     </a>
                   </div>
                 </div>

@@ -348,6 +348,7 @@ function IncomingHome() {
                     src={post.image}
                     alt={post.title}
                     className="object-cover w-full h-48"
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                 </div>

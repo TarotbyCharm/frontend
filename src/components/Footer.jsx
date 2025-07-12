@@ -207,8 +207,8 @@ const Footer = () => {
                 </li>
                 <li className="text-gray-300 text-sm">
                   Phone:{" "}
-                  <a href="tel:+66660857579" target="_blank">
-                    +66660857579
+                  <a href="tel:+959753472946" target="_blank">
+                    +959753472946
                   </a>
                 </li>
               </ul>

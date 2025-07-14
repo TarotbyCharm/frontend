@@ -16,9 +16,9 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- Blog Index -->
+  <!-- Blogs Index -->
   <url>
-    <loc>https://tarotbycharm.com/blog</loc>
+    <loc>https://tarotbycharm.com/blogs</loc>
     <lastmod>2025-07-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

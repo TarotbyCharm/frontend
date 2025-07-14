@@ -5,11 +5,23 @@ import { fetchInfo } from "@/redux/reducers/InfoSlice";
 import { useEffect, useState } from "react";
 import { Download } from "lucide-react";
 
+// iOS detection helper
+function isIOS() {
+  if (typeof window === "undefined" || typeof navigator === "undefined")
+    return false;
+  return /iphone|ipad|ipod/i.test(navigator.userAgent);
+}
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const dispatch = useDispatch();
   const { info, status } = useSelector((state) => state.info);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [isIos, setIsIos] = useState(false);
+
+  useEffect(() => {
+    setIsIos(isIOS());
+  }, []);
 
   useEffect(() => {
     if (status === "idle") {
@@ -214,8 +226,8 @@ const Footer = () => {
               </ul>
             </div>
 
-            {/* PWA Install Button */}
-            {deferredPrompt && (
+            {/* PWA Install Button or iOS Guide */}
+            {deferredPrompt && !isIos && (
               <div className="pt-4 border-t border-primary-500/20">
                 <h4 className="text-white font-serif text-sm mb-2">
                   Install Web App
@@ -227,6 +239,24 @@ const Footer = () => {
                   <Download className="w-4 h-4" />
                   <span>Install App</span>
                 </button>
+              </div>
+            )}
+            {isIos && (
+              <div className="pt-4 border-t border-primary-500/20">
+                <h4 className="text-white font-serif text-sm mb-2">
+                  Install on iPhone/iPad
+                </h4>
+                <div className="text-gray-300 text-xs">
+                  To install this app on your iPhone or iPad, tap the{" "}
+                  <span className="inline-block px-1 py-0.5 bg-white/10 rounded">
+                    Share
+                  </span>{" "}
+                  button in Safari and then select{" "}
+                  <span className="inline-block px-1 py-0.5 bg-white/10 rounded">
+                    Add to Home Screen
+                  </span>
+                  .
+                </div>
               </div>
             )}
           </div>

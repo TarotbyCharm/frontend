@@ -41,13 +41,13 @@ export default function HomeBlog() {
           <span className="text-3xl md:text-4xl xl:text-5xl italic">
             Latest
           </span>{" "}
-          Blog
+          Blogs
         </motion.h1>
         <Link
-          to="/blog"
+          to="/blogs"
           className="bottom-title z-10 astro-border-btn flex items-center text-sm italic"
         >
-          View All <span className="hidden md:block">Our Blog</span>
+          View All <span className="hidden md:block">Our Blogs</span>
           <ArrowUpRight size={16} className="hidden md:block" />
         </Link>
       </div>

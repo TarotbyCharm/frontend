@@ -64,7 +64,7 @@ export default function BlogHorCard({ post }) {
           </span>
         </div> */}
         <Link
-          to={`/blog/${post?.slug}`}
+          to={`/blogs/${post?.slug}`}
           className="text-primary-200 text-2xl md:text-3xl lg:text-4xl font-bold mb-4 leading-tight line-clamp-3"
         >
           {post?.title}
@@ -74,7 +74,7 @@ export default function BlogHorCard({ post }) {
         </p>
         <div className="flex items-center gap-3">
           <Link
-            to={`/blog/${post?.slug}`}
+            to={`/blogs/${post?.slug}`}
             className="astro-secondary-btn text-sm transition-all duration-300 group"
           >
             <span>Read article</span>

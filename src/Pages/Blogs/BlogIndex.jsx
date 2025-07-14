@@ -23,7 +23,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import SearchModal from "./SearchModal";
-import BlogSmallCard from "@/components/BlogSmallCard";
 import { publicHttp } from "@/utils/axios";
 
 export default function BlogIndex() {
@@ -37,7 +36,6 @@ export default function BlogIndex() {
     loadingMore,
     specialPost,
     specialPostStatus,
-    popularPosts,
     popularPostsStatus,
     sortBy,
     selectedCategory,
@@ -106,11 +104,11 @@ export default function BlogIndex() {
 
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "Blog",
-    name: "Tarot by Charm Blog",
+    "@type": "Blogs",
+    name: "Tarot by Charm Blogs",
     description:
-      "Discover insightful tarot articles, spiritual guidance, and expert insights on love, career, and personal growth. Read our latest tarot blog posts and gain deeper understanding of the mystical world.",
-    url: "https://tarotbycharm.com/blog",
+      "Discover insightful tarot articles, spiritual guidance, and expert insights on love, career, and personal growth. Read our latest tarot blogs posts and gain deeper understanding of the mystical world.",
+    url: "https://tarotbycharm.com/blogs",
     publisher: {
       "@type": "Organization",
       name: "Tarot by Charm",
@@ -163,10 +161,10 @@ export default function BlogIndex() {
   return (
     <>
       <SEO
-        title="Tarot Blog - Spiritual Insights & Guidance | Tarot by Charm"
+        title="Tarot Blogs - Spiritual Insights & Guidance | Tarot by Charm"
         description="Discover insightful tarot articles, spiritual guidance, and expert insights on love, career, and personal growth. Read our latest tarot blog posts and gain deeper understanding of the mystical world."
-        keywords="tarot blog, spiritual guidance, tarot articles, love tarot, career tarot, tarot insights, spiritual blog, tarot reading blog, tarot guidance, mystical articles"
-        url="/blog"
+        keywords="tarot blogs, spiritual guidance, tarot articles, love tarot, career tarot, tarot insights, spiritual blogs, tarot reading blogs, tarot guidance, mystical articles, astrology blogs, astrology articles, astrology insights, astrology predictions, daily horoscope, weekly horoscope, monthly horoscope, zodiac signs, birth chart, natal chart, astrology compatibility, astrology reading, astrology consultation, astrology Myanmar, Myanmar astrology, Burmese astrology, astrology news, astrology updates, astrology by charm, charm astrology blog, နက္ခတ်ဗေဒင်, နက္ခတ်စာဖတ်ခြင်း, နက္ခတ်ဗေဒင်အကြံပေး, နက္ခတ်ဗေဒင်အနာဂတ်, နက္ခတ်ဗေဒင်အချစ်, နက္ခတ်ဗေဒင်အလုပ်အကိုင်, နက္ခတ်ဗေဒင်အွန်လိုင်း, နက္ခတ်ဗေဒင်စာဖတ်ဝန်ဆောင်မှု, နက္ခတ်ဗေဒင်ဘလော့, နက္ခတ်ဗေဒင်ဆောင်းပါး, နက္ခတ်ဗေဒင်သတင်း, နက္ခတ်ဗေဒင်အပ်ဒိတ်"
+        url="/blogs"
         structuredData={structuredData}
       />
       <div className="container mx-auto mt-24 mb-20 px-6 ss:px-2">
@@ -179,7 +177,7 @@ export default function BlogIndex() {
             animate="animate"
             transition={{ ...motionVariants.transition, delay: 0.2 }}
           >
-            <span className="italic">Our</span> Blog
+            <span className="italic">Our</span> Blogs
           </motion.h1>
         </div>
 

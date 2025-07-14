@@ -77,7 +77,7 @@ export default function SavedPosts() {
         filterFn: "includesString",
         cell: ({ row }) => (
           <Link
-            to={`/blog/${row.original.slug}`}
+            to={`/blogs/${row.original.slug}`}
             className="text-primary-300 hover:text-primary-100"
           >
             {row.original.title}
@@ -109,7 +109,7 @@ export default function SavedPosts() {
             <Tooltip>
               <TooltipTrigger>
                 <Link
-                  to={`/blog/${row.original.slug}`}
+                  to={`/blogs/${row.original.slug}`}
                   className={buttonVariants({
                     variant: "secondary",
                     size: "sm",

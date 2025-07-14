@@ -44,8 +44,8 @@ export default function App() {
 
                 <Route path="/packages" element={<PackageIndex />} />
 
-                <Route path="/blog" element={<BlogIndex />} />
-                <Route path="/blog/:slug" element={<BlogDetails />} />
+                <Route path="/blogs" element={<BlogIndex />} />
+                <Route path="/blogs/:slug" element={<BlogDetails />} />
                 <Route path="/contact" element={<Index />} />
 
                 {/* Private route with layout */}

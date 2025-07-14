@@ -23,7 +23,7 @@ export default function BlogSmallCard({ post, cardHeight = "h-[250px]" }) {
           <span className="text-white/80 text-sm block">{post?.read_time}</span>
         </div>
         <Link
-          to={`/blog/${post?.slug}`}
+          to={`/blogs/${post?.slug}`}
           className="text-primary-200 text-lg ss:text-xl lg:text-2xl font-bold leading-tight line-clamp-2"
         >
           {post?.title}

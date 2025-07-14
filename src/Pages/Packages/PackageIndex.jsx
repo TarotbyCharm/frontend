@@ -67,7 +67,7 @@ export default function PackageIndex() {
       <SEO
         title="Tarot Reading Packages | Tarot by Charm"
         description="Browse our comprehensive selection of tarot reading packages and services. From love readings to career guidance, find the perfect tarot session for your needs."
-        keywords="tarot reading packages, love tarot reading, career tarot reading, spiritual guidance packages, tarot consultation services, online tarot reading packages"
+        keywords="tarot reading packages, love tarot reading, career tarot reading, spiritual guidance packages, tarot consultation services, online tarot reading packages, tarot packages, tarot service packages, tarot session packages, tarot bundle, tarot deals, tarot offers, tarot consultation packages, tarot guidance packages, tarot online packages, tarot by charm packages, tarot by charm services, psychic reading packages, astrology packages, astrology reading packages, spiritual reading packages, love tarot packages, career tarot packages, relationship tarot packages, family tarot packages, personal tarot packages, group tarot packages, affordable tarot packages, best tarot packages, premium tarot packages, Myanmar tarot packages, Burmese tarot packages, တားရော့ပက်ကေ့ချ်, တားရော့ဝန်ဆောင်မှုပက်ကေ့ချ်, တားရော့ဖတ်ခြင်းပက်ကေ့ချ်, တားရော့အွန်လိုင်းပက်ကေ့ချ်, တားရော့အကြံပေးပက်ကေ့ချ်, တားရော့စာဖတ်ဝန်ဆောင်မှု, တားရော့စာဖတ်ပက်ကေ့ချ်, တားရော့စာဖတ်ဝန်ဆောင်မှုများ, တားရော့အထူးပက်ကေ့ချ်, တားရော့စျေးသက်သာပက်ကေ့ချ်, တားရော့စျေးအနိမ့်ပက်ကေ့ချ်, တားရော့စျေးမြင့်ပက်ကေ့ချ်, နက္ခတ်ဗေဒင်ပက်ကေ့ချ်, နက္ခတ်ဗေဒင်ဝန်ဆောင်မှု, နက္ခတ်ဗေဒင်ဖတ်ခြင်းပက်ကေ့ချ်"
         url="/packages"
         structuredData={structuredData}
       />

@@ -55,7 +55,7 @@ export default function BlogCard({ post }) {
 
   return (
     <div className="relative border bg-primary-950/5 border-primary-600/20 p-3.5 xl:p-4 cursor-pointer hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 hover:border-primary-950">
-      <Link to={`/blog/${post?.slug}`}>
+      <Link to={`/blogs/${post?.slug}`}>
         <img
           src={
             post?.poster_url
@@ -75,7 +75,7 @@ export default function BlogCard({ post }) {
       </div>
       <div className="pb-8 mt-3">
         <h1 className="text-lg xl:text-xl text-primary-200 hover:text-primary-500 font-medium mb-1 line-clamp-2">
-          <Link to={`/blog/${post?.slug}`}>{post?.title}</Link>
+          <Link to={`/blogs/${post?.slug}`}>{post?.title}</Link>
         </h1>
         <div className="flex items-center gap-4 text-xs xl:text-sm text-gray-500 mb-3">
           <h6 className="flex gap-1.5 items-center">
@@ -90,7 +90,7 @@ export default function BlogCard({ post }) {
         </p>
         <div className="flex justify-between items-center mt-4">
           <Link
-            to={`/blog/${post?.slug}`}
+            to={`/blogs/${post?.slug}`}
             className="astro-secondary-btn text-sm absolute bottom-4"
           >
             Read More

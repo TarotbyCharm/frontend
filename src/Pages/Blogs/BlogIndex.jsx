@@ -179,6 +179,11 @@ export default function BlogIndex() {
           >
             <span className="italic">Our</span> Blogs
           </motion.h1>
+          <p className="text-center text-gray-400 text-lg mt-4 max-w-2xl mx-auto">
+            Discover insightful tarot articles, spiritual guidance, and expert
+            insights on love, career, and personal growth. Read our latest tarot
+            blog posts and gain deeper understanding of the mystical world.
+          </p>
         </div>
 
         <h2 className="text-2xl ss:text-2xl lg:text-4xl ss:mt-20">

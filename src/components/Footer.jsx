@@ -12,6 +12,15 @@ function isIOS() {
   return /iphone|ipad|ipod/i.test(navigator.userAgent);
 }
 
+const navItems = [
+  { name: "Home", path: "/" },
+  { name: "About", path: "/about" },
+  { name: "Packages", path: "/packages" },
+  { name: "Blogs", path: "/blogs" },
+  { name: "Zodiacs", path: "/zodiacs" },
+  { name: "Contact", path: "/contact" },
+];
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const dispatch = useDispatch();
@@ -166,38 +175,16 @@ const Footer = () => {
           <div>
             <h3 className="text-white font-serif text-lg mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li>
-                <Link
-                  to="/"
-                  className="text-gray-300 hover:text-primary-300 transition-colors text-sm"
-                >
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/package"
-                  className="text-gray-300 hover:text-primary-300 transition-colors text-sm"
-                >
-                  Package
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/blogs"
-                  className="text-gray-300 hover:text-primary-300 transition-colors text-sm"
-                >
-                  Blogs
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/contact"
-                  className="text-gray-300 hover:text-primary-300 transition-colors text-sm"
-                >
-                  Contact
-                </Link>
-              </li>
+              {navItems.map((item) => (
+                <li key={item.name}>
+                  <Link
+                    to={item.path}
+                    className="text-gray-300 hover:text-primary-300 transition-colors text-sm"
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 

@@ -1,14 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Phone } from "lucide-react";
-import {
-  astroSign,
-  sunBg,
-  mainAstro,
-  packageImg,
-  zodiacImg,
-  profile,
-} from "@/assets";
+import { astroSign, sunBg, profile } from "@/assets";
 
 export default function About() {
   const ref = useRef(null);
@@ -17,7 +10,6 @@ export default function About() {
   return (
     <div
       className="relative min-h-[24rem] flex items-center justify-center py-16 md:py-28"
-      id="#about"
       ref={ref}
     >
       {/* Background Images */}

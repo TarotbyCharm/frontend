@@ -26,6 +26,10 @@ import SettingsPage from "./Pages/User/Settings";
 import ServiceWorkerRegistration from "./components/ServiceWorkerRegistration";
 import OfflineFallback from "./components/OfflineFallback";
 import PWASettings from "./components/PWASettings";
+import Zodiacs from "./Pages/Zodiacs";
+import Privacy from "./Pages/Privacy";
+import Terms from "./Pages/Terms";
+import About from "./Pages/About";
 
 export default function App() {
   return (
@@ -41,12 +45,15 @@ export default function App() {
               {/* Public route with layout */}
               <Route path="/" element={<Layout />}>
                 <Route index element={<Home />} />
-
+                <Route path="/about" element={<About />} />
                 <Route path="/packages" element={<PackageIndex />} />
 
                 <Route path="/blogs" element={<BlogIndex />} />
                 <Route path="/blogs/:slug" element={<BlogDetails />} />
                 <Route path="/contact" element={<Index />} />
+                <Route path="/zodiacs" element={<Zodiacs />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/terms" element={<Terms />} />
 
                 {/* Private route with layout */}
                 <Route

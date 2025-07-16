@@ -81,6 +81,10 @@ export default function PackageIndex() {
         >
           <span className="italic">Our</span> Packages
         </motion.h1>
+        <p className="text-center text-gray-400 text-lg mt-4 max-w-3xl mx-auto">
+          From love readings to career guidance, find the perfect
+          tarot session for your needs.
+        </p>
 
         <div className="mt-8 package-grid grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 xl:gap-6">
           {packages &&

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Eye, EyeOff, Loader } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, Loader } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
@@ -64,17 +64,36 @@ export default function Register() {
     },
   });
 
-  const onSubmit = (data) => {
-    // console.log(data);
-    dispatch(register(data)).then((result) => {
-      if (result.payload) {
+  const { setError } = form;
+
+  const onSubmit = async (data) => {
+    try {
+      const result = await dispatch(register(data));
+      if (result.meta && result.meta.requestStatus === "fulfilled") {
         const { user, access_token, refresh_token } = result.payload;
         setTokens(access_token, refresh_token);
         updateUser(user);
         form.reset();
         navigate("/");
+      } else {
+        // result.payload may be the whole error response
+        const errors = result.payload?.errors;
+        if (errors && typeof errors === "object") {
+          Object.entries(errors).forEach(([field, messages]) => {
+            setError(field, { type: "manual", message: messages[0] });
+          });
+        }
+        // Show the general message at the top if present
+        if (result.payload?.message) {
+          setError("root", { type: "manual", message: result.payload.message });
+        }
       }
-    });
+    } catch (e) {
+      setError("root", {
+        type: "manual",
+        message: e?.message || "Registration failed. Please try again.",
+      });
+    }
   };
 
   const onError = (errors) => {
@@ -105,7 +124,7 @@ export default function Register() {
         url="/register"
         structuredData={structuredData}
       />
-      <div className="grid md:grid-cols-2 gap-4 h-screen overflow-hidden md:divide-x md:divide-white z-10">
+      <div className="grid md:grid-cols-2 gap-4 min-h-screen overflow-hidden md:divide-x md:divide-white z-10">
         <div className="hidden md:block relative z-10">
           <img
             src={astroSign}
@@ -138,8 +157,15 @@ export default function Register() {
             loading="lazy"
           />
         </div>
-        <div className="flex items-center justify-center pt-10 bg-secondary-500 z-20">
-          <div className="max-w-lg sm:w-[28rem] md:w-[30rem]">
+        <div className="relative flex items-center justify-center pt-10 bg-secondary-500 z-20">
+          <div className="w-[20rem] sm:w-[28rem] md:w-[30rem]">
+            {/* Back to Home Button */}
+            <div className="absolute top-10">
+              <Link to="/" className="astro-border-btn">
+                <ArrowLeft className="w-5 h-5" />
+                <span className="hidden sm:inline">Back</span>
+              </Link>
+            </div>
             {/* Logo Animation with Framer Motion */}
             <motion.div
               className="text-center mb-10"
@@ -168,7 +194,6 @@ export default function Register() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
             >
-              {error && <small className="text-red-500 mb-4">{error}</small>}
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit, onError)}

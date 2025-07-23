@@ -227,7 +227,10 @@ export default function BlogDetails() {
                   <Dot size={20} />
                   <h4 className="flex items-center">{post.read_time}</h4>
                 </div>
-                <p className="text-white/60 leading-7 mb-[55px]">{post.desc}</p>
+                <div
+                  className="text-white/60 leading-7 mb-[55px]"
+                  dangerouslySetInnerHTML={{ __html: post.desc }}
+                />
                 <div className="flex justify-between items-center border-y py-3.5 mt-10 text-sm">
                   <div className="flex items-center gap-4">
                     <button

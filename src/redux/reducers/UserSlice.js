@@ -8,8 +8,9 @@ export const register = createAsyncThunk(
       const response = await publicHttp.post(`/api/register`, data);
       return response.data;
     } catch (error) {
+      // Return the full error response (message and errors)
       return rejectWithValue(
-        error.response?.data?.message || "Register failed"
+        error.response?.data || { message: "Register failed" }
       );
     }
   }

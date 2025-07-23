@@ -8,11 +8,15 @@ Disallow: /api/
 
 # Allow important pages
 Allow: /
+Allow: /about
 Allow: /packages
+Allow: /zodiacs
 Allow: /blogs
 Allow: /contact
 Allow: /login
 Allow: /register
+Allow: /privacy
+Allow: /terms
 
 # Sitemap location
 Sitemap: https://tarotbycharm.com/sitemap.xml

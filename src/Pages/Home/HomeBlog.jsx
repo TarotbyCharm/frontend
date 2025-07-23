@@ -18,7 +18,7 @@ export default function HomeBlog() {
 
   useEffect(() => {
     if (status === "idle") {
-      dispatch(fetchPosts());
+      dispatch(fetchPosts({ pageSize: 8 }));
     }
   }, [status, dispatch]);
 

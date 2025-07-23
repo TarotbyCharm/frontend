@@ -1,14 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Phone } from "lucide-react";
-import {
-  astroSign,
-  sunBg,
-  mainAstro,
-  packageImg,
-  zodiacImg,
-  profile,
-} from "@/assets";
+import { astroSign, sunBg, profile } from "@/assets";
 
 export default function About() {
   const ref = useRef(null);
@@ -23,7 +16,7 @@ export default function About() {
       {/* Background Images */}
       <motion.img
         src={sunBg}
-        className="absolute -left-[22rem] xl:-left-[26rem] -top-48 h-[37.5rem] xl:h-[45rem] opacity-20 select-none pointer-events-none"
+        className="hidden sm:block absolute -left-[22rem] xl:-left-[26rem] -top-48 h-[37.5rem] xl:h-[45rem] opacity-20 select-none pointer-events-none"
         alt="sun bg"
         initial={{ opacity: 0, x: -100 }}
         animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -31,7 +24,7 @@ export default function About() {
       />
       <motion.img
         src={astroSign}
-        className="absolute -right-20 xl:-right-28 bottom-5 h-72 xl:h-[26rem] opacity-30 select-none pointer-events-none"
+        className="hidden sm:block absolute -right-20 xl:-right-28 bottom-5 h-72 xl:h-[26rem] opacity-30 select-none pointer-events-none"
         alt="astro-sign"
         initial={{ opacity: 0, x: 100 }}
         animate={isInView ? { opacity: 1, x: 0 } : {}}

@@ -30,6 +30,7 @@ import Zodiacs from "./Pages/Zodiacs";
 import Privacy from "./Pages/Privacy";
 import Terms from "./Pages/Terms";
 import About from "./Pages/About";
+import FeedbackIndex from "./Pages/Feedback/Index";
 
 export default function App() {
   return (
@@ -47,7 +48,7 @@ export default function App() {
                 <Route index element={<Home />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/packages" element={<PackageIndex />} />
-
+                <Route path="/feedback" element={<FeedbackIndex />} />
                 <Route path="/blogs" element={<BlogIndex />} />
                 <Route path="/blogs/:slug" element={<BlogDetails />} />
                 <Route path="/contact" element={<Index />} />

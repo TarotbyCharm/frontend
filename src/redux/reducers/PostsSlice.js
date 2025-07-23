@@ -30,14 +30,16 @@ const initialState = {
 
 export const fetchPosts = createAsyncThunk(
   "posts/fetchPosts",
-  async (_, { getState }) => {
+  async ({ pageSize = 12 }, { getState }) => {
     const { selectedCategory, sortBy, currentPage } = getState().posts;
     try {
+      console.log(pageSize);
       const response = await publicHttp.get(`/api/posts-list`, {
         params: {
           page: currentPage,
           sort: sortBy,
           category: selectedCategory,
+          page_size: pageSize,
         },
       });
 

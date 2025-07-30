@@ -69,9 +69,10 @@ export default function BlogHorCard({ post }) {
         >
           {post?.title}
         </Link>
-        <p className="text-white/65 mb-4 line-clamp-3 text-sm md:text-base">
-          {post?.excerpt}
-        </p>
+        <article
+          className="text-white/65 mb-4 line-clamp-3 text-sm md:text-base prose prose-headings:text-white"
+          dangerouslySetInnerHTML={{ __html: post.excerpt }}
+        />
         <div className="flex items-center gap-3">
           <Link
             to={`/blogs/${post?.slug}`}

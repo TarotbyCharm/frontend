@@ -28,9 +28,10 @@ export default function BlogSmallCard({ post, cardHeight = "h-[250px]" }) {
         >
           {post?.title}
         </Link>
-        <p className="text-white/65 my-4 line-clamp-2 text-sm md:text-base">
-          {post?.desc}
-        </p>
+        <article
+          className="text-white/65 mb-4 line-clamp-3 text-sm md:text-base prose prose-headings:text-white"
+          dangerouslySetInnerHTML={{ __html: post?.excerpt }}
+        />
         {/* <div className="flex flex-col">
           <div className="flex items-center gap-2">
             <User2 size={16} />

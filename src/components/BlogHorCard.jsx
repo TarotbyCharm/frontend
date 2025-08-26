@@ -70,7 +70,7 @@ export default function BlogHorCard({ post }) {
           {post?.title}
         </Link>
         <article
-          className="text-white/65 mb-4 line-clamp-3 text-sm md:text-base prose prose-headings:text-white"
+          className="text-white/65 mb-4 line-clamp-3 text-sm md:text-base"
           dangerouslySetInnerHTML={{ __html: post?.excerpt }}
         />
         <div className="flex items-center gap-3">

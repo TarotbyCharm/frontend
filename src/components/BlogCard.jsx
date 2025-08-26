@@ -86,7 +86,7 @@ export default function BlogCard({ post }) {
           </h6>
         </div>
         <article
-          className="text-white/65 mb-4 line-clamp-3 text-sm md:text-base prose prose-headings:text-white"
+          className="text-white/65 mb-4 line-clamp-3 text-sm md:text-base"
           dangerouslySetInnerHTML={{ __html: post?.excerpt }}
         />
         <div className="flex justify-between items-center mt-4">

@@ -85,9 +85,10 @@ export default function BlogCard({ post }) {
             <Calendar size={14} /> {post?.published_at}
           </h6>
         </div>
-        <p className="text-white/60 text-justify line-clamp-3 text-sm xl:text-base">
-          {post?.excerpt}
-        </p>
+        <article
+          className="text-white/65 mb-4 line-clamp-3 text-sm md:text-base prose prose-headings:text-white"
+          dangerouslySetInnerHTML={{ __html: post?.excerpt }}
+        />
         <div className="flex justify-between items-center mt-4">
           <Link
             to={`/blogs/${post?.slug}`}

@@ -78,7 +78,7 @@ const Footer = () => {
               <img
                 src={fullLogo}
                 className="h-12"
-                alt="TarotByCharm"
+                alt="Future Advice By Charm"
                 loading="lazy"
               />
             </Link>
@@ -254,7 +254,7 @@ const Footer = () => {
         <div className="border-t border-primary-500/20 pt-8 mt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-400 text-sm">
-              © {currentYear} TarotByCharm. All rights reserved.
+              © {currentYear} futureadvicebycharm. All rights reserved.
             </p>
             <div className="flex items-center space-x-4">
               <Link

@@ -1,6 +1,6 @@
 {
-  "name": "Tarot by Charm",
-  "short_name": "Tarot by Charm",
+  "name": "Future Advice by Charm",
+  "short_name": "Future Advice by Charm",
   "description": "Professional tarot reading services providing accurate spiritual guidance and insights",
   "start_url": "/",
   "display": "standalone",
@@ -31,7 +31,7 @@
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "Tarot by Charm - Professional Tarot Reading Services"
+      "label": "Future Advice by Charm - Professional Tarot Reading Services"
     }
   ],
   "shortcuts": [

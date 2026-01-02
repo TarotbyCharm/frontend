@@ -1,8 +1,8 @@
-# Tarot by Charm - Professional Tarot Reading Platform
+# Future Advice by Charm - Professional Tarot Reading Platform
 
 A modern, responsive web application for professional tarot reading services. Built with React, Vite, and Tailwind CSS, featuring user authentication, appointment booking, blog management, comprehensive SEO optimization, and full PWA (Progressive Web App) support with service workers.
 
-![Tarot by Charm](public/website.png)
+![Future Advice by Charm](public/website.png)
 
 ## 🌟 Features
 
@@ -53,7 +53,7 @@ A modern, responsive web application for professional tarot reading services. Bu
 
    ```bash
    git clone <repository-url>
-   cd front_tarot
+   cd <respository>
    ```
 
 2. **Install dependencies**
@@ -69,7 +69,7 @@ A modern, responsive web application for professional tarot reading services. Bu
    ```
 
 4. **Open your browser**
-   Navigate to `http://localhost:5173`
+   Navigate to `http://localhost:3000`
 
 ### Build for Production
 
@@ -394,8 +394,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For support and questions:
 
-- **Email**: contact@tarotbycharm.com
-- **Website**: https://tarotbycharm.com
+- **Email**: shinthant234223@gmail.com
+- **Website**: https://futureadvicebycharm.com
 - **Developer**: ZeroOnee Tech
 
 ## 🙏 Acknowledgments

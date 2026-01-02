@@ -1,8 +1,8 @@
-# SEO Implementation Guide for Tarot by Charm
+# SEO Implementation Guide for Future Advice by Charm
 
 ## Overview
 
-This document outlines the SEO implementation for the Tarot by Charm website, including meta tags, sitemap, and best practices.
+This document outlines the SEO implementation for the Future Advice by Charm website, including meta tags, sitemap, and best practices.
 
 ## Files Added/Modified
 
@@ -189,12 +189,12 @@ const MyPage = () => {
 1. **Add Property**
 
    - Go to [Google Search Console](https://search.google.com/search-console)
-   - Add your domain: `https://tarotbycharm.com`
+   - Add your domain: `https://futureadvicebycharm.com`
 
 2. **Submit Sitemap**
 
    - Navigate to Sitemaps section
-   - Submit: `https://tarotbycharm.com/sitemap.xml`
+   - Submit: `https://futureadvicebycharm.com/sitemap.xml`
 
 3. **Verify Ownership**
    - Follow Google's verification process
@@ -280,8 +280,8 @@ const MyPage = () => {
 For SEO-related questions or updates:
 
 - **Developer**: ZeroOnee Tech
-- **Email**: contact@tarotbycharm.com
-- **Website**: https://tarotbycharm.com
+- **Email**: shinthant234223@gmail.com
+- **Website**: https://futureadvicebycharm.com
 
 ---
 

@@ -21,7 +21,7 @@ const PWAInstallPrompt = () => {
       setDeferredPrompt(null);
       toast({
         title: "App Installed!",
-        description: "Thank you for installing Tarot by Charm!",
+        description: "Thank you for installing Future Advice by Charm!",
       });
     };
 
@@ -79,7 +79,7 @@ const PWAInstallPrompt = () => {
             <Download className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h3 className="font-semibold text-white">Install Tarot by Charm</h3>
+            <h3 className="font-semibold text-white">Install Future Advice by Charm</h3>
             <p className="text-sm text-purple-200">
               Get quick access and work offline
             </p>

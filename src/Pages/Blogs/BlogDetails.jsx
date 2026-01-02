@@ -99,12 +99,10 @@ export default function BlogDetails() {
     }
   };
 
-  // Updated to only fetch votes and update necessary state
   const handleVotes = async () => {
     try {
       await http.post(`/api/posts/${post?.id}/votes/store`);
 
-      // Only update votes count and vote status
       const votesResponse = await publicHttp.get(
         `/api/posts/${post?.id}/votes`
       );
@@ -132,50 +130,74 @@ export default function BlogDetails() {
     return <NotFound />;
   }
 
-  // SEO for blog details
+  // --- SEO Helpers ---
+
+  // 1. Clean up Description (Remove HTML tags for Meta Description)
+  const plainDescription = post.desc
+    ? post.desc.replace(/<[^>]*>?/gm, "").substring(0, 160) + "..."
+    : "";
+
+  // 2. Ensure Image is a Full URL
+  const baseUrl = "https://futureadvicebycharm.com";
+  const fullImageUrl = post.poster_url?.startsWith("http")
+    ? post.poster_url
+    : `${baseUrl}${post.poster_url || "/website.png"}`;
+
+  // 3. Dynamic Keywords
   const seoKeywords = [
     post.title,
     post.category?.name,
     ...(post.tags?.map((tag) => tag.name) || []),
-    "tarot blogs, astrology blogs, spiritual guidance, tarot reading, နက္ခတ်ဗေဒင်, တာရော့ဖတ်ခြင်း, တာရော့ဘလော့, နက္ခတ်ဗေဒင်ဘလော့",
-  ].join(", ");
+    "Future Advice by Charm",
+    "Tarot by Charm",
+    "spiritual insights",
+    // Burmese
+    "နက္ခတ်ဗေဒင်ဆောင်းပါး",
+    "တားရော့ဗဟုသုတ",
+  ]
+    .filter(Boolean)
+    .join(", ");
 
-  // BlogPosting structured data
+  // 4. BlogPosting Schema
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post.title,
-    description: post.desc,
-    image: post.poster_url || "https://tarotbycharm.com/website.png",
+    description: plainDescription,
+    image: [fullImageUrl],
+    datePublished: post.published_at,
+    dateModified: post.updated_at || post.published_at,
     author: {
       "@type": "Person",
-      name: post.author || "Tarot by Charm",
+      name: post.author || "Charm",
+      url: baseUrl,
     },
     publisher: {
       "@type": "Organization",
-      name: "Tarot by Charm",
+      name: "Future Advice by Charm",
       logo: {
         "@type": "ImageObject",
-        url: "https://tarotbycharm.com/logo.png",
+        url: `${baseUrl}/logo.png`,
       },
     },
-    datePublished: post.published_at,
-    dateModified: post.updated_at || post.published_at,
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://tarotbycharm.com/blogs/${post.slug}`,
+      "@id": `${baseUrl}/blogs/${post.slug}`,
     },
   };
 
   return (
     <>
       <SEO
-        title={post.title + " | Tarot by Charm Blogs"}
-        description={post.desc}
+        title={post.title}
+        description={plainDescription}
         keywords={seoKeywords}
+        image={fullImageUrl}
         url={`/blogs/${post.slug}`}
+        type="article" // Important for Facebook/LinkedIn to display as an article
         structuredData={structuredData}
       />
+
       <div className="relative">
         <div className="container mx-auto mt-24 mb-20 px-6 md:px-0">
           <Breadcrumb>
@@ -199,17 +221,13 @@ export default function BlogDetails() {
             <div className="w-full md:w-[70%]" ref={contentRef}>
               <div className="mt-8 relative">
                 <img
-                  src={
-                    post.poster_url
-                      ? post.poster_url
-                      : "https://images.pexels.com/photos/7947733/pexels-photo-7947733.jpeg?auto=compress&cs=tinysrgb&w=1200"
-                  }
+                  src={fullImageUrl}
                   className="max-h-[22rem] w-full object-cover"
-                  alt="poster"
+                  alt={post.title} // Better alt text for SEO
                   loading="lazy"
                 />
                 <Badge className="absolute top-4 left-4 px-3">
-                  {post.category ? post.category.name : ""}
+                  {post.category ? post.category.name : "Article"}
                 </Badge>
                 <h1 className="text-4xl mb-4 mt-8 text-primary-300">
                   {post.title}
@@ -227,10 +245,13 @@ export default function BlogDetails() {
                   <Dot size={20} />
                   <h4 className="flex items-center">{post.read_time}</h4>
                 </div>
+
+                {/* Blog Content */}
                 <article
-                  className="text-white/60 leading-7 mb-[55px] prose prose-headings:text-white"
+                  className="text-white/60 leading-7 mb-[55px] prose prose-headings:text-white prose-a:text-primary-300 prose-strong:text-white"
                   dangerouslySetInnerHTML={{ __html: post.desc }}
                 />
+
                 <div className="flex justify-between items-center border-y py-3.5 mt-10 text-sm">
                   <div className="flex items-center gap-4">
                     <button
@@ -276,7 +297,8 @@ export default function BlogDetails() {
                 </div>
               </div>
             </div>
-            {/* right sidebar */}
+
+            {/* Right Sidebar */}
             <div className="w-full md:w-[28%] mt-8">
               <div className="space-y-6">
                 <div>
@@ -299,9 +321,9 @@ export default function BlogDetails() {
                       Tags
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="py-3 space-x-1">
+                  <CardContent className="py-3 space-x-1 flex flex-wrap gap-2">
                     {post?.tags?.map((tag, index) => (
-                      <Badge key={index} variant="secondary">
+                      <Badge key={index} variant="secondary" className="mb-1">
                         # {tag?.name}
                       </Badge>
                     ))}

@@ -19,7 +19,8 @@ const OfflinePage = () => {
 
         <p className="text-gray-600 dark:text-gray-300 mb-6">
           It looks like you've lost your internet connection. Don't worry - you
-          can still access some features of Tarot by Charm while offline.
+          can still access some features of Future Advice by Charm while
+          offline.
         </p>
 
         <div className="space-y-4 mb-6">

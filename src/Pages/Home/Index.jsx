@@ -10,36 +10,42 @@ const fadeInVariants = {
 };
 
 const Index = () => {
+  // Enhanced Schema for the Home Page
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "Tarot by Charm - Home",
-    "description": "Discover your future and gain clarity with Tarot by Charm. Expert tarot readings, love & career insights, and personalized spiritual guidance. Book your session today!",
-    "url": "https://tarotbycharm.com",
-    "mainEntity": {
-      "@type": "Service",
-      "name": "Tarot Reading Services",
-      "description": "Professional tarot reading services providing accurate spiritual guidance and insights",
-      "provider": {
-        "@type": "Organization",
-        "name": "Tarot by Charm"
-      },
-      "areaServed": "Worldwide",
-      "serviceType": "Tarot Reading"
-    }
+    "@type": "ProfessionalService", // Specific for service-based businesses
+    name: "Future Advice by Charm",
+    alternateName: "Future Advice by Charm",
+    description:
+      "Professional tarot readings and astrology insights. We provide guidance on love, career, and future decisions.",
+    url: "https://futureadvicebycharm.com",
+    logo: "https://futureadvicebycharm.com/logo.png",
+    image: "https://futureadvicebycharm.com/website.png",
+    priceRange: "$$",
+    areaServed: "Worldwide",
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "MM", // Primary audience seems to be Myanmar based on language
+    },
+    sameAs: [
+      "https://www.facebook.com/profile.php?id=61567142620648",
+      "https://www.tiktok.com/@fabc153",
+    ],
   };
 
   return (
     <>
-      <SEO 
-        title="Tarot by Charm | Accurate Tarot Readings & Spiritual Guidance"
-        description="Discover your future and gain clarity with Tarot by Charm. Expert tarot readings, love & career insights, and personalized spiritual guidance. Book your session today!"
-        keywords="tarot by charm, tarot by charm reading, tarot by charm online, tarot by charm booking, tarot by charm appointment, tarot by charm psychic, tarot by charm spiritual, tarot by charm love reading, tarot by charm career reading, tarot by charm future reading, tarot by charm accurate, tarot by charm professional, tarot by charm expert, tarot by charm certified, tarot by charm reviews, tarot by charm testimonials, tarot by charm near me, tarot by charm online reading, tarot by charm phone reading, tarot by charm video reading, tarot by charm instant reading, tarot by charm free consultation, tarot by charm pricing, tarot by charm packages, tarot by charm services, tarot by charm spiritual guidance, tarot by charm life coach, tarot by charm advisor, tarot by charm consultant, tarot by charm healer, tarot by charm medium, tarot by charm clairvoyant, tarot by charm intuitive, tarot by charm gifted, tarot by charm authentic, tarot by charm genuine, tarot by charm trusted, tarot by charm reliable, tarot by charm experienced, tarot by charm qualified, tarot by charm licensed, tarot reading, online tarot, love tarot, career tarot, tarot reader, spiritual guidance, accurate tarot readings, psychic reading, tarot consultation"
+      <SEO
+        title="Home"
+        description="Unlock your future with Future Advice by Charm. Expert tarot readings, astrology predictions, and spiritual guidance for love and career. Book online today."
+        keywords="Future Advice by Charm, Tarot by Charm, online tarot reading, astrology predictions, spiritual guidance, love tarot, career advice, Myanmar tarot reading, တားရော့, ဗေဒင်, နက္ခတ်ဗေဒင်, အွန်လိုင်းဗေဒင်"
         url="/"
         structuredData={structuredData}
       />
+
       <div className="relative min-h-screen py-16">
-        <div className="absolute inset-0">
+        {/* Animated Background Stars */}
+        <div className="absolute inset-0 overflow-hidden">
           {[...Array(45)].map((_, i) => (
             <motion.div
               key={i}
@@ -63,12 +69,14 @@ const Index = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* Main Content Area */}
         <div
           className="relative mx-auto bg-no-repeat bg-center h-screen flex flex-col md:flex-row items-center justify-center main-bg-img"
           style={{ backgroundImage: `url(${mainAstro})` }}
         >
           <div className="flex flex-col md:flex-row justify-center items-center gap-8">
-            {/* First Card */}
+            {/* First Card - Left Side */}
             <motion.div
               initial="hidden"
               animate="visible"
@@ -80,19 +88,19 @@ const Index = () => {
                 <img
                   src={doubleStars}
                   className="absolute -top-10 md:-top-16 left-16 md:left-20 h-20 md:h-auto"
-                  alt="Double star"
+                  alt="Decorative stars"
                   loading="lazy"
                 />
                 <img
                   src={homeCard}
-                  alt="First"
+                  alt="Tarot Card Back Design"
                   className="w-48 h-[18rem] lg:w-72 lg:h-[25rem] xl:h-[30rem] xl:w-80 object-cover"
                   loading="lazy"
                 />
               </div>
             </motion.div>
 
-            {/* Center Content */}
+            {/* Center Text Content */}
             <motion.div
               initial="hidden"
               animate="visible"
@@ -119,7 +127,7 @@ const Index = () => {
               </div>
             </motion.div>
 
-            {/* Second Card */}
+            {/* Second Card - Right Side */}
             <motion.div
               initial="hidden"
               animate="visible"
@@ -130,14 +138,14 @@ const Index = () => {
               <div className="relative bg-transparent">
                 <img
                   src={homeCard}
-                  alt="Second"
+                  alt="Tarot Card Deck"
                   className="w-48 h-[18rem] lg:w-72 lg:h-[25rem] xl:h-[30rem] xl:w-80 object-cover"
                   loading="lazy"
                 />
                 <img
                   src={doubleStars}
                   className="absolute -bottom-10 md:-bottom-16 left-16 md:left-20 h-20 md:h-auto"
-                  alt="Double star"
+                  alt="Decorative stars"
                   loading="lazy"
                 />
               </div>

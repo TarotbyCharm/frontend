@@ -104,7 +104,7 @@ function IncomingHome() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-6xl md:text-8xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-primary-200 to-indigo-200 mb-6"
           >
-            TarotByCharm
+            Future Advice By Charm
           </motion.h1>
 
           <motion.p
@@ -192,11 +192,11 @@ function IncomingHome() {
           <div className="absolute inset-0 bg-gradient-to-r from-primary-500/5 to-indigo-500/5 rounded-3xl backdrop-blur-sm -z-10" />
           <Feather className="w-12 h-12 mx-auto mb-6 text-primary-300" />
           <h2 className="text-4xl font-serif text-white mb-8">
-            About TarotByCharm
+            About Future Advice By Charm
           </h2>
           <p className="text-lg text-primary-200/90 mb-6 px-6">
             With over a decade of experience in spiritual guidance and tarot
-            reading, TarotByCharm offers profound insights into your life
+            reading, Future Advice By Charm offers profound insights into your life
             journey. Our readings combine ancient wisdom with modern
             understanding to provide you with clarity and direction.
           </p>

@@ -25,13 +25,14 @@ export default function PackageIndex() {
     dispatch(fetchPackages());
   };
 
+  // Structured Data for a List of Services
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Tarot Reading Packages",
+    name: "Tarot & Astrology Packages",
     description:
-      "Browse our comprehensive selection of tarot reading packages and services. From love readings to career guidance, find the perfect tarot session for your needs.",
-    url: "https://tarotbycharm.com/packages",
+      "Professional spiritual guidance packages ranging from basic questions to full life readings.",
+    url: "https://futureadvicebycharm.com/packages",
     numberOfItems: packages?.length || 0,
     itemListElement:
       packages?.map((pkg, index) => ({
@@ -41,10 +42,11 @@ export default function PackageIndex() {
         description: pkg.description,
         provider: {
           "@type": "Organization",
-          name: "Tarot by Charm",
+          name: "Future Advice by Charm",
+          image: "https://futureadvicebycharm.com/logo.png",
         },
-        serviceType: "Tarot Reading",
         areaServed: "Worldwide",
+        serviceType: "Spiritual Consultation",
       })) || [],
   };
 
@@ -65,12 +67,13 @@ export default function PackageIndex() {
   return (
     <>
       <SEO
-        title="Tarot Reading Packages | Tarot by Charm"
-        description="Browse our comprehensive selection of tarot reading packages and services. From love readings to career guidance, find the perfect tarot session for your needs."
-        keywords="tarot reading packages, love tarot reading, career tarot reading, spiritual guidance packages, tarot consultation services, online tarot reading packages, tarot packages, tarot service packages, tarot session packages, tarot bundle, tarot deals, tarot offers, tarot consultation packages, tarot guidance packages, tarot online packages, tarot by charm packages, tarot by charm services, psychic reading packages, astrology packages, astrology reading packages, spiritual reading packages, love tarot packages, career tarot packages, relationship tarot packages, family tarot packages, personal tarot packages, group tarot packages, affordable tarot packages, best tarot packages, premium tarot packages, Myanmar tarot packages, Burmese tarot packages, တားရော့ပက်ကေ့ချ်, တားရော့ဝန်ဆောင်မှုပက်ကေ့ချ်, တားရော့ဖတ်ခြင်းပက်ကေ့ချ်, တားရော့အွန်လိုင်းပက်ကေ့ချ်, တားရော့အကြံပေးပက်ကေ့ချ်, တားရော့စာဖတ်ဝန်ဆောင်မှု, တားရော့စာဖတ်ပက်ကေ့ချ်, တားရော့စာဖတ်ဝန်ဆောင်မှုများ, တားရော့အထူးပက်ကေ့ချ်, တားရော့စျေးသက်သာပက်ကေ့ချ်, တားရော့စျေးအနိမ့်ပက်ကေ့ချ်, တားရော့စျေးမြင့်ပက်ကေ့ချ်, နက္ခတ်ဗေဒင်ပက်ကေ့ချ်, နက္ခတ်ဗေဒင်ဝန်ဆောင်မှု, နက္ခတ်ဗေဒင်ဖတ်ခြင်းပက်ကေ့ချ်"
+        title="Service Packages & Pricing"
+        description="Choose the right tarot reading for you. We offer affordable packages for Love, Career, Health, and General life guidance. Book online today."
+        keywords="tarot reading prices, tarot packages, spiritual reading cost, love prediction service, career guidance tariff, online fortune telling rates, Future Advice by Charm services, တားရော့ဝန်ဆောင်မှု, ဗေဒင်နှုန်းထားများ"
         url="/packages"
         structuredData={structuredData}
       />
+
       <div className="container mx-auto mt-24 mb-20 px-6 md:px-0">
         <motion.h1
           className="header-title text-3xl md:text-4xl lg:text-5xl text-center"
@@ -82,14 +85,14 @@ export default function PackageIndex() {
           <span className="italic">Our</span> Packages
         </motion.h1>
         <p className="text-center text-gray-400 text-lg mt-4 max-w-3xl mx-auto">
-          From love readings to career guidance, find the perfect
-          tarot session for your needs.
+          From love readings to career guidance, find the perfect tarot session
+          for your needs.
         </p>
 
         <div className="mt-8 package-grid grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 xl:gap-6">
           {packages &&
             packages.map((item, index) => (
-              <PackageCard key={index} item={item} />
+              <PackageCard key={item.id || index} item={item} />
             ))}
         </div>
 

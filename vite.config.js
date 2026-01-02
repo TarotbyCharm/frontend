@@ -69,8 +69,8 @@ export default defineConfig({
       },
       includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
       manifest: {
-        name: "Tarot by Charm",
-        short_name: "TarotCharm",
+        name: "Future Advice by Charm",
+        short_name: "FutureAdvice",
         description:
           "Professional tarot reading services and spiritual guidance",
         theme_color: "#8B5CF6",

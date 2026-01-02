@@ -64,7 +64,7 @@ const Navbar = () => {
             <img
               src={fullLogo}
               className="h-10"
-              alt="Tarot by Charm Logo"
+              alt="Future Advice by Charm Logo"
               loading="lazy"
             />
           </Link>

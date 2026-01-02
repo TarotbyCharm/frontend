@@ -39,7 +39,7 @@ export default function About() {
       >
         <img
           src={profile}
-          alt="Tarot By Charm"
+          alt="Future Advice by Charm"
           className="rounded-full w-36 h-36 object-cover border-4 border-primary-300 shadow-md mx-auto mb-4"
         />
         <h3 className="text-2xl font-bold text-primary-200 mb-1">Charm</h3>

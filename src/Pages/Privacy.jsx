@@ -4,8 +4,8 @@ export default function Privacy() {
   return (
     <>
       <SEO
-        title="Privacy Policy | Tarot by Charm"
-        description="How we protect your privacy at Tarot by Charm."
+        title="Privacy Policy"
+        description="How we protect your privacy at Future Advice by Charm."
         url="/privacy"
       />
       <div className="container mx-auto mt-24 mb-20 px-6 md:px-0 min-h-screen">
@@ -40,7 +40,7 @@ export default function Privacy() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Tarot by Charm Facebook
+              Future Advice by Charm Facebook
             </a>
             .
           </p>

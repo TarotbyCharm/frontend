@@ -87,13 +87,13 @@ export default function Login() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "Login - Tarot by Charm",
+    name: "Login - Future Advice by Charm",
     description:
-      "Sign in to your Tarot by Charm account to access your personalized tarot reading services, manage appointments, and view your spiritual guidance history.",
-    url: "https://tarotbycharm.com/login",
+      "Sign in to your Future Advice by Charm account to access your personalized tarot reading services, manage appointments, and view your spiritual guidance history.",
+    url: "https://futureadvicebycharm.com/login",
     mainEntity: {
       "@type": "WebApplication",
-      name: "Tarot by Charm Login",
+      name: "Future Advice by Charm Login",
       applicationCategory: "LifestyleApplication",
       operatingSystem: "Web Browser",
     },
@@ -102,9 +102,9 @@ export default function Login() {
   return (
     <>
       <SEO
-        title="Login - Tarot by Charm | Sign In to Your Account"
-        description="Sign in to your Tarot by Charm account to access your personalized tarot reading services, manage appointments, and view your spiritual guidance history."
-        keywords="tarot login, tarot by charm login, spiritual guidance login, tarot reading account, tarot consultation login, tarot reader login"
+        title="Login"
+        description="Sign in to your Future Advice by Charm account to access your personalized tarot reading services, manage appointments, and view your spiritual guidance history."
+        keywords="tarot login, future Advice by Charm login, spiritual guidance login, tarot reading account, tarot consultation login, tarot reader login"
         url="/login"
         structuredData={structuredData}
       />

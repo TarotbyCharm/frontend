@@ -19,7 +19,7 @@ Allow: /privacy
 Allow: /terms
 
 # Sitemap location
-Sitemap: https://tarotbycharm.com/sitemap.xml
+Sitemap: https://futureadvicebycharm.com/sitemap.xml
 
 # Crawl delay (optional - helps with server load)
 Crawl-delay: 1 

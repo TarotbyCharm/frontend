@@ -71,7 +71,7 @@ const PWASettings = () => {
         toast({
           title: "Notifications Enabled",
           description:
-            "You will now receive notifications from Tarot by Charm.",
+            "You will now receive notifications from Future Advice by Charm.",
         });
       } else {
         toast({
@@ -245,7 +245,7 @@ const PWASettings = () => {
                   <h3 className="font-medium">Install App</h3>
                 </div>
                 <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
-                  Install Tarot by Charm on your device for quick access and
+                  Install Future Advice by Charm on your device for quick access and
                   offline functionality.
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">

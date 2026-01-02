@@ -89,55 +89,47 @@ export default function BlogIndex() {
     const scrollY = window.scrollY;
     dispatch(setSort(value));
     setTimeout(() => {
-      window.scrollTo(0, scrollY); // Restore scroll position
+      window.scrollTo(0, scrollY);
     }, 100);
   };
 
   const handleCategoryChange = (category) => {
     const scrollY = window.scrollY;
-    dispatch(incrementPage(1)); //reset page to 1 when changing category.
+    dispatch(incrementPage(1));
     dispatch(setCategory(category));
     setTimeout(() => {
-      window.scrollTo(0, scrollY); // Restore scroll position
+      window.scrollTo(0, scrollY);
     }, 100);
   };
 
+  // Optimized Structured Data for a "Collection" of Blogs
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "Blogs",
-    name: "Tarot by Charm Blogs",
+    "@type": "CollectionPage", // Correct type for a list of items
+    name: "Future Advice by Charm - Blog",
     description:
-      "Discover insightful tarot articles, spiritual guidance, and expert insights on love, career, and personal growth. Read our latest tarot blogs posts and gain deeper understanding of the mystical world.",
-    url: "https://tarotbycharm.com/blogs",
+      "Read expert articles on Tarot, Astrology, and Spiritual Guidance.",
+    url: "https://futureadvicebycharm.com/blogs",
     publisher: {
       "@type": "Organization",
-      name: "Tarot by Charm",
+      name: "Future Advice by Charm",
       logo: {
         "@type": "ImageObject",
-        url: "https://tarotbycharm.com/logo.png",
+        url: "https://futureadvicebycharm.com/logo.png",
       },
     },
-    mainEntity: {
-      "@type": "ItemList",
-      numberOfItems: posts?.length || 0,
-      itemListElement:
-        posts?.map((post, index) => ({
-          "@type": "BlogPosting",
-          position: index + 1,
-          headline: post.title,
-          description: post.excerpt,
-          author: {
-            "@type": "Person",
-            name: "Tarot by Charm",
-          },
-          datePublished: post.created_at,
-          dateModified: post.updated_at,
-          publisher: {
-            "@type": "Organization",
-            name: "Tarot by Charm",
-          },
-        })) || [],
-    },
+    // Linking the blog posts in the list
+    hasPart:
+      posts?.map((post) => ({
+        "@type": "BlogPosting",
+        headline: post.title,
+        url: `https://futureadvicebycharm.com/blogs/${post.slug}`,
+        datePublished: post.created_at,
+        author: {
+          "@type": "Person",
+          name: post.author || "Charm",
+        },
+      })) || [],
   };
 
   if (specialPostStatus === "loading" || status === "loading") {
@@ -161,12 +153,13 @@ export default function BlogIndex() {
   return (
     <>
       <SEO
-        title="Tarot Blogs - Spiritual Insights & Guidance | Tarot by Charm"
-        description="Discover insightful tarot articles, spiritual guidance, and expert insights on love, career, and personal growth. Read our latest tarot blog posts and gain deeper understanding of the mystical world."
-        keywords="tarot blogs, tarotbycharm, tarotbycharm blogs, spiritual guidance, tarot articles, love tarot, career tarot, tarot insights, spiritual blogs, tarot reading blogs, tarot guidance, mystical articles, astrology blogs, astrology articles, astrology insights, astrology predictions, daily horoscope, weekly horoscope, monthly horoscope, zodiac signs, birth chart, natal chart, astrology compatibility, astrology reading, astrology consultation, astrology Myanmar, Myanmar astrology, Burmese astrology, astrology news, astrology updates, astrology by charm, charm astrology blog, နက္ခတ်ဗေဒင်, နက္ခတ်စာဖတ်ခြင်း, နက္ခတ်ဗေဒင်အကြံပေး, နက္ခတ်ဗေဒင်အနာဂတ်, နက္ခတ်ဗေဒင်အချစ်, နက္ခတ်ဗေဒင်အလုပ်အကိုင်, နက္ခတ်ဗေဒင်အွန်လိုင်း, နက္ခတ်ဗေဒင်စာဖတ်ဝန်ဆောင်မှု, နက္ခတ်ဗေဒင်ဘလော့, နက္ခတ်ဗေဒင်ဆောင်းပါး, နက္ခတ်ဗေဒင်သတင်း, နက္ခတ်ဗေဒင်အပ်ဒိတ်"
+        title="Spiritual Blog & Tarot Articles"
+        description="Explore the world of spirituality with Future Advice by Charm. Read our latest articles on Tarot, Astrology, Love Predictions, and Career Guidance."
+        keywords="tarot blog, astrology articles, spiritual guidance, daily horoscope, zodiac predictions, love tarot tips, myanmar astrology blog, ဗေဒင်ဆောင်းပါး, တားရော့ဗဟုသုတ, နက္ခတ်ဗေဒင်"
         url="/blogs"
         structuredData={structuredData}
       />
+
       <div className="container mx-auto mt-24 mb-20 px-6 ss:px-2">
         {/* Header */}
         <div className="my-10">
@@ -181,8 +174,7 @@ export default function BlogIndex() {
           </motion.h1>
           <p className="text-center text-gray-400 text-lg mt-4 max-w-2xl mx-auto">
             Discover insightful tarot articles, spiritual guidance, and expert
-            insights on love, career, and personal growth. Read our latest tarot
-            blog posts and gain deeper understanding of the mystical world.
+            insights on love, career, and personal growth.
           </p>
         </div>
 
@@ -197,48 +189,43 @@ export default function BlogIndex() {
             <BlogHorCard post={specialPost} />
           </div>
 
-          {/* Popular Posts */}
+          {/* Ad Space / Popular Posts */}
           <div className="w-full ss:w-[30%] ss:mt-7">
-            {/* {popularPosts &&
-              popularPosts.map((popularPost, index) => (
-                <div key={index} className="ss:mb-5">
-                  <BlogSmallCard post={popularPost} />
-                </div>
-              ))} */}
-            <div className="flex items-center justify-center h-full border bg-primary-950/5 border-primary-600/20">
+            <div className="flex items-center justify-center h-full border bg-primary-950/5 border-primary-600/20 min-h-[200px]">
               <h1 className="text-primary-200">Ad Go Here!</h1>
             </div>
           </div>
         </div>
 
-        {/* Blog List */}
+        {/* Blog List & Controls */}
         <div className="mt-20 blog-list">
           <div className="flex flex-wrap gap-1 items-center justify-between">
+            {/* Sort Dropdown */}
             <Select value={sortBy} onValueChange={handleSortChange}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Sort" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="latest">
-                  Sort By
+                  Sort By{" "}
                   <span className="font-bold italic ml-1.5 text-primary-500">
                     Latest
                   </span>
                 </SelectItem>
                 <SelectItem value="oldest">
-                  Sort By
+                  Sort By{" "}
                   <span className="font-bold italic ml-1.5 text-primary-500">
                     Oldest
                   </span>
                 </SelectItem>
                 <SelectItem value="alphabet-asc">
-                  Sort By
+                  Sort By{" "}
                   <span className="font-bold italic ml-1.5 text-primary-500">
                     A-Z
                   </span>
                 </SelectItem>
                 <SelectItem value="alphabet-desc">
-                  Sort By
+                  Sort By{" "}
                   <span className="font-bold italic ml-1.5 text-primary-500">
                     Z-A
                   </span>
@@ -273,6 +260,7 @@ export default function BlogIndex() {
               ))}
             </div>
 
+            {/* Search */}
             <div>
               <button
                 onClick={() => setIsSearchOpen(true)}
@@ -292,7 +280,8 @@ export default function BlogIndex() {
             <div className="grid ss:grid-cols-2 lg:grid-cols-4 gap-4 xl:gap-6">
               {posts &&
                 posts.map((post, index) => (
-                  <BlogCard key={index} post={post} />
+                  // Use ID as key if available for better React performance
+                  <BlogCard key={post.id || index} post={post} />
                 ))}
             </div>
             {hasMore && (

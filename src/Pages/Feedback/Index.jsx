@@ -81,22 +81,22 @@ const FeedbackIndex = () => {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "ContactPage",
-    name: "Feedback - Tarot by Charm",
+    name: "Feedback - Future Advice by Charm",
     description:
-      "Share your experience with Tarot by Charm. Your feedback helps us improve our services and provide better spiritual guidance.",
-    url: "https://tarotbycharm.com/feedback",
+      "Share your experience with Future Advice by Charm. Your feedback helps us improve our services and provide better spiritual guidance.",
+    url: "https://futureadvicebycharm.com/feedback",
     mainEntity: {
       "@type": "Organization",
-      name: "Tarot by Charm",
+      name: "Future Advice by Charm",
     },
   };
 
   return (
     <>
       <SEO
-        title="Feedback - Tarot by Charm | Share Your Experience"
-        description="Share your experience with Tarot by Charm. Your feedback helps us improve our services and provide better spiritual guidance."
-        keywords="tarot feedback, tarot by charm review, tarot by charm reviews,spiritual guidance feedback, tarot consultation review, tarot reader feedback"
+        title="Feedback"
+        description="Share your experience with Future Advice by Charm. Your feedback helps us improve our services and provide better spiritual guidance."
+        keywords="tarot feedback, future Advice by Charm review, future Advice by Charm reviews,spiritual guidance feedback, tarot consultation review, tarot reader feedback"
         url="/feedback"
         structuredData={structuredData}
       />

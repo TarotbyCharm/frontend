@@ -93,7 +93,7 @@ const SettingsPage = () => {
         toast({
           title: "Notifications Enabled",
           description:
-            "You will now receive notifications from Tarot by Charm.",
+            "You will now receive notifications from Future Advice by Charm.",
         });
       } else {
         toast({
@@ -205,7 +205,7 @@ const SettingsPage = () => {
                     <span>Install App</span>
                   </CardTitle>
                   <CardDescription className="text-primary-400/80">
-                    Install Tarot by Charm on your device for quick access and
+                    Install Future Advice by Charm on your device for quick access and
                     offline functionality.
                   </CardDescription>
                 </CardHeader>

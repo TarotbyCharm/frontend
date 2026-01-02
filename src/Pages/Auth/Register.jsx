@@ -103,13 +103,13 @@ export default function Register() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "Register - Tarot by Charm",
+    name: "Register - Future Advice by Charm",
     description:
-      "Create your Tarot by Charm account to access personalized tarot reading services, book appointments, and receive spiritual guidance tailored to your needs.",
-    url: "https://tarotbycharm.com/register",
+      "Create your Future Advice by Charm account to access personalized tarot reading services, book appointments, and receive spiritual guidance tailored to your needs.",
+    url: "https://futureadvicebycharm.com/register",
     mainEntity: {
       "@type": "WebApplication",
-      name: "Tarot by Charm Registration",
+      name: "Future Advice by Charm Registration",
       applicationCategory: "LifestyleApplication",
       operatingSystem: "Web Browser",
     },
@@ -118,9 +118,9 @@ export default function Register() {
   return (
     <>
       <SEO
-        title="Register - Tarot by Charm | Create Your Account"
-        description="Create your Tarot by Charm account to access personalized tarot reading services, book appointments, and receive spiritual guidance tailored to your needs."
-        keywords="tarot register, tarot by charm register, spiritual guidance account, tarot reading signup, tarot consultation register, tarot reader account"
+        title="Register"
+        description="Create your Future Advice by Charm account to access personalized tarot reading services, book appointments, and receive spiritual guidance tailored to your needs."
+        keywords="tarot register, future Advice by Charm register, spiritual guidance account, tarot reading signup, tarot consultation register, tarot reader account"
         url="/register"
         structuredData={structuredData}
       />

@@ -2,21 +2,52 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Phone } from "lucide-react";
 import { astroSign, sunBg, profile } from "@/assets";
+import SEO from "@/components/SEO";
 
 export default function Index() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
+  // Structured Data for the Person (Charm)
+  // This helps Google create a "Knowledge Panel" for you
+  const personSchema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Charm",
+    jobTitle: "Astrologer & Tarot Reader",
+    image: "https://futureadvicebycharm.com/assets/profile.png",
+    url: "https://futureadvicebycharm.com",
+    sameAs: [
+      "https://www.facebook.com/profile.php?id=61567142620648",
+      "https://t.me/Tarot_by_Charm",
+      "https://www.tiktok.com/@fabc153",
+    ],
+    description:
+      "Certified Astrologer and Tarot Reader specializing in Myanmar Astrology and Palmistry.",
+    worksFor: {
+      "@type": "Organization",
+      name: "Future Advice by Charm",
+    },
+  };
+
   return (
-    <div
+    <section
       className="relative min-h-[24rem] flex items-center justify-center py-16 md:py-28"
       ref={ref}
+      id="about-charm"
     >
+      <SEO
+        title="About Charm | Certified Astrologer & Tarot Reader"
+        description="Meet Charm, a certified Astrologer and Tarot Reader specializing in Myanmar Astrology and Palmistry. Helping you find clarity in love and career."
+        keywords="Charm astrologer, tarot reader myanmar, palmistry reader, future advice by charm profile, astrology expert, tarot expert"
+        structuredData={personSchema}
+      />
+
       {/* Background Images */}
       <motion.img
         src={sunBg}
         className="hidden sm:block absolute -left-[22rem] xl:-left-[26rem] -top-48 h-[37.5rem] xl:h-[45rem] opacity-20 select-none pointer-events-none"
-        alt="sun bg"
+        alt="Sun Background Decoration"
         initial={{ opacity: 0, x: -100 }}
         animate={isInView ? { opacity: 1, x: 0 } : {}}
         transition={{ duration: 1 }}
@@ -24,11 +55,12 @@ export default function Index() {
       <motion.img
         src={astroSign}
         className="hidden sm:block absolute -right-20 xl:-right-28 bottom-5 h-72 xl:h-[26rem] opacity-30 select-none pointer-events-none"
-        alt="astro-sign"
+        alt="Zodiac Wheel Decoration"
         initial={{ opacity: 0, x: 100 }}
         animate={isInView ? { opacity: 1, x: 0 } : {}}
         transition={{ duration: 1, delay: 0.5 }}
       />
+
       {/* Main Content */}
       <motion.div
         className="w-full max-w-2xl mx-auto text-center relative z-10"
@@ -38,8 +70,9 @@ export default function Index() {
       >
         <img
           src={profile}
-          alt="Tarot By Charm"
+          alt="Charm - Astrologer and Tarot Reader"
           className="rounded-full w-36 h-36 object-cover border-4 border-primary-300 shadow-md mx-auto mb-4"
+          loading="lazy"
         />
         <h3 className="text-2xl font-bold text-primary-200 mb-1">Charm</h3>
         <p className="text-base md:text-lg text-primary-400 mb-6">
@@ -47,44 +80,47 @@ export default function Index() {
         </p>
 
         {/* Bio Card */}
-        <div className="mx-auto max-w-xl mb-8">
+        <article className="mx-auto max-w-xl mb-8">
           <p className="text-gray-100 text-base md:text-lg leading-relaxed">
             I help people find clarity and guidance through astrology,
             palmistry, and tarot. My approach blends traditional wisdom with a
             modern, compassionate touch. Whether you seek answers about love,
             career, or your life path, I am here to support you on your journey.
           </p>
-        </div>
+        </article>
 
         {/* Divider */}
         <div className="w-full flex justify-center mb-8">
           <div className="h-px w-2/3 bg-gradient-to-r from-transparent via-primary-400 to-transparent opacity-40"></div>
         </div>
+
         <h1 className="text-3xl md:text-4xl font-extrabold tracking-wide mb-2 text-primary-300">
           FUTURE ADVICE BY CHARM
         </h1>
         <h2 className="italic text-lg md:text-xl mb-8 text-gray-300">
           Myanmar Astrology, Palm and Tarot Reader
         </h2>
+
+        {/* Social Links */}
         <div className="flex flex-wrap items-center justify-center gap-6 mb-8">
           {/* Phone */}
           <a
             href="tel:+959753472946"
             className="text-primary-300 hover:text-primary-200 transition-colors flex flex-col items-center"
-            aria-label="Call Phone"
+            aria-label="Call Charm"
           >
             <Phone className="w-7 h-7 mb-1" />
             <span className="text-xs">Phone</span>
           </a>
+
           {/* Facebook */}
           <a
             href="https://www.facebook.com/profile.php?id=61567142620648"
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary-300 hover:text-primary-200 transition-colors flex flex-col items-center"
-            aria-label="Facebook"
+            aria-label="Visit Facebook Profile"
           >
-            {/* Facebook SVG */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="28"
@@ -99,15 +135,15 @@ export default function Index() {
             </svg>
             <span className="text-xs">Facebook</span>
           </a>
+
           {/* Telegram */}
           <a
             href="https://t.me/Tarot_by_Charm"
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary-300 hover:text-primary-200 transition-colors flex flex-col items-center"
-            aria-label="Telegram"
+            aria-label="Join Telegram Channel"
           >
-            {/* Telegram SVG */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="28"
@@ -122,15 +158,15 @@ export default function Index() {
             </svg>
             <span className="text-xs">Telegram</span>
           </a>
+
           {/* TikTok */}
           <a
             href="https://www.tiktok.com/@fabc153"
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary-300 hover:text-primary-200 transition-colors flex flex-col items-center"
-            aria-label="TikTok"
+            aria-label="Follow on TikTok"
           >
-            {/* TikTok SVG */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="28"
@@ -145,13 +181,13 @@ export default function Index() {
             </svg>
             <span className="text-xs">TikTok</span>
           </a>
+
           {/* Viber */}
           <a
             href="viber://chat?number=+959753472946"
             className="text-primary-300 hover:text-primary-200 transition-colors flex flex-col items-center"
-            aria-label="Viber"
+            aria-label="Chat on Viber"
           >
-            {/* Viber SVG */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="28"
@@ -182,6 +218,6 @@ export default function Index() {
           </a>
         </div>
       </motion.div>
-    </div>
+    </section>
   );
 }

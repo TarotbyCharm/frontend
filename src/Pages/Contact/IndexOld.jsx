@@ -68,13 +68,13 @@ const Index = () => {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "ContactPage",
-    name: "Contact Tarot by Charm",
+    name: "Contact Future Advice by Charm",
     description:
-      "Get in touch with Tarot by Charm for professional tarot reading services. Contact us via email, phone, or social media for spiritual guidance and appointments.",
-    url: "https://tarotbycharm.com/contact",
+      "Get in touch with Future Advice by Charm for professional tarot reading services. Contact us via email, phone, or social media for spiritual guidance and appointments.",
+    url: "https://futureadvicebycharm.com/contact",
     mainEntity: {
       "@type": "Organization",
-      name: "Tarot by Charm",
+      name: "Future Advice by Charm",
       contactPoint: [
         {
           "@type": "ContactPoint",
@@ -94,9 +94,9 @@ const Index = () => {
   return (
     <>
       <SEO
-        title="Contact Us - Tarot by Charm | Get in Touch"
-        description="Get in touch with Tarot by Charm for professional tarot reading services. Contact us via email, phone, or social media for spiritual guidance and appointments."
-        keywords="contact tarot by charm, tarot reading contact, spiritual guidance contact, tarot consultation contact, tarot reader contact, tarot services contact"
+        title="Contact Us"
+        description="Get in touch with Future Advice by Charm for professional tarot reading services. Contact us via email, phone, or social media for spiritual guidance and appointments."
+        keywords="contact future Advice by Charm, tarot reading contact, spiritual guidance contact, tarot consultation contact, tarot reader contact, tarot services contact"
         url="/contact"
         structuredData={structuredData}
       />

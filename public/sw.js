@@ -163,7 +163,7 @@ self.addEventListener("push", (event) => {
   const options = {
     body: event.data
       ? event.data.text()
-      : "New notification from Tarot by Charm",
+      : "New notification from Future Advice by Charm!",
     icon: "/logo.png",
     badge: "/logo.png",
     vibrate: [100, 50, 100],
@@ -186,7 +186,7 @@ self.addEventListener("push", (event) => {
   };
 
   event.waitUntil(
-    self.registration.showNotification("Tarot by Charm", options)
+    self.registration.showNotification("Future Advice by Charm!", options)
   );
 });
 

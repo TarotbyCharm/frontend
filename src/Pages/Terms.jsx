@@ -4,8 +4,8 @@ export default function Terms() {
   return (
     <>
       <SEO
-        title="Terms and Conditions | Tarot by Charm"
-        description="The rules for using Tarot by Charm."
+        title="Terms and Conditions"
+        description="The rules for using Future Advice by Charm."
         url="/terms"
       />
       <div className="container mx-auto mt-24 mb-20 px-6 md:px-0 min-h-screen">
@@ -14,7 +14,7 @@ export default function Terms() {
         </h1>
         <div className="max-w-3xl mx-auto text-gray-200">
           <p className="mb-6 text-lg">
-            By using Tarot by Charm, you agree to these terms.
+            By using Future Advice by Charm, you agree to these terms.
           </p>
           <ul className="list-disc pl-6 space-y-2 mb-6">
             <li>You must be at least 13 years old to use our services.</li>
@@ -42,7 +42,7 @@ export default function Terms() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Tarot by Charm Facebook
+              Future Advice by Charm Facebook
             </a>
             .
           </p>
